@@ -1,5 +1,14 @@
 import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/template_model.js";
 
+///
+// REST API implementointiin tarvitaan 4 eri fileä:
+// template_controller.js <- current
+// template_model.js
+// template_router.js
+// index.js
+///
+
+
 export async function getTemplates(req, res, next) {
   try {
     const templates = await getAll();

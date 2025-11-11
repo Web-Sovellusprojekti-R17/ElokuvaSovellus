@@ -1,6 +1,14 @@
 import { Router } from "express";
 import { getTemplates, getTemplate, addTemplate, updateTemplate, deleteTemplate } from "../controllers/template_controller.js";
 
+///
+// REST API implementointiin tarvitaan 4 eri fileä:
+// template_controller.js 
+// template_model.js
+// template_router.js <- current
+// index.js
+///
+
 const templateRouter = Router();
 
 templateRouter.get("/", getTemplates);

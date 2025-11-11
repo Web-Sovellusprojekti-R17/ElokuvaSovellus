@@ -1,5 +1,13 @@
 import pool from "../database.js";
 
+///
+// REST API implementointiin tarvitaan 4 eri fileä:
+// template_controller.js 
+// template_model.js  <- current
+// template_router.js
+// index.js
+///
+
 export async function getAll() {
   const result = await pool.query("SELECT * FROM x");
   return result.rows; 
