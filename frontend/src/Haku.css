@@ -1,0 +1,30 @@
+:root{
+    margin: 3rem;
+}
+
+#results{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+#items{
+    font-size: large;
+    margin: 2rem; 
+}
+
+ul{
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+}
+
+ul li{
+    width: 2em;
+    font-size: large;
+}
+
+li.selected{
+    color: red;
+}
