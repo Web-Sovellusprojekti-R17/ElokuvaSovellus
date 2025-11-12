@@ -6,7 +6,7 @@ import Haku from "./Haku"
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <Haku />
+   <App /> 
+   {/*} <Haku />*/}
   </React.StrictMode>
 );
