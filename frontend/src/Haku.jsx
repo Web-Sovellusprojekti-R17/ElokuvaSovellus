@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import ReactPaginate from 'react-paginate';
 import "./Haku.css";
 
@@ -10,13 +10,36 @@ function Haku(){
     const [pageCount, setPageCount] = useState(0)
     const [query, setQuery] = useState('')
 
+    const containerRef = useRef();
+
+    function MovieCard({media}) {
+    const {title,name,backdrop_path} = media;
+
+    return(
+      <div className="movie_item">
+      <img
+      src={  backdrop_path && backdrop_path.length > 0
+        ? `https://image.tmdb.org/t/p/w300/${backdrop_path}`
+        : "/images/image_placeholder.svg"
+    }
+      className="movie_img"
+      alt={title||name}
+      />
+      <div className = "title">{title || name}</div>
+    </div>
+    );
+  }
+
     const Movies = () => {
         return (
-            <ul>
+
+            <div className="hakuContainer">
+           
                 {movies && movies.map(movie => (
-                    <li key={movie.id}>{movie.title}</li>
+                    <MovieCard key={movie.id} media = {movie}/>
                 ))}
-            </ul>
+            
+            </div>
         )
         
     }
@@ -46,8 +69,10 @@ function Haku(){
 
     return (
         <div id="container">
+            <div id="top">
             <h3>Hae Elokuvia</h3> 
             <input value={query} onChange={e => setQuery(e.target.value)}></input><button onClick={search} type="button">Hae</button>
+            </div>
             <Movies />
             <ReactPaginate 
                 breakLabel="..."

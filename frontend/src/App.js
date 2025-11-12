@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [scrollPosition, setScrollPosition] = useState(0);
+
 
   const containerRef = useRef();
 
