@@ -1,54 +1,68 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
+import "./App.css";
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+  const containerRef = useRef();
+
+  const apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`;
+
+
   useEffect(() => {
-    async function fetchBooks() {
+    async function fetchMovies() {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/book`);
+        const res = await fetch(apiUrl);
         if (!res.ok) throw new Error("Verkkovirhe");
         const data = await res.json();
-        setBooks(data);
+        setMovies(data.results);
       } catch (err) {
-        console.error("Virhe haettaessa kirjoja:", err);
+        console.error("Virhe haettaessa elokuvia:", err);
       } finally {
         setLoading(false);
       }
     }
-    fetchBooks();
+    fetchMovies();
   }, []);
 
-  if (loading) return <p>Ladataan kirjoja...</p>;
+  function MovieCard({media}) {
+    const {title,name,backdrop_path} = media;
+
+    return(
+      <div className="movie_item">
+      <img
+      src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
+      className="movie_img"
+      alt={title||name}
+      />
+      <div className = "title">{title || name}</div>
+    </div>
+    );
+  }
+
+  if (loading) return <p>Ladataan elokuvia...</p>;
 
   return (
-    <div style={{ maxWidth: 600, margin: "2rem auto", fontFamily: "sans-serif" }}>
-      <h1>Minun Kirjat tietokannassa</h1>
-      {books.length === 0 ? (
-        <p>Ei kirjoja löytynyt.</p>
-      ) : (
-        <table border="1">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Author</th>
-              <th>ISBN</th>
-            </tr>
-          </thead>
-          <tbody>
-            {books.map((book) => (
-              <tr key={book.id}>
-                <td>{book.name}</td>
-                <td>{book.author}</td>
-                <td>{book.isbn}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-      )}
+    <div className="container">
+      <h1>Nyt elokuvateatterissa</h1>
+      <div ref ={containerRef}
+      style={{
+        width: "1400px",
+        overflowX: "scroll",
+        scrollBehavior: "smooth",
+      }}>
+      <div className="movies-container">
+        {movies.map((movie)=>(
+          <div className="movie">
+          <MovieCard key={movie.id} media = {movie}/>
+          </div>
+        ))}
+      </div>
+      </div>
     </div>
+
   );
 }
 

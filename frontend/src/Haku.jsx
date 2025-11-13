@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import ReactPaginate from 'react-paginate';
 import "./Haku.css";
 
@@ -50,8 +50,10 @@ function Haku(){
 
     return (
         <div id="container">
+            <div id="top">
             <h3>Hae Elokuvia</h3> 
             <input value={query} onChange={e => setQuery(e.target.value)}></input><button onClick={search} type="button">Hae</button>
+            </div>
             <Movies />
             <ReactPaginate 
                 breakLabel="..."
