@@ -5,49 +5,30 @@ import "./Haku.css";
 const url = 'https://api.themoviedb.org/3/search/movie?query=asdf&include_adult=false&language=en-US&page=1'
 
 function Haku(){
+    
     const [movies, setMovies] = useState([])
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
     const [query, setQuery] = useState('')
 
-    const containerRef = useRef();
-
-    function MovieCard({media}) {
-    const {title,name,backdrop_path} = media;
-
-    return(
-      <div className="movie_item">
-      <img
-      src={  backdrop_path && backdrop_path.length > 0
-        ? `https://image.tmdb.org/t/p/w300/${backdrop_path}`
-        : "/images/image_placeholder.svg"
-    }
-      className="movie_img"
-      alt={title||name}
-      />
-      <div className = "title">{title || name}</div>
-    </div>
-    );
-  }
 
     const Movies = () => {
         return (
-
-            <div className="hakuContainer">
-           
+            <div id="results">
                 {movies && movies.map(movie => (
-                    <MovieCard key={movie.id} media = {movie}/>
+                    <div key={movie.id} id="items">
+                        <p>{movie.title} ({movie.release_date.substr(0,4)}) </p>
+                        <img src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`} alt="Elokuvan juliste" />
+                    </div>
                 ))}
-            
             </div>
-        )
-        
+        )   
     }
 
     const search = () => {
         fetch('https://api.themoviedb.org/3/search/movie?query=' + query + '&include_adult=false&language=en-US&page=' + page,{
             headers: {
-                'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjZkN2EyMTQzZjE4NGRmMGRkMjFhZTRiZGJkY2JhNiIsIm5iZiI6MTc2Mjg2Nzk4OC4yMjIwMDAxLCJzdWIiOiI2OTEzM2IxNDE0ZGM3M2IzMjNkMjYxYjIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.7k2WPMa9FuHdI6Hllyb5b7ME7eHUnJdSCSI0BOKoZnE", 
+                'Authorization': 'Bearer ' + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
                 'Content-Type': 'appliction/json'
             }
         })
@@ -76,11 +57,11 @@ function Haku(){
             <Movies />
             <ReactPaginate 
                 breakLabel="..."
-                nextLabel="next >"
+                nextLabel=" >"
                 onPageChange={(e) => setPage(e.selected + 1)}
                 pageRangeDisplayed={5}
                 pageCount={pageCount}
-                previousLabel="< previous"
+                previousLabel="< "
                 renderOnZeroPageCount={null}
             />
         </div>
