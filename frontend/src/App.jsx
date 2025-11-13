@@ -1,32 +1,37 @@
+
 import { useEffect, useState } from "react";
+import './App.css'
+import MovieCard from './components/MovieCard.jsx'
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
+const url = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
   useEffect(() => {
-    async function fetchBooks() {
+    async function fetchMovies() {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/book`);
+        const res = await fetch(`${url}/movies`);
         if (!res.ok) throw new Error("Verkkovirhe");
         const data = await res.json();
-        setBooks(data);
+        setMovies(data);
       } catch (err) {
-        console.error("Virhe haettaessa kirjoja:", err);
+        console.error("Virhe haettaessa elokuvia:", err);
       } finally {
         setLoading(false);
       }
     }
-    fetchBooks();
+    fetchMovies();
   }, []);
 
-  if (loading) return <p>Ladataan kirjoja...</p>;
+  if (loading) return <p>Ladataan elokuvia...</p>;
 
   return (
     <div style={{ maxWidth: 600, margin: "2rem auto", fontFamily: "sans-serif" }}>
-      <h1>Minun Kirjat tietokannassa</h1>
-      {books.length === 0 ? (
-        <p>Ei kirjoja löytynyt.</p>
+      <h1>Minun Elokuvat tietokannassa</h1>
+      {movies.length === 0 ? (
+        <p>Ei elokuvia löytynyt.</p>
       ) : (
         <table border="1">
           <thead>
@@ -37,11 +42,11 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {books.map((book) => (
-              <tr key={book.id}>
-                <td>{book.name}</td>
-                <td>{book.author}</td>
-                <td>{book.isbn}</td>
+            {movies.map((movie) => (
+              <tr key={movie.id}>
+                <td>{movie.name}</td>
+                <td>{movie.director}</td>
+                <td>{movie.year}</td>
               </tr>
             ))}
           </tbody>

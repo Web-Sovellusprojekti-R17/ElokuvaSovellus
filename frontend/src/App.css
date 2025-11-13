@@ -1,0 +1,36 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+body {
+  background-color: #111827; 
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 30px;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 25px;
+  justify-items: left;
+}
+
+.movie-grid {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+}
+
+
+
