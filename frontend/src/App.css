@@ -1,0 +1,26 @@
+.container {
+ /*
+ max-width: 600px; 
+ margin: 2rem auto; 
+ font-family: sans-serif;
+ */
+width:100vw;
+height:100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+}
+
+.movies-container{
+
+    width: 1800px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.movie_img{
+    border-radius: 1rem;
+}

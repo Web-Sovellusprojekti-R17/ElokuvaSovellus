@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
-import bookRouter from "./routers/book_router.js";
+//import templateRouter from "./routers/template_router.js";
+import userRouter from "./routers/user_router.js";
 
 
 const app = express();
@@ -12,11 +13,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", async (req, res) => {
-  res.send("Postgres API esimerkki");
-});
+//app.use("/", templateRouter);
+app.use("/user", userRouter);
 
-app.use("/book", bookRouter);
+app.use((err, req, res, next) => {
+    const statusCode = err.status || 500
+    res.status(statusCode).json({
+        error: {
+            message: err.message,
+            status: statusCode
+        }
+    })
+})
 
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);
