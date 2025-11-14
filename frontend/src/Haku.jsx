@@ -1,6 +1,7 @@
 import { useEffect, useState,useRef } from "react";
 import ReactPaginate from 'react-paginate';
 import "./Haku.css";
+import MovieCard from "./components/MovieCard";
 
 const url = 'https://api.themoviedb.org/3/search/movie?query=asdf&include_adult=false&language=en-US&page=1'
 
@@ -16,17 +17,18 @@ function Haku(){
         return (
             <div id="results">
                 {movies && movies.map(movie => (
-                    <div key={movie.id} id="items">
-                        <p>{movie.title} ({movie.release_date.substr(0,4)}) </p>
-                        <img src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`} alt="Elokuvan juliste" />
-                    </div>
+                    MovieCard({ movie })
+                    // <div key={movie.id} id="items">
+                    //     <p>{movie.title} ({movie.release_date.substr(0,4)}) </p>
+                    //     <img src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`} alt="Elokuvan juliste" />
+                    // </div>
                 ))}
             </div>
         )   
     }
 
     const search = () => {
-        fetch('https://api.themoviedb.org/3/search/movie?query=' + query + '&include_adult=false&language=en-US&page=' + page,{
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,{
             headers: {
                 'Authorization': 'Bearer ' + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
                 'Content-Type': 'appliction/json'
