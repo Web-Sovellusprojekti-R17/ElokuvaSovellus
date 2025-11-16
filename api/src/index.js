@@ -4,6 +4,7 @@ import "dotenv/config";
 
 //import templateRouter from "./routers/template_router.js";
 import userRouter from "./routers/user_router.js";
+import membersRouter from "./routers/members_router.js";
 
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 
 //app.use("/", templateRouter);
 app.use("/user", userRouter);
+app.use("/api/members", membersRouter);
+
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500
