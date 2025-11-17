@@ -5,20 +5,24 @@ export async function getAll() {
   return result.rows; 
 }
 
-export async function getOne(id) {
+export async function getOneByID(id) {
   const result = await pool.query("SELECT * FROM users WHERE user_id = $1", [id]);
   return result.rows.length > 0 ? result.rows[0] : null;
 }
 
-// TODO: add hashed password as a separate parameter in the future
-export async function addOne(user) {
-  const result = await pool.query("INSERT INTO users (username, password) VALUES($1,$2) RETURNING *", [user.username, user.password]);
+export async function getOneByName(name) {
+  const result = await pool.query("SELECT * FROM users WHERE username = $1", [name]);
   return result.rows[0] || null;
 }
-// TODO: add hashed password as a separate parameter in the future
+
+export async function addOne(user) {
+  const result = await pool.query("INSERT INTO users (username, password) VALUES($1,$2) RETURNING *", [user.name, user.password]);
+  return result.rows[0] || null;
+}
+
 export async function updateOne(id, user) {
   console.log("update: "+id);
-  const result = await pool.query("UPDATE users SET username=$1, password=$2 WHERE user_id=$3 RETURNING *", [user.username, user.password, id]);
+  const result = await pool.query("UPDATE users SET username=$1, password=$2 WHERE user_id=$3 RETURNING *", [user.name, user.password, id]);
   return result.rows[0] || null;
 }
 
