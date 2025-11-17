@@ -1,5 +1,7 @@
-import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/user_model.js";
+import { getAll, getOneByID, getOneByName, addOne, updateOne, deleteOne } from "../models/user_model.js";
 import { ApiError } from "../helpers/ApiError.js";
+import { compare, hash } from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export async function getUsers(req, res, next) {
     try {
@@ -10,10 +12,10 @@ export async function getUsers(req, res, next) {
     }
 }
 
-export async function getUser(req, res, next) {
+export async function getUserByID(req, res, next) {
     const id = req.params.id;
     try {
-        const user = await getOne(id);
+        const user = await getOneByID(id);
         if (!user)
             return next(new ApiError("User not found", 404));
 
@@ -26,26 +28,53 @@ export async function getUser(req, res, next) {
 export async function addUser(req, res, next) {
     console.log("add called");
     console.log(req.body);
-    const user = req.body;
+    const data = req.body;
     try {
-        if(!user.username || !user.password)
+        if(!data.name || !data.password)
             return next(new ApiError("Required data missing", 400));
-        // TODO: Hash the passwords 
-        const response = await addOne(user);
+        
+        const hashedUser = {name: data.name, password: await hash(data.password, 10)}
+        const response = await addOne(hashedUser);
         res.status(201).json(response);
     } catch (err) {
         next(err);
     }
 }
 
+// TODO: I think this needs to be in its own login file or something like that
+export async function login(req, res, next) {
+    const data = req.body;
+    try {
+        if(!data.name || !data.password)
+            return next(new ApiError("Required data missing", 400));
+
+        const foundUser = await getOneByName(data.name);
+
+        if(!foundUser)
+            return next(new ApiError("User not found", 404));
+
+        const correctPassword = await compare(data.password, foundUser.password)
+   
+        if(!correctPassword)
+            return next(new ApiError("Wrong password", 401));
+
+        res.status(200).json({response: "Login success!"});
+    } catch (err) {
+        next(err);
+    }
+}
+
+// TODO: This needs to be updated in the future to actually be useful aside from testing
 export async function updateUser(req, res, next) {
     const id = req.params.id;
-    const user = req.body;
+    const data = req.body;
+
     try {
-        if(!user.username || !user.password)
+        if(!data.name || !data.password)
             return next(new ApiError("Required data missing", 400));
-        // TODO: Hash the passwords 
-        const updated = await updateOne(id, user);
+
+        const updatedUser = {name: data.name, password: await hash(data.password, 10)}
+        const updated = await updateOne(id, updatedUser);
         if (!updated)
             return next(new ApiError("User not found", 404));
 
