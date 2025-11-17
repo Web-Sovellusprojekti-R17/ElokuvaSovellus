@@ -27,11 +27,15 @@ function App() {
     fetchMovies();
   }, []);
 
+  function handleClick(){
+    console.log('clicked');
+  }
+
   function MovieCard({media}) {
     const {title,name,backdrop_path} = media;
 
     return(
-      <div className="movie_item">
+      <div onClick={() => handleClick()} className="movie_item">
       <img
       src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
       className="movie_img"
@@ -45,13 +49,16 @@ function App() {
   if (loading) return <p>Ladataan elokuvia...</p>;
 
   return (
+    
     <div className="container">
       <h1>Nyt elokuvateatterissa</h1>
       <div ref ={containerRef}
+      className="scrollbox"
       style={{
         width: "1400px",
         overflowX: "scroll",
         scrollBehavior: "smooth",
+        
       }}>
       <div className="movies-container">
         {movies.map((movie)=>(
