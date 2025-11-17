@@ -4,6 +4,7 @@ import "dotenv/config";
 
 import groupRouter from "./routers/group_router.js";
 import userRouter from "./routers/user_router.js";
+import reviewRouter from "./routers/review_router.js"
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/group", groupRouter);
 app.use("/user", userRouter);
+app.use("/review", reviewRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500
