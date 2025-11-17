@@ -9,7 +9,14 @@ function Haku(){
     const [movies, setMovies] = useState([])
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
-    const [query, setQuery] = useState('')
+    
+    const [query, setQuery] = useState(queryFromUrl)
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const queryFromUrl = params.get("query") || "";
+    
+
+
 
     const Movies = () => {
         return (
@@ -33,20 +40,20 @@ function Haku(){
                 'Content-Type': 'appliction/json'
             }
         })
-        .then(respose => respose.json())
-        .then(json => {
-            setMovies(json.results)
-            setPageCount(json.total_pages)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            .then(respose => respose.json())
+            .then(json => {
+                setMovies(json.results)
+                setPageCount(json.total_pages)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     useEffect(() => {
-      search()
+        search()
     }, [page])
-    
+
 
 
     return (
@@ -54,7 +61,7 @@ function Haku(){
             <h3>Hae Elokuvia</h3> 
             <input value={query} onChange={e => setQuery(e.target.value)}></input><button onClick={search} type="button">Hae</button>
             <Movies />
-            <ReactPaginate 
+            <ReactPaginate
                 breakLabel="..."
                 nextLabel="next >"
                 onPageChange={(e) => setPage(e.selected + 1)}

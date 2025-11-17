@@ -1,0 +1,76 @@
+.movie-container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+    color: black !important;
+    font-family: Arial, sans-serif;
+    width: 100vw;
+    /* keep this */
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.movie-header {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.movie-poster {
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.movie-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.movie-info p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.genre-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.genre-tag {
+    padding: 5px 12px;
+    background: #444;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.actors {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: block !important;
+}
+
+.actors li {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+
+.stars {
+    font-size: 1.4rem;
+    color: gold;
+    margin-bottom: 10px;
+}
+
+
+.review {
+    margin-top: 20px;
+    padding: 15px;
+    background: #1c1c1c;
+    border-left: 5px solid #4CAF50;
+    border-radius: 8px;
+}

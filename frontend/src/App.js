@@ -1,10 +1,13 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
+import Navbar from "./components/NavBar";
+import Haku from "./Haku";
+import MoviePage from "./pages/MoviePage";
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   const containerRef = useRef();
 
@@ -27,43 +30,59 @@ function App() {
     fetchMovies();
   }, []);
 
-  function MovieCard({media}) {
-    const {title,name,backdrop_path} = media;
+  function MovieCard({ media }) {
+    const { title, name, backdrop_path } = media;
 
-    return(
+    return (
       <div className="movie_item">
-      <img
-      src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
-      className="movie_img"
-      alt={title||name}
-      />
-      <div className = "title">{title || name}</div>
-    </div>
+        <img
+          src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
+          className="movie_img"
+          alt={title || name}
+        />
+        <div className="title">{title || name}</div>
+      </div>
     );
   }
 
-  if (loading) return <p>Ladataan elokuvia...</p>;
-
   return (
-    <div className="container">
-      <h1>Nyt elokuvateatterissa</h1>
-      <div ref ={containerRef}
-      style={{
-        width: "1400px",
-        overflowX: "scroll",
-        scrollBehavior: "smooth",
-      }}>
-      <div className="movies-container">
-        {movies.map((movie)=>(
-          <div className="movie">
-          <MovieCard key={movie.id} media = {movie}/>
-          </div>
-        ))}
-      </div>
-      </div>
-    </div>
+  <>
+    <Navbar />
 
-  );
+    {loading ? (
+      <p>Ladataan elokuvia...</p>
+    ) : (
+      <Routes>
+        <Route path="/" element={
+          <div className="container">
+            <h1>Nyt elokuvateatterissa</h1>
+            <div
+              ref={containerRef}
+              style={{
+                width: "1400px",
+                overflowX: "scroll",
+                scrollBehavior: "smooth",
+              }}
+            >
+              <div className="movies-container">
+                {movies.map((movie) => (
+                  <div className="movie" key={movie.id}>
+                    <MovieCard media={movie} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        } />
+        <Route path="/movie/template" element={<MoviePage />} />
+        <Route path="/movies" element={<Haku />} />
+        <Route path="/about" element={<h1>About Page</h1>} />
+      </Routes>
+    )}
+  </>
+);
+
 }
+
 
 export default App;
