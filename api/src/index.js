@@ -2,9 +2,10 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
-//import templateRouter from "./routers/template_router.js";
+import groupRouter from "./routers/group_router.js";
 import userRouter from "./routers/user_router.js";
 import membersRouter from "./routers/members_router.js";
+import reviewRouter from "./routers/review_router.js"
 
 
 const app = express();
@@ -14,10 +15,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//app.use("/", templateRouter);
+app.use("/group", groupRouter);
 app.use("/user", userRouter);
 app.use("/api/members", membersRouter);
 
+app.use("/review", reviewRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500
