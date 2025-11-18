@@ -7,7 +7,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate(`/movies?query=${searchTerm}`);
+    navigate(`/haku/${searchTerm}`);
   };
 
   return (
