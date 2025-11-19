@@ -37,7 +37,7 @@ function Haku(){
     const search = () => {
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,{
             headers: {
-                'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjZkN2EyMTQzZjE4NGRmMGRkMjFhZTRiZGJkY2JhNiIsIm5iZiI6MTc2Mjg2Nzk4OC4yMjIwMDAxLCJzdWIiOiI2OTEzM2IxNDE0ZGM3M2IzMjNkMjYxYjIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.7k2WPMa9FuHdI6Hllyb5b7ME7eHUnJdSCSI0BOKoZnE", 
+                'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
                 'Content-Type': 'appliction/json'
             }
         })

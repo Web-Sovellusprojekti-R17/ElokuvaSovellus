@@ -18,6 +18,8 @@ export default function Navbar() {
         <Link to="/" className="nav-link">Koti</Link>
         <Link to="/movies" className="nav-link">Elokuvat</Link>
         <Link to="/about" className="nav-link">Tietoa</Link>
+        <Link to="/arvostelu" className="nav-link">Arvostelut</Link>
+        <Link to="/ryhma" className="nav-link">Ryhmät</Link>
       </div>
 
       <div className="navbar-search">
