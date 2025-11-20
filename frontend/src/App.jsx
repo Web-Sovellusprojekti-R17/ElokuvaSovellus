@@ -1,0 +1,91 @@
+import { useEffect, useState, useRef } from "react";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/NavBar";
+import Haku from "./Haku";
+import MoviePage from "./pages/MoviePage";
+import UserIconWithAuth from "./components/UserIconWithAuth";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const containerRef = useRef();
+
+  const apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&page=1`;
+
+
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("Verkkovirhe");
+        const data = await res.json();
+        setMovies(data.results);
+      } catch (err) {
+        console.error("Virhe haettaessa elokuvia:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchMovies();
+  }, []);
+
+  function MovieCard({ media }) {
+    const { title, name, backdrop_path } = media;
+
+    return (
+      <div className="movie_item">
+        <img
+          src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
+          className="movie_img"
+          alt={title || name}
+        />
+        <div className="title">{title || name}</div>
+      </div>
+    );
+  }
+
+  return (
+  <>
+   <UserIconWithAuth/>
+
+    <Navbar />
+
+    {loading ? (
+      <p>Ladataan elokuvia...</p>
+    ) : (
+      <Routes>
+        <Route path="/" element={
+          <div className="container">
+            <h1>Nyt elokuvateatterissa</h1>
+            <div
+              ref={containerRef}
+              style={{
+                width: "1400px",
+                overflowX: "scroll",
+                scrollBehavior: "smooth",
+              }}
+            >
+              <div className="movies-container">
+                {movies.map((movie) => (
+                  <div className="movie" key={movie.id}>
+                    <MovieCard media={movie} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        } />
+        <Route path="/movie/template" element={<MoviePage />} />
+        <Route path="/movies" element={<Haku />} />
+        <Route path="/about" element={<h1>About Page</h1>} />
+      </Routes>
+    )}
+  </>
+);
+
+}
+
+
+export default App;
