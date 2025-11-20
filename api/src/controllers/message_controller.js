@@ -28,6 +28,8 @@ export async function addMessage(req, res, next) {
     console.log(req.body);
     const message = req.body;
     try {
+        if (!message.text || !message.user_id || !message.group_id)
+            return next(new ApiError("Required data missing", 400));
 
         const response = await addOne(message);
         res.status(201).json(response);
@@ -40,6 +42,8 @@ export async function updateMessage(req, res, next) {
     const message = req.body;
     const id = req.params.id;
     try {
+        if (!message.text || !message.user_id || !message.group_id)
+            return next(new ApiError("Required data missing", 400));
         const response = await updateOne(id, message);
         if (!response)
             return next(new ApiError("Message not found", 404));
