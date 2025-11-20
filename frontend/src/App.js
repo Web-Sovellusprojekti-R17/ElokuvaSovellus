@@ -1,5 +1,7 @@
 import { useEffect, useState,useRef } from "react";
 import "./App.css";
+import UserIconWithAuth from './components/LoginButt.jsx'
+
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -46,6 +48,7 @@ function App() {
 
   return (
     <div className="container">
+       <UserIconWithAuth/>
       <h1>Nyt elokuvateatterissa</h1>
       <div ref ={containerRef}
       style={{
