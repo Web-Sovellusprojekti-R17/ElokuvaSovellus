@@ -7,6 +7,7 @@ import groupRouter from "./routers/group_router.js";
 import userRouter from "./routers/user_router.js";
 import membersRouter from "./routers/member_router.js";
 import reviewRouter from "./routers/review_router.js"
+import messageRouter from "./routes/message_router.js";
 
 import { authenticateToken } from "./utils/auth.js";
 
@@ -20,6 +21,11 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/group", groupRouter);
+app.use("/user", userRouter);
+app.use("/api/members", membersRouter);
+app.use("/api/messages", messageRouter);
 app.use(cookieParser());
 
 app.use("/review", reviewRouter)
@@ -39,5 +45,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(port, () => {
-  console.log(`Server is listening port ${port}`);
+    console.log(`Server is listening port ${port}`);
 });
