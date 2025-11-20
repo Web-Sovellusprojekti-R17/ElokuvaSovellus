@@ -1,12 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./MovieCard.css";
 
 //const url = `https://api.themoviedb.org/3/movie/11?api_key=${REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS}`
 // Näyttää tällä hetkellä tmdb:n käyttäjien keskiarvoa, pitää näyttää omien käyttäjien keskiarvo 
 
 const MovieCard = ({ movie }) => {
+  const navigate = useNavigate();
+  
+  const showMoviePage = () => {
+    navigate(`/movies/${movie.id}`);
+  };
+  
   return (
-    <div className="movie-card">
+    <div className="movie-card" onClick={showMoviePage}>
       <img className="poster" src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`} alt={movie.title} />
       <div className="info">
         <h2>{movie.title}</h2>
