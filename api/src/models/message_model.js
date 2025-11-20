@@ -12,13 +12,13 @@ export async function getOne(id) {
 }
 
 export async function addOne(message) {
-    const result = await pool.query("INSERT INTO messages (title, body, sender) VALUES ($1, $2, $3) RETURNING *", [message.title, message.body, message.sender]);
+    const result = await pool.query("INSERT INTO messages (text, user_id, group_id) VALUES ($1, $2, $3) RETURNING *", [message.text, message.user_id, message.group_id]);
     return result.rows[0] || null;
 }
 
 export async function updateOne(id, message) {
     console.log("update:" + id);
-    const result = await pool.query("UPDATE messages SET title=$1, body=$2, sender=$3 WHERE message_id=$4 RETURNING *", [message.title, message.body, message.sender, id]);
+    const result = await pool.query("UPDATE messages SET text=$1, user_id=$2, group_id=$3 WHERE message_id=$4 RETURNING *", [message.text, message.user_id, message.group_id, id]);
     return result.rows[0] || null;
 }
 

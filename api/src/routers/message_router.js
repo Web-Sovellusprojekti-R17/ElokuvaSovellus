@@ -3,10 +3,10 @@ import { getMessages, getMessage, addMessage, updateMessage, deleteMessage } fro
 
 const messageRouter = Router();
 
-messageRouter.get("/", getmessages);
-messageRouter.get("/:id", getmessage);
-messageRouter.post("/", addmessage);
-messageRouter.put("/:id", updatemessage);
-messageRouter.delete("/:id", deletemessage);
+messageRouter.get("/", getMessages);
+messageRouter.get("/:id", getMessage);
+messageRouter.post("/", addMessage);
+messageRouter.put("/:id", updateMessage);
+messageRouter.delete("/:id", deleteMessage);
 
 export default messageRouter;
