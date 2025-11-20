@@ -1,4 +1,4 @@
-import { getAll, getOne, addOne, updateOne, deleteOne} from "../models/members_model.js";
+import { getAll, getOne, addOne, updateOne, deleteOne} from "../models/member_model.js";
 
 import { ApiError } from "../helpers/ApiError.js";
 

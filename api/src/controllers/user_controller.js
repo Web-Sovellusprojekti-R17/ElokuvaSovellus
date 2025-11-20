@@ -1,5 +1,17 @@
-import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/user_model.js";
+import {
+    getAll,
+    getOneByID,
+    getOneByName,
+    addOne,
+    updateOne,
+    deleteOne,
+    saveRefreshToken,
+    getUserByRefreshToken,
+    clearRefreshToken
+} from "../models/user_model.js";
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 import { ApiError } from "../helpers/ApiError.js";
+import { compare } from 'bcryptjs';
 
 export async function getUsers(req, res, next) {
     try {
@@ -10,10 +22,10 @@ export async function getUsers(req, res, next) {
     }
 }
 
-export async function getUser(req, res, next) {
+export async function getUserByID(req, res, next) {
     const id = req.params.id;
     try {
-        const user = await getOne(id);
+        const user = await getOneByID(id);
         if (!user)
             return next(new ApiError("User not found", 404));
 
@@ -26,26 +38,125 @@ export async function getUser(req, res, next) {
 export async function addUser(req, res, next) {
     console.log("add called");
     console.log(req.body);
-    const user = req.body;
+    const data = req.body;
     try {
-        if(!user.username || !user.password)
+        if (!data.name || !data.password)
             return next(new ApiError("Required data missing", 400));
-        // TODO: Hash the passwords 
-        const response = await addOne(user);
+        const response = await addOne(data);
         res.status(201).json(response);
+    } catch (err) {
+        if (err.code === '23505') // PostgreSQL unique violation
+            return res.status(409).json({ error: "Username already exists" });
+        next(err);
+    }
+}
+
+// TODO: I think this needs to be in its own login file or something like that
+export async function login(req, res, next) {
+    const data = req.body;
+    try {
+        if (!data.name || !data.password)
+            return next(new ApiError("Required data missing", 400));
+
+        const foundUser = await getOneByName(data.name);
+
+        console.log(foundUser);
+        if (!foundUser)
+            return next(new ApiError("User not found", 404));
+
+        const correctPassword = await compare(data.password, foundUser.password);
+
+        if (!correctPassword)
+            return next(new ApiError("Wrong password", 401));
+
+        const accessToken = generateAccessToken(foundUser.username);
+        const refreshToken = generateRefreshToken(foundUser.username);
+
+        // Tallenna refresh token tietokantaan
+        await saveRefreshToken(foundUser.username, refreshToken);
+
+        // Aseta refresh token HTTP-only cookieen
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,                                 // Ei JavaScript-pääsyä
+            secure: process.env.NODE_ENV === "production",  // HTTPS tuotannossa
+            sameSite: "strict",                             // CSRF-suojaus
+            maxAge: 7 * 24 * 60 * 60 * 1000,                // 7 päivää
+        });
+
+        res.status(200).json({
+            message: "Login successful",
+            username: foundUser.username,
+            accessToken
+        });
     } catch (err) {
         next(err);
     }
 }
 
+// Kirjaudu ulos
+export async function logout(req, res, next) {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (refreshToken) {
+      const user = await getUserByRefreshToken(refreshToken);
+
+      if (user) {
+        // Poista refresh token tietokannasta
+        await clearRefreshToken(user.username);
+      }
+    }
+
+    // Poista cookie
+    res.clearCookie("refreshToken");
+
+    res.status(200).json({ message: "Logout successful" });
+  } catch (err) {
+    next(err);
+  }
+}
+
+// Päivitä access token
+export async function refreshAccessToken(req, res, next) {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) 
+        return next(new ApiError("Refresh token required", 401));
+
+    // Validoi refresh token
+    const decoded = verifyRefreshToken(refreshToken);
+
+    if (!decoded) {
+      return next(new ApiError("Invalid or expired refresh token", 403));
+    }
+
+    // Tarkista että token on tietokannassa
+    const user = await getUserByRefreshToken(refreshToken);
+
+    if (!user) {
+      return next(new ApiError("Invalid refresh token", 403));
+    }
+
+    // Luo uusi access token
+    const accessToken = generateAccessToken(user.username);
+
+    res.json({ accessToken });
+  } catch (err) {
+    next(err);
+  }
+}
+
+// TODO: This needs to be updated in the future to actually be useful aside from testing
 export async function updateUser(req, res, next) {
     const id = req.params.id;
-    const user = req.body;
+    const data = req.body;
+
     try {
-        if(!user.username || !user.password)
+        if (!data.name || !data.password)
             return next(new ApiError("Required data missing", 400));
-        // TODO: Hash the passwords 
-        const updated = await updateOne(id, user);
+
+        const updated = await updateOne(id, data);
         if (!updated)
             return next(new ApiError("User not found", 404));
 
