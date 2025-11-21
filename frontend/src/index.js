@@ -44,6 +44,10 @@ const router = createBrowserRouter([
     element: <ArvosteluSivu />
   },
   {
+    path: "/arvostelu/:movieID?",
+    element: <ArvosteluSivu />
+  },
+  {
     path: "/about",
     element: <Tietoa />
   }

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./NavBar.css";
+import UserIconWithAuth from "./LoginButt";
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");   // <-- ADD THIS
@@ -15,6 +16,7 @@ export default function Navbar() {
       <h2>ElokuvaSovellus</h2>
 
       <div className="nav-links">
+        <UserIconWithAuth />
         <Link to="/" className="nav-link">Koti</Link>
         <Link to="/movies" className="nav-link">Elokuvat</Link>
         <Link to="/about" className="nav-link">Tietoa</Link>
