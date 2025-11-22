@@ -9,7 +9,7 @@ import RyhmaSivu from "./pages/RyhmaSivu";
 import ArvosteluSivu from "./pages/ArvosteluSivu";
 import MoviePage from "./pages/MoviePage";
 import Tietoa from "./pages/Tietoa";
-
+import { AuthProvider } from "./contexts/AuthContext.js"; 
 
 const router = createBrowserRouter([
   {
@@ -56,6 +56,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

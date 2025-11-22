@@ -2,10 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./NavBar.css";
 import UserIconWithAuth from "./LoginButt";
+import { useAuth } from "../contexts/AuthContext.js"; 
 
 export default function Navbar() {
-  const [searchTerm, setSearchTerm] = useState("");   // <-- ADD THIS
+  const [searchTerm, setSearchTerm] = useState("");   
   const navigate = useNavigate();
+  const { user } = useAuth(); 
 
   const handleSearch = () => {
     navigate(`/haku/${searchTerm}`);
@@ -17,6 +19,9 @@ export default function Navbar() {
 
       <div className="nav-links">
         <UserIconWithAuth />
+        {user && (
+          <span className="logged-in-user">Tervetuloa, {user.name}!</span>
+        )}
         <Link to="/" className="nav-link">Koti</Link>
         <Link to="/movies" className="nav-link">Elokuvat</Link>
         <Link to="/about" className="nav-link">Tietoa</Link>
