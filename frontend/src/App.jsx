@@ -5,6 +5,11 @@ import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
 import UserIconWithAuth from "./components/LoginButt";
+
+import UserSettings from "./pages/UserSettings";
+import RemoveSettings from "./pages/RemoveSettings";
+import PasswordSettings from "./pages/PasswordSettings";
+import Footer from "./components/Footer";
 //^tää valitti sitä UserIconWithAuth nii vaihoin tuohon ton /LoginButt
 
 function App() {
@@ -32,9 +37,22 @@ function App() {
     fetchMovies();
   }, []);
 
-  function MovieCard({ media }) {
-    const { title, name, backdrop_path } = media;
+  function handleClick(){
+    console.log('clicked');
+  }
 
+  function MovieCard({media}) {
+    const {title,name,backdrop_path} = media;
+
+    return(
+      <div onClick={() => handleClick()} className="movie_item">
+      <img
+      src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
+      className="movie_img"
+      alt={title||name}
+      />
+      <div className = "title">{title || name}</div>
+    </div>
     const navigate = useNavigate();
     
     const showMoviePage = () => {
@@ -56,6 +74,7 @@ function App() {
   return (
   <>
 
+  <div className="app">
     <Navbar />
 
     {loading ? (
@@ -86,8 +105,14 @@ function App() {
         <Route path="/movie/template" element={<MoviePage />} />
         <Route path="/movies" element={<Haku />} />
         <Route path="/about" element={<h1>About Page</h1>} />
+        <Route path="/settings" element={<UserSettings />} />
+        <Route path="/settings/remove" element={<RemoveSettings />} />
+        <Route path="/settings/password" element={<PasswordSettings />} />
       </Routes>
+      
     )}
+    <Footer/>
+  </div>
   </>
 );
 

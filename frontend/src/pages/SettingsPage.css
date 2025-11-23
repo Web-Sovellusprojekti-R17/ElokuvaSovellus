@@ -1,0 +1,62 @@
+.settings-container{
+    color: white;
+    display:flex;
+    flex-direction: row;
+    gap: 10px;              
+    padding: 20px;
+    max-width: 1400px;      
+    margin: 0 auto;          
+    box-sizing: border-box; 
+}
+
+.setting-box{
+    flex: 0 0 250px;       
+    background-color: #222;
+    padding: 16px;
+    border-radius: 8px;
+    
+}
+
+.setting-screen{
+    flex: 1;                
+    background-color: #424242;
+    padding: 16px;
+    border-radius: 8px;
+    
+}
+
+@media (max-width: 800px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+.setting-item:hover{
+  cursor: pointer;
+  color: #facc15;
+  text-decoration: underline;
+}
+.setting-item.active{
+  color: #facc15;
+  text-decoration: underline;
+}
+
+.header{
+    text-decoration: underline;
+}
+.change-password{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    padding:10px;
+}
+
+.change-password-button{
+    width: 80px;
+}
+
+.remove-user-container{
+    gap:10px;
+    padding: 10px;
+}
+

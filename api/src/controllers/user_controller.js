@@ -5,6 +5,8 @@ import {
     addOne,
     updateOne,
     deleteOne,
+    deleteSelf, 
+    updateDelete,
     saveRefreshToken,
     getUserByRefreshToken,
     clearRefreshToken
@@ -173,6 +175,40 @@ export async function deleteUser(req, res, next) {
             return next(new ApiError("User not found", 404));
 
         res.status(200).json(deleted);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function deleteAccount(req, res, next) {
+    const data = req.body;
+    const id = req.params.id; 
+    
+    try {
+
+       if( !data.password)
+            return next(new ApiError("Required data missing", 400));
+
+        const foundUser = await getOneByID(id);
+
+        if(!foundUser)
+            return next(new ApiError("User not found", 404));
+
+        const correctPassword = await compare(data.password, foundUser.password)
+   
+        if(!correctPassword)
+            return next(new ApiError("Wrong password", 401));
+
+        const now = new Date();
+        const deletionDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        const updatedUser = {username: data.username, password: data.password, deletion_date: deletionDate}
+
+        const updated = await updateDelete(id, updatedUser);
+        if (!updated)
+            return next(new ApiError("User not found", 404));
+
+        res.status(200).json(updated);
     } catch (err) {
         next(err);
     }
