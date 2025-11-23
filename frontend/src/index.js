@@ -14,6 +14,7 @@ import RemoveSettings from "./pages/RemoveSettings";
 import PasswordSettings from "./pages/PasswordSettings";
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
+import { AuthProvider } from "./contexts/AuthContext.js"; 
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
     element: <MoviePage />
   },
   {
-    path: "/movies/:movieID?",
+    path: "/movie/:id",
     element: <MoviePage />
   },
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/arvostelu",
+    element: <ArvosteluSivu />
+  },
+  {
+    path: "/arvostelu/:movieID?",
     element: <ArvosteluSivu />
   },
   {
@@ -76,6 +81,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
