@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
-import UserIconWithAuth from "./components/UserIconWithAuth";
+import UserIconWithAuth from "./components/LoginButt";
 
 function App() {
   const [movies, setMovies] = useState([]);

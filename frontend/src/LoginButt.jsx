@@ -39,14 +39,14 @@ export default function UserIconWithAuth() {
               )}
 
               <button type="submit" className="logsign-btn">
-                {isSignup ? "Create Account" : "Log In"}
+                {isSignup ? "Luo tunnus" : "Kirjaudu sisään"}
               </button>
             </form>
 
             <div className="toggle-text">
-              {isSignup ? "Already have an account? " : "New user? "}
+              {isSignup ? "Onko sinulla jo tili? " : "Uusi käyttäjä? "}
               <button className="logsign-btn" onClick={toggleMode}>
-                {isSignup ? "Log In" : "Sign Up"}
+                {isSignup ? "Kirjaudu sisään" : "Luo tunnus"}
               </button>
             </div>
           </div>
