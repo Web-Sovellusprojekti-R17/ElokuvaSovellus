@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./LoginButt.css"; 
+import UserIcon from '../assets/freeusericon.png';
 
 export default function UserIconWithAuth() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function UserIconWithAuth() {
   return (
     <>
       <button className="user-icon-btn" onClick={openLogin}>
-        <img src="./assets/usericon.png" alt="User Icon" />
+        <img src={UserIcon} alt="User Icon" />
       </button>
 
       {isOpen && (
@@ -24,18 +25,18 @@ export default function UserIconWithAuth() {
           >
             <button className="close-btn" onClick={closeLogin}>×</button>
 
-            <h2>{isSignup ? "Sign Up" : "Log In"}</h2>
+            <h2>{isSignup ? "Rekisteröidy" : "Kirjaudu sisään"}</h2>
 
             <form
               onSubmit={(e) => {
                 e.preventDefault();
               }}
             >
-              <input type="email" placeholder="Email" required />
-              <input type="password" placeholder="Password" required />
+              <input type="email" placeholder="Sähköposti" required />
+              <input type="password" placeholder="Salasana" required />
 
               {isSignup && (
-                <input type="text" placeholder="Username (optional)" />
+                <input type="text" placeholder="Käyttäjänimi (valinnainen)" />
               )}
 
               <button type="submit" className="logsign-btn">

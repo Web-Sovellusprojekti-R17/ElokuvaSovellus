@@ -6,6 +6,7 @@
   cursor: pointer;
   color: #facc15;
   transition: transform 0.2s ease;
+  filter: invert(1);
 }
 
 .user-icon-btn:hover {
