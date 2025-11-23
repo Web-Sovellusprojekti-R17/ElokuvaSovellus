@@ -1,4 +1,4 @@
-import { getAll, getOneByID, getOneByName, addOne, updateOne, deleteOne } from "../models/user_model.js";
+import { getAll, getOneByID, getOneByName, addOne, updateOne, deleteOne,deleteSelf, updateDelete } from "../models/user_model.js";
 import { ApiError } from "../helpers/ApiError.js";
 import { compare, hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -30,10 +30,10 @@ export async function addUser(req, res, next) {
     console.log(req.body);
     const data = req.body;
     try {
-        if(!data.name || !data.password)
+        if(!data.username || !data.password)
             return next(new ApiError("Required data missing", 400));
         
-        const hashedUser = {name: data.name, password: await hash(data.password, 10)}
+        const hashedUser = {username: data.username, password: await hash(data.password, 10)}
         const response = await addOne(hashedUser);
         res.status(201).json(response);
     } catch (err) {
@@ -91,6 +91,40 @@ export async function deleteUser(req, res, next) {
             return next(new ApiError("User not found", 404));
 
         res.status(200).json(deleted);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function deleteAccount(req, res, next) {
+    const data = req.body;
+    const id = req.params.id; 
+    
+    try {
+
+       if( !data.password)
+            return next(new ApiError("Required data missing", 400));
+
+        const foundUser = await getOneByID(id);
+
+        if(!foundUser)
+            return next(new ApiError("User not found", 404));
+
+        const correctPassword = await compare(data.password, foundUser.password)
+   
+        if(!correctPassword)
+            return next(new ApiError("Wrong password", 401));
+
+        const now = new Date();
+        const deletionDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        const updatedUser = {username: data.username, password: data.password, deletion_date: deletionDate}
+
+        const updated = await updateDelete(id, updatedUser);
+        if (!updated)
+            return next(new ApiError("User not found", 404));
+
+        res.status(200).json(updated);
     } catch (err) {
         next(err);
     }

@@ -1,4 +1,5 @@
 import pool from "../database.js";
+import { compare, hash } from 'bcryptjs';
 
 export async function getAll() {
   const result = await pool.query("SELECT * FROM users");
@@ -16,7 +17,7 @@ export async function getOneByName(name) {
 }
 
 export async function addOne(user) {
-  const result = await pool.query("INSERT INTO users (username, password) VALUES($1,$2) RETURNING *", [user.name, user.password]);
+  const result = await pool.query("INSERT INTO users (username, password) VALUES($1,$2) RETURNING *", [user.username, user.password]);
   return result.rows[0] || null;
 }
 
@@ -30,4 +31,29 @@ export async function deleteOne(id) {
   console.log("delete: "+id);
   const result = await pool.query("DELETE FROM users WHERE user_id = $1 RETURNING *", [id]);
   return result.rows[0] || null;
+}
+
+export async function deleteSelf(id, password) {
+  console.log("delete: "+id);
+
+  const result = await pool.query("SELECT password FROM users WHERE user_id = $1",[id]);
+
+  const user = result.rows[0];
+  if (!user) return null;
+
+  const isMatch = await compare(password, user.password);
+  if (!isMatch) return false; 
+
+  const deleted = await pool.query("DELETE FROM users WHERE user_id = $1 RETURNING *",[id]);
+ 
+
+  return deleted.rows[0] || null;
+}
+
+
+export async function updateDelete(id, user) {
+  console.log("delete: "+id);
+
+  const updated = await pool.query("UPDATE users SET is_active=false, deletion_date=$1 WHERE user_id=$2 RETURNING *", [user.deletion_date,id]);
+  return updated.rows[0] || null;
 }

@@ -4,6 +4,10 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
+import SettingsPage from "./pages/SettingsPage";
+import UserSettings from "./pages/UserSettings";
+import RemoveSettings from "./pages/RemoveSettings";
+import PasswordSettings from "./pages/PasswordSettings";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -50,7 +54,7 @@ function App() {
   }
 
   return (
-  <>
+  <div className="app">
     <Navbar />
 
     {loading ? (
@@ -81,9 +85,12 @@ function App() {
         <Route path="/movie/template" element={<MoviePage />} />
         <Route path="/movies" element={<Haku />} />
         <Route path="/about" element={<h1>About Page</h1>} />
+        <Route path="/settings" element={<UserSettings />} />
+        <Route path="/settings/remove" element={<RemoveSettings />} />
+        <Route path="/settings/password" element={<PasswordSettings />} />
       </Routes>
     )}
-  </>
+  </div>
 );
 
 }

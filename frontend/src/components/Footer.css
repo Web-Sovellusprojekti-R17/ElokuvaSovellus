@@ -1,13 +1,12 @@
-.footer {
-    background-color: #181f2a;
-    color: white;
-    padding-top: 3em;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
+
 
 .row{
     display:flex;
     flex-direction: row;
+    padding:20px;
+}
+
+.col{
+    display:flex;
+    flex-direction:column;
 }
