@@ -1,0 +1,18 @@
+#arvostelu-container-kokosivu{
+    display: flex;
+}
+
+#arvostelut{
+    display: grid;
+    margin-left: 10%;
+    margin-top: 2rem;
+    background-color: antiquewhite;
+}
+
+#arvostelut div{
+    border: 10px solid black;
+}
+
+p{
+    margin: 1rem;
+}

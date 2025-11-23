@@ -1,6 +1,6 @@
 import "./MoviePage.css";
 import Navbar from "../components/NavBar";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 
