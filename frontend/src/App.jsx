@@ -44,15 +44,6 @@ function App() {
   function MovieCard({media}) {
     const {title,name,backdrop_path} = media;
 
-    return(
-      <div onClick={() => handleClick()} className="movie_item">
-      <img
-      src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
-      className="movie_img"
-      alt={title||name}
-      />
-      <div className = "title">{title || name}</div>
-    </div>
     const navigate = useNavigate();
     
     const showMoviePage = () => {
