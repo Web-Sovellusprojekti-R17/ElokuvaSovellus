@@ -2,7 +2,7 @@
 :root{
     margin: 3rem;
     background-color: #1f2937;
-    color: blue;
+    color: rgb(255, 93, 0);
 }
 
 #results{
@@ -29,17 +29,16 @@ ul li{
 }
 
 li.selected{
-    color: red;
+    color: rgb(47, 255, 0);
 }
 
 .hakuContainer {
-display: flex;
-flex-direction: row;
-flex-wrap:wrap;
-gap: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    gap: 20px;
 }
 
 #top{
     padding:20px;
-
 }

@@ -1,4 +1,7 @@
 import pool from "../database.js";
+import bcrypt from "bcryptjs";
+
+const SALT_ROUNDS = 10;
 
 export async function getAll() {
   const result = await pool.query("SELECT * FROM users");
@@ -16,13 +19,15 @@ export async function getOneByName(name) {
 }
 
 export async function addOne(user) {
-  const result = await pool.query("INSERT INTO users (username, password) VALUES($1,$2) RETURNING *", [user.name, user.password]);
+  const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+  const result = await pool.query("INSERT INTO users (username, password) VALUES($1,$2) RETURNING *", [user.name, hashedPassword]);
   return result.rows[0] || null;
 }
 
 export async function updateOne(id, user) {
   console.log("update: "+id);
-  const result = await pool.query("UPDATE users SET username=$1, password=$2 WHERE user_id=$3 RETURNING *", [user.name, user.password, id]);
+  const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+  const result = await pool.query("UPDATE users SET username=$1, password=$2 WHERE user_id=$3 RETURNING *", [user.name, hashedPassword, id]);
   return result.rows[0] || null;
 }
 
@@ -30,4 +35,28 @@ export async function deleteOne(id) {
   console.log("delete: "+id);
   const result = await pool.query("DELETE FROM users WHERE user_id = $1 RETURNING *", [id]);
   return result.rows[0] || null;
+}
+
+export async function saveRefreshToken(username, refreshToken) {
+  const result = await pool.query(
+    "UPDATE users SET refresh_token = $1 WHERE username = $2 RETURNING username",
+    [refreshToken, username]
+  );
+  return result.rows[0];
+}
+
+export async function getUserByRefreshToken(refreshToken) {
+  const result = await pool.query(
+    "SELECT username FROM users WHERE refresh_token = $1",
+    [refreshToken]
+  );
+  return result.rows.length > 0 ? result.rows[0] : null;
+}
+
+export async function clearRefreshToken(username) {
+  const result = await pool.query(
+    "UPDATE users SET refresh_token = NULL WHERE username = $1 RETURNING username",
+    [username]
+  );
+  return result.rows[0];
 }

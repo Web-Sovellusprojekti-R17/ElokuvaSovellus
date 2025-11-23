@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
+import UserIconWithAuth from "./components/LoginButt";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -51,6 +52,8 @@ function App() {
 
   return (
   <>
+   <UserIconWithAuth/>
+
     <Navbar />
 
     {loading ? (
