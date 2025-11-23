@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactPaginate from 'react-paginate';
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import "./Haku.css";
 import MovieCard from "./components/MovieCard";
 import Navbar from "./components/NavBar";
