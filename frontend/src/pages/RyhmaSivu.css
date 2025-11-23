@@ -1,0 +1,72 @@
+
+#container-ryhmasivu{
+    display: flex;
+}
+
+
+#chat{
+    margin-left: 10%;
+    width: 50%;
+}
+
+#container-ryhmat{
+    border: 5px solid gray;
+    width: 25%;
+}
+
+#container-ryhmat div{
+    margin: 2rem 0 2rem 0;
+    border: 2px solid grey;
+}
+
+#viestit{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2ren;
+}
+
+#laheta{
+    display: grid;
+}
+
+
+#form-container {
+  padding: 10px;
+  background-color: antiquewhite;
+}
+
+#form-container h1{
+    text-align: center;
+}
+
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+}
+
+
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+.form-container .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
