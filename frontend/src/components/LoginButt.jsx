@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./LoginButt.css";
+import "./LoginButt.css"; 
+import UserIcon from '../assets/freeusericon.png';
 import { useAuth } from "../contexts/AuthContext.js";
 
 export default function UserIconWithAuth() {
@@ -70,7 +71,7 @@ export default function UserIconWithAuth() {
   return (
     <>
       <button className="user-icon-btn" onClick={handleLoginButtonClick}>
-        <img src="../images/usericon.png" alt={user ? "Log out" : "Sign in"} />
+        <img src={UserIcon} alt={user ? "Log out" : "Sign in"} />
       </button>
 
       {isOpen && (
@@ -98,7 +99,7 @@ export default function UserIconWithAuth() {
               />
 
               <button type="submit" className="logsign-btn">
-                {isSignup ? "Create Account" : "Log In"}
+                {isSignup ? "Luo tunnus" : "Kirjaudu sisään"}
               </button>
             </form>
 
