@@ -38,10 +38,10 @@ function Haku(){
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,{
             headers: {
                 'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
-                'Content-Type': 'appliction/json'
+                'Content-Type': 'application/json'
             }
         })
-            .then(respose => respose.json())
+            .then(response => response.json())
             .then(json => {
                 setMovies(json.results)
                 setPageCount(json.total_pages)
