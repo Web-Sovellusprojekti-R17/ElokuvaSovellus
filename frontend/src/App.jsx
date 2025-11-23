@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
-import UserIconWithAuth from "./components/UserIconWithAuth";
+import UserIconWithAuth from "./components/LoginButt";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -34,8 +34,14 @@ function App() {
   function MovieCard({ media }) {
     const { title, name, backdrop_path } = media;
 
+    const navigate = useNavigate();
+    
+    const showMoviePage = () => {
+      navigate(`/movies/${media.id}`);
+    };
+
     return (
-      <div className="movie_item">
+      <div className="movie_item" onClick={showMoviePage}>
         <img
           src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
           className="movie_img"
@@ -48,7 +54,6 @@ function App() {
 
   return (
   <>
-   <UserIconWithAuth/>
 
     <Navbar />
 
@@ -69,7 +74,7 @@ function App() {
             >
               <div className="movies-container">
                 {movies.map((movie) => (
-                  <div className="movie" key={movie.id}>
+                  <div className="movie" key={movie.id} >
                     <MovieCard media={movie} />
                   </div>
                 ))}
