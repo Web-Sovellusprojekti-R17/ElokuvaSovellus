@@ -4,7 +4,7 @@ import "dotenv/config";
 
 //import templateRouter from "./routers/template_router.js";
 import userRouter from "./routers/user_router.js";
-import membersRouter from "./routers/members_router.js";
+import membersRouter from "./routers/member_router.js";
 
 
 const app = express();
