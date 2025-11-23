@@ -1,11 +1,41 @@
 import React from "react";
+import {Container, Row, Col,Image,Stack} from "react-bootstrap"
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import "./Footer.css"
 
 const Footer = () => {
     return  (
-        <div className = "footer">
-            <p>Footer!</p>
-        </div>
+        <footer>
+            <Container fluid>
+                <Row className="bg-dark text-white p-4 justify-content-between">
+                    <Col className="text-start">
+                    <Stack>
+                        <Image
+                        src="/images/image_placeholder.svg"
+                        alt="some kind of logo"
+                        rounded
+                        width={150}
+                        height={150}
+                        />
+                        <p>Elokuvasovellus</p>
+                    </Stack>
+                    </Col>
+                    <Col className="text-center">
+                    <h2>Tietoa meistä</h2>
+                    <p>Tietoa</p>
+                    <p>Lisää tietoa</p>
+                    <p>Lisää tietoa</p>
+                    </Col>
+                    <Col className="text-end">
+                    <h2>Linkkejä</h2>
+                    <p>Linkki</p>
+                    <p>Linkki</p>
+                    <p>Linkki</p>
+                    </Col>
+                </Row>
+            </Container>
+        </footer>
     )
 }
 

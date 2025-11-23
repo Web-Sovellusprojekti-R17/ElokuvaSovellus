@@ -9,7 +9,11 @@ import RyhmaSivu from "./pages/RyhmaSivu";
 import ArvosteluSivu from "./pages/ArvosteluSivu";
 import MoviePage from "./pages/MoviePage";
 import Tietoa from "./pages/Tietoa";
-
+import UserSettings from "./pages/UserSettings";
+import RemoveSettings from "./pages/RemoveSettings";
+import PasswordSettings from "./pages/PasswordSettings";
+import Navbar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 const router = createBrowserRouter([
   {
@@ -46,8 +50,28 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <Tietoa />
-  }
+  },
+{
+  path: "/settings",
+  element: (
+    <>
+      <Navbar />
+      <UserSettings />
+      <Footer />
+    </>
+  ),
+},
+{
+  path: "/settings/remove",
+  element: <RemoveSettings />
+},
+{
+  path: "/settings/password",
+  element: <PasswordSettings />
+}
+ 
 ])    
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
