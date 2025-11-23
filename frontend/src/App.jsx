@@ -4,8 +4,8 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
-import UserIconWithAuth from "./components/UserIconWithAuth";
-
+import UserIconWithAuth from "./components/LoginButt";
+//^tää valitti sitä UserIconWithAuth nii vaihoin tuohon ton /LoginButt
 function App() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
