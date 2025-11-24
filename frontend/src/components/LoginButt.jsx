@@ -46,14 +46,11 @@ export default function UserIconWithAuth() {
         await register(username, password);
       else  
         await login(username, password);
-      
+      closeLogin();
     } catch (err) {
       setError(err.message);
       console.log(err.message);
-    } finally {
-      closeLogin();
-      //setLoading(false);
-    }
+    } 
   };
 
   const handleLoginButtonClick = async () => {
