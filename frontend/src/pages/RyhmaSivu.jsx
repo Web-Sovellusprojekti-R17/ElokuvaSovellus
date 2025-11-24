@@ -7,7 +7,6 @@ function RyhmaSivu(){
 
     return (
         <>
-            <Navbar />
             <div id="container-ryhmasivu">
                 <div id="container-ryhmat">
                     <div>

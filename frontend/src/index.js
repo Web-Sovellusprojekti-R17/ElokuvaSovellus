@@ -22,39 +22,75 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <App />
+    element: <>
+      <Navbar />
+      <App />
+      <Footer />
+    </>
   },
   {
     path: "/haku",
-    element: <Haku />
+    element: <>
+      <Navbar />
+      <Haku />
+      <Footer />
+    </>
   },
   {
     path: "/haku/:query?",
-    element: <Haku />
+    element: <>
+      <Navbar />
+      <Haku />
+      <Footer />
+    </>
   },
   {
     path: "/movies",
-    element: <MoviePage />
+    element: <>
+      <Navbar />
+      <MoviePage />
+      <Footer />
+    </>
   },
   {
     path: "/movies/:id",
-    element: <MoviePage />
+    element: <>
+      <Navbar />
+      <MoviePage />
+      <Footer />
+    </>
   },
   {
     path: "/ryhma",
-    element: <RyhmaSivu />
+    element: <>
+      <Navbar />
+      <RyhmaSivu />
+      <Footer />
+    </>
   },
   {
     path: "/arvostelu",
-    element: <ArvosteluSivu />
+    element: <>
+      <Navbar />
+      <ArvosteluSivu />
+      <Footer />
+    </>
   },
   {
     path: "/arvostelu/:movieID?",
-    element: <ArvosteluSivu />
+    element: <>
+      <Navbar />
+      <ArvosteluSivu />
+      <Footer />
+    </>
   },
   {
     path: "/about",
-    element: <Tietoa />
+    element: <>
+      <Navbar />
+      <Tietoa />
+      <Footer />
+    </>
   },
 {
   path: "/settings",

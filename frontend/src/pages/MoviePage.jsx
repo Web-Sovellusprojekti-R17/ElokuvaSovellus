@@ -54,7 +54,6 @@ export default function MoviePage() {
 
     return (
         <>
-            <Navbar />
             <div className="movie-container">
                 <div className="movie-header">
                     <img
