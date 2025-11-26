@@ -78,6 +78,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    
 }
 
 .review-card {
@@ -109,4 +110,74 @@
 
 .show-more-btn:hover {
     background: #ff8433;
+}
+
+.user-review{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px #ff6600;
+    margin-top: 20px;;
+}
+
+.user-review-input {
+  width: 500px;
+  height: 200px;
+ 
+  padding: 8px;
+}
+
+.send-review-button{
+     width: 100px;
+  height: 40px;
+  background: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    
+}
+
+.send-review-button:hover {
+    background: #ff8433;
+}
+
+
+.user-review-star{
+    color:gold;
+    margin-bottom: 10px;
+    border:none;
+    background-color: white;
+    font-size: 1.4rem;
+}
+
+.review-buttons{
+    display:flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.review-edit-button{
+    background: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-review-input{
+    width: 250px;
+  height: 125px;
+}
+
+.edit-review-star{
+    color:gold;
+    margin-bottom: 10px;
+    border:none;
+    background-color: #1c1c1c;
+    font-size: 1.4rem;
 }

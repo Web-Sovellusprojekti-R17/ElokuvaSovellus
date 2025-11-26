@@ -7,8 +7,8 @@ export async function getAll() {
 }
 
 export async function getOne(id) {
-  const result = await pool.query("SELECT * FROM reviews WHERE review_ID = $1", [id]);
-  return result.rows.length > 0 ? result.rows[0] : null;
+  const result = await pool.query("SELECT * FROM reviews WHERE movie_ID = $1", [id]);
+  return result.rows.length > 0 ? result.rows : null;
   //return result.rows[0] || null; <- ^ nämä on sama asia eri tavalla kirjoitettuna
 }
 
@@ -19,7 +19,7 @@ export async function addOne(review) {
 
 export async function updateOne(id, review) {
   console.log("update:"+id);
-  const result = await pool.query("UPDATE reviews SET movie_ID=$1, review=$2, user_ID=$3, rating=$4 WHERE review_ID=$5 RETURNING *", [review.movie_ID, review.review, review.user_ID, review.rating, id]);
+  const result = await pool.query("UPDATE reviews SET review=$1, rating=$2 WHERE review_ID=$3 RETURNING *", [review.review, review.rating, id]);
   return result.rows[0] || null;
 }
 
