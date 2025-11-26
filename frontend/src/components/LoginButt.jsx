@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import "./LoginButt.css"; 
 import UserIcon from '../assets/freeusericon.png';
 import { useAuth } from "../contexts/AuthContext.js";
+import { useNavigate } from "react-router-dom";
 
 export default function UserIconWithAuth() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const openLogin = () => setIsOpen(true);
+  const openLogin = () => {
+    setIsSignup(false);
+    setIsOpen(true);
+  } 
+
   const closeLogin = () => setIsOpen(false);
 
   const toggleMode = () => setIsSignup((prev) => !prev);
@@ -57,6 +62,7 @@ export default function UserIconWithAuth() {
     if(user){
       try {
         await logout();
+        navigate(`/`);
       } catch (error) {
         console.log(error.message);
       }
@@ -68,7 +74,7 @@ export default function UserIconWithAuth() {
   return (
     <>
       <button className="user-icon-btn" onClick={handleLoginButtonClick}>
-        <img src={UserIcon} alt={user ? "Log out" : "Sign in"} />
+       {user ? "Log out" : "Sign in"}
       </button>
 
       {isOpen && (

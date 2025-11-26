@@ -104,11 +104,21 @@ const router = createBrowserRouter([
 },
 {
   path: "/settings/remove",
-  element: <RemoveSettings />
+  element:  
+    <>
+      <Navbar />
+      <RemoveSettings />
+      <Footer />
+    </>
 },
 {
   path: "/settings/password",
-  element: <PasswordSettings />
+  element: 
+   <>
+      <Navbar />
+      <PasswordSettings />
+      <Footer />
+    </>
 }
  
 ])    
