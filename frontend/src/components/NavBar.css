@@ -45,3 +45,7 @@
 .navbar-search button:hover {
     background-color: #45a049;
 }
+
+h2:hover{
+    cursor: pointer;
+}

@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS groups (
     group_name VARCHAR(100) NOT NULL
 );
 
-CREATE TYPE IF NOT EXISTS role_enum AS ENUM ('Admin', 'Member', 'Pending');
+CREATE TYPE role_enum AS ENUM ('Admin', 'Member', 'Pending');
 
 CREATE TABLE IF NOT EXISTS members (
     group_id INT NOT NULL,
