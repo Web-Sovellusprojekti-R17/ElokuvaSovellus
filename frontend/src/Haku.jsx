@@ -59,7 +59,6 @@ function Haku(){
 
     return (
         <>
-            <Navbar />
             <div id="container">
                 <h3>Hae Elokuvia</h3> 
                 <input 

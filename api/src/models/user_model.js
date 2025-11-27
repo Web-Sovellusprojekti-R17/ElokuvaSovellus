@@ -25,10 +25,14 @@ export async function addOne(user) {
   return result.rows[0] || null;
 }
 
-export async function updateOne(id, user) {
-  console.log("update: "+id);
-  const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
-  const result = await pool.query("UPDATE users SET username=$1, password=$2 WHERE user_id=$3 RETURNING *", [user.name, hashedPassword, id]);
+export async function updatePassword(id, password) {
+  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+  const result = await pool.query("UPDATE users SET password=$1 WHERE user_id=$2 RETURNING *", [hashedPassword, id]);
+  return result.rows[0] || null;
+}
+
+export async function updateName(id, name) {
+  const result = await pool.query("UPDATE users SET username=$1 WHERE user_id=$2 RETURNING *", [name, id]);
   return result.rows[0] || null;
 }
 
@@ -48,7 +52,7 @@ export async function saveRefreshToken(username, refreshToken) {
 
 export async function getUserByRefreshToken(refreshToken) {
   const result = await pool.query(
-    "SELECT username FROM users WHERE refresh_token = $1",
+    "SELECT username, user_id FROM users WHERE refresh_token = $1",
     [refreshToken]
   );
   return result.rows.length > 0 ? result.rows[0] : null;

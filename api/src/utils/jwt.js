@@ -4,18 +4,18 @@ const ACCESS_TOKEN_EXPIRY = "15m";
 const REFRESH_TOKEN_EXPIRY = "7d";  
 
 // Luo access token
-export function generateAccessToken(username) {
+export function generateAccessToken(username, user_id) {
   return jwt.sign(
-    { username },
+    { username, user_id},
     process.env.JWT_ACCESS_SECRET,
     { expiresIn: ACCESS_TOKEN_EXPIRY }
   );
 }
 
 // Luo refresh token
-export function generateRefreshToken(username) {
+export function generateRefreshToken(username, user_id) {
   return jwt.sign(
-    { username },
+    { username, user_id },
     process.env.JWT_REFRESH_SECRET,
     { expiresIn: REFRESH_TOKEN_EXPIRY }
   );

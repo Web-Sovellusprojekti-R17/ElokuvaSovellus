@@ -1,20 +1,21 @@
 import { Router } from "express";
-import { getUsers, getUserByID, addUser, updateUser, deleteUser,deleteAccount, login, refreshAccessToken, logout } from "../controllers/user_controller.js";
+import { getUsers, getUserByID, addUser, changeUsername, changePassword, deleteUser,deleteAccount, login, refreshAccessToken, logout } from "../controllers/user_controller.js";
 import { authenticateToken } from "../utils/auth.js";
 const userRouter = Router();
 
 userRouter.get("/", getUsers);
 userRouter.get("/:id", authenticateToken, getUserByID);
 
-userRouter.put("/:id", updateUser);
-
 userRouter.post("/login", login);
 userRouter.post("/register", addUser);
-userRouter.post("/refresh", refreshAccessToken);
 userRouter.post("/logout", logout);
+userRouter.post("/refresh", refreshAccessToken);
 
-userRouter.put("/date/:id", deleteAccount);
-userRouter.delete("/:id", deleteUser);
+userRouter.put("/name/:id", authenticateToken, changeUsername);
+userRouter.put("/password/:id", authenticateToken, changePassword);
+userRouter.put("/date/:id", authenticateToken, deleteAccount);
+
+userRouter.delete("/:id", authenticateToken, deleteUser);
 //userRouter.delete("/remove/:id", deleteAccount);
 
 export default userRouter;

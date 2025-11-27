@@ -7,7 +7,6 @@ function Tietoa(){
 
     return (
         <>
-            <Navbar />
             <p>ElokuvaSovellus on elokuva sovellus.</p>
         </> 
     );
