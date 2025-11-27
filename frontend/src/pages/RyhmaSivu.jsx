@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import "./RyhmaSivu.css";
 import Navbar from "../components/NavBar";
+import { useAuth, accessToken } from "../contexts/AuthContext.js";
 
 function RyhmaSivu(){
     const [luoRyhmaAuki, setLuoRyhmaAuki] = useState(false)
     const [groupName, setGroupName] = useState('')
     const [groups, setGroups] = useState([])
+    const { user, accessToken } = useAuth();
 
 
     const Groups = () => {
@@ -22,7 +24,8 @@ function RyhmaSivu(){
     const haeRyhmat = async () => {
         await fetch(`${process.env.REACT_APP_API_URL}group`, { 
             method: "GET",
-            headers: { "Content-Type": "application/json"}
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include"
         })
 
         .then(response => response.json())
@@ -41,7 +44,8 @@ function RyhmaSivu(){
     const luoRyhma = async () => {
         const res = await fetch(`${process.env.REACT_APP_API_URL}group`, { 
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded"},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include",
             body: new URLSearchParams({ group_name: groupName })
         });
 
