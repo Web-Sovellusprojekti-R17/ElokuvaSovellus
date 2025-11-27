@@ -13,7 +13,7 @@ const MovieCard = ({ movie }) => {
   };
   
   return (
-    <div className="movie-card" onClick={showMoviePage}>
+    <div className="movie-card" key={movie.id} onClick={showMoviePage}>
       <img className="poster" src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`} alt={movie.title} />
       <div className="info">
         <h2>{movie.title}</h2>

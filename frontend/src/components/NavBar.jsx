@@ -13,9 +13,13 @@ export default function Navbar() {
     navigate(`/haku/${searchTerm}`);
   };
 
+  const etusivulle = () => {
+    navigate(`/`);
+  };
+
   return (
     <nav className="navbar">
-      <h2>ElokuvaSovellus</h2>
+      <h2 onClick={etusivulle}>ElokuvaSovellus</h2>
 
       <div className="nav-links">
         <UserIconWithAuth />
