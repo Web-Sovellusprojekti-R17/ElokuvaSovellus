@@ -2,6 +2,8 @@ import "./MoviePage.css";
 import Navbar from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
+
 
 
 export default function MoviePage() {
@@ -13,9 +15,18 @@ export default function MoviePage() {
         return "★".repeat(stars) + "☆".repeat(5 - stars);
     };
 
+    const renderReviewStars = (rating) => {
+        return "★".repeat(rating) + "☆".repeat(5 - rating);
+    };
+
     const [cast, setCast] = useState([]);
     const [visibleCount, setVisibleCount] = useState(8);
     const [reviews, setReviews] = useState([]);
+    const [reviewInput, setReviewInput] = useState('');
+    const [userStars, setUserStars] = useState(1);
+    const [editUserStars, setEditUserStars] = useState(1);
+    const [editedReview, setEditedReview] =useState(0);
+    const [editReviewInput, setEditReviewInput] = useState('');
 
     useEffect(() => {
         async function fetchMovie() {
@@ -43,12 +54,76 @@ export default function MoviePage() {
             //const reviewData = await reviewResponse.json();
             //setReviews(reviewData.results);
         }
+        async function fetchReviews() {
+            axios.get(`http://localhost:3001/review/${id}`)
+                .then((response) => {
+                    console.log(response);
+                    setReviews(Array.isArray(response.data) ? response.data : []);
+
+                })
+                .catch((err) => {
+                    console.error('There was an error fetching users', err)
+                })
+        }
 
 
 
         fetchMovie();
+        fetchReviews();
     }, [id]);
 
+    function handleSendButton(type, review_id) {
+        if (type === "new") {
+            const newPost = {
+                movie_ID: id,
+                user_ID: 1,
+                review: reviewInput,
+                rating: userStars
+            }
+
+            axios
+                .post('http://localhost:3001/review', newPost)
+                .then(() => {
+                    console.log("post created succesfully!");
+                    window.location.reload();
+                })
+                .catch((err) => {
+                    console.error('There was an error fetching users', err);
+                })
+        } else if (type === "edit") {
+            const newPut = {
+
+                review: editReviewInput,
+                rating: editUserStars
+            }
+
+            axios
+                .put(`http://localhost:3001/review/${review_id}`, newPut)
+                .then(() => {
+                    console.log("review updated succesfully!");
+                    window.location.reload();
+                })
+                .catch((err) => {
+                    console.error('There was an error updating review', err);
+                })
+        }
+    }
+
+    function handleRemoveButton(id) {
+        axios.delete(`http://localhost:3001/review/${id}`)
+            .then(() => {
+                console.log("review deleted succesfully!");
+                window.location.reload();
+            })
+            .catch((err) => {
+                console.error('There was an error deleting review', err);
+            })
+
+    }
+
+    function handleEditButton(id) {
+        setEditedReview(id);
+    }
 
     if (!movie) return <p>Elokuvaa ladataan...</p>;
 
@@ -117,18 +192,50 @@ export default function MoviePage() {
                 <h2>Arvostelut</h2>
 
                 <div className="review-section">
-                    {reviews.length === 0 ? (
-                        <p>Ei arvosteluja vielä.</p>
-                    ) : (
+
+
+                    {Array.isArray(reviews) && reviews.length > 0 ? (
                         reviews.map((review) => (
-                            <div className="review-card" key={review.id}>
-                                <h4>{review.author}</h4>
-                                <p className="stars">{renderStars(review.author_details?.rating || 0)}</p>
-                                <p>{review.content}</p>
+                            <div className="review-card" key={review.review_id}>
+                                <h4>User id:{review.user_id} Review id: {review.review_id}</h4>
+                                <p className="stars">{renderReviewStars(review.rating)}</p>
+                                <p>{review.review}</p>
+                                <div className="review-buttons">
+                                    <button className="review-edit-button" style={{ display: review.user_id === 1 && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleEditButton(review.review_id)}>Edit</button><button className="review-edit-button" style={{ display: review.user_id === 1 && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleRemoveButton(review.review_id)}>Delete</button>
+                                </div>
+                                <div className="editing-screen" style={{ display: editedReview === review.review_id ? "block" : "none" }}>
+                                    <textarea className="edit-review-input" value={editReviewInput} onChange={e => setEditReviewInput(e.target.value)} />
+                                    <div className="user-review-star-container">
+                                        <button className="edit-review-star" style={{ color: editUserStars >= 1 ? "gold" : "white" }} onClick={() => setEditUserStars(1)}>★</button>
+                                        <button className="edit-review-star" style={{ color: editUserStars >= 2 ? "gold" : "white" }} onClick={() => setEditUserStars(2)}>★</button>
+                                        <button className="edit-review-star" style={{ color: editUserStars >= 3 ? "gold" : "white" }} onClick={() => setEditUserStars(3)}>★</button>
+                                        <button className="edit-review-star" style={{ color: editUserStars >= 4 ? "gold" : "white" }} onClick={() => setEditUserStars(4)}>★</button>
+                                        <button className="edit-review-star" style={{ color: editUserStars >= 5 ? "gold" : "white" }} onClick={() => setEditUserStars(5)}>★</button>
+                                    </div>
+                                    <button className="send-review-button" onClick={() => handleSendButton("edit", review.review_id)}>Send</button>
+                                </div>
                             </div>
                         ))
+                    ) : (
+                        <p>Ei arvosteluja vielä.</p>
                     )}
                 </div>
+
+                <div className="user-review">
+                    <h2>Write a review and give a rating for this movie!</h2>
+                    <div className="input-and-label">
+                        <textarea className="user-review-input" value={reviewInput} onChange={e => setReviewInput(e.target.value)} /><label className="char-label">Char: {reviewInput.length}</label>
+                    </div>
+                    <div className="user-review-star-container">
+                        <button className="user-review-star" style={{ color: userStars >= 1 ? "gold" : "black" }} onClick={() => setUserStars(1)}>★</button>
+                        <button className="user-review-star" style={{ color: userStars >= 2 ? "gold" : "black" }} onClick={() => setUserStars(2)}>★</button>
+                        <button className="user-review-star" style={{ color: userStars >= 3 ? "gold" : "black" }} onClick={() => setUserStars(3)}>★</button>
+                        <button className="user-review-star" style={{ color: userStars >= 4 ? "gold" : "black" }} onClick={() => setUserStars(4)}>★</button>
+                        <button className="user-review-star" style={{ color: userStars >= 5 ? "gold" : "black" }} onClick={() => setUserStars(5)}>★</button>
+                    </div>
+                    <button className="send-review-button" onClick={() => handleSendButton("new")}>Send</button>
+                </div>
+
 
             </div>
         </>
