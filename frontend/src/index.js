@@ -15,6 +15,7 @@ import PasswordSettings from "./pages/PasswordSettings";
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./contexts/AuthContext.js"; 
+import "./index.css";
 
 const router = createBrowserRouter([
   {

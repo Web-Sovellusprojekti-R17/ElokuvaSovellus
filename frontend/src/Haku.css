@@ -1,10 +1,4 @@
 
-:root{
-    margin: 3rem;
-    background-color: #1f2937;
-    color: rgb(255, 93, 0);
-}
-
 #results{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
