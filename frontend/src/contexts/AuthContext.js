@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     }
 
     const data = await res.json();
-    setUser({ name: data.username });
+    setUser({ name: data.username, id: data.user_id });
     setAccessToken(data.accessToken);
     return data;
   };
@@ -54,7 +54,8 @@ export function AuthProvider({ children }) {
 
         // Dekoodaa username tokenista
         const payload = JSON.parse(atob(data.accessToken.split('.')[1]));
-        setUser({ name: payload.username });
+        console.log(payload);
+        setUser({ name: payload.username, id: payload.user_id });
       }
     } catch (error) {
       console.error("Token refresh failed:", error);

@@ -3,9 +3,10 @@ import {
     getOneByID,
     getOneByName,
     addOne,
-    updateOne,
+    updatePassword,
+    updateName,
     deleteOne,
-    deleteSelf, 
+    deleteSelf,
     updateDelete,
     saveRefreshToken,
     getUserByRefreshToken,
@@ -53,7 +54,6 @@ export async function addUser(req, res, next) {
     }
 }
 
-// TODO: I think this needs to be in its own login file or something like that
 export async function login(req, res, next) {
     const data = req.body;
     try {
@@ -61,6 +61,8 @@ export async function login(req, res, next) {
             return next(new ApiError("Required data missing", 400));
 
         const foundUser = await getOneByName(data.name);
+        console.log("foundUser object:", foundUser); // <-- ADD THIS DEBUG LOG
+        console.log("foundUser.user_id:", foundUser?.user_id); // <-- ADD THIS TOO
 
         console.log(foundUser);
         if (!foundUser)
@@ -71,8 +73,8 @@ export async function login(req, res, next) {
         if (!correctPassword)
             return next(new ApiError("Wrong password", 401));
 
-        const accessToken = generateAccessToken(foundUser.username);
-        const refreshToken = generateRefreshToken(foundUser.username);
+        const accessToken = generateAccessToken(foundUser.username, foundUser.user_id);
+        const refreshToken = generateRefreshToken(foundUser.username, foundUser.user_id);
 
         // Tallenna refresh token tietokantaan
         await saveRefreshToken(foundUser.username, refreshToken);
@@ -88,6 +90,7 @@ export async function login(req, res, next) {
         res.status(200).json({
             message: "Login successful",
             username: foundUser.username,
+            user_id: foundUser.user_id,
             accessToken
         });
     } catch (err) {
@@ -97,71 +100,100 @@ export async function login(req, res, next) {
 
 // Kirjaudu ulos
 export async function logout(req, res, next) {
-  try {
-    const refreshToken = req.cookies.refreshToken;
+    try {
+        const refreshToken = req.cookies.refreshToken;
 
-    if (refreshToken) {
-      const user = await getUserByRefreshToken(refreshToken);
+        if (refreshToken) {
+            const user = await getUserByRefreshToken(refreshToken);
 
-      if (user) {
-        // Poista refresh token tietokannasta
-        await clearRefreshToken(user.username);
-      }
+            if (user) {
+                // Poista refresh token tietokannasta
+                await clearRefreshToken(user.username);
+            }
+        }
+
+        // Poista cookie
+        res.clearCookie("refreshToken");
+
+        res.status(200).json({ message: "Logout successful" });
+    } catch (err) {
+        next(err);
     }
-
-    // Poista cookie
-    res.clearCookie("refreshToken");
-
-    res.status(200).json({ message: "Logout successful" });
-  } catch (err) {
-    next(err);
-  }
 }
 
 // Päivitä access token
 export async function refreshAccessToken(req, res, next) {
-  try {
-    const refreshToken = req.cookies.refreshToken;
+    try {
+        const refreshToken = req.cookies.refreshToken;
 
-    if (!refreshToken) 
-        return next(new ApiError("Refresh token required", 401));
+        if (!refreshToken)
+            return next(new ApiError("Refresh token required", 401));
 
-    // Validoi refresh token
-    const decoded = verifyRefreshToken(refreshToken);
+        // Validoi refresh token
+        const decoded = verifyRefreshToken(refreshToken);
 
-    if (!decoded) {
-      return next(new ApiError("Invalid or expired refresh token", 403));
+        if (!decoded) {
+            return next(new ApiError("Invalid or expired refresh token", 403));
+        }
+
+        // Tarkista että token on tietokannassa
+        const user = await getUserByRefreshToken(refreshToken);
+
+        if (!user) {
+            return next(new ApiError("Invalid refresh token", 403));
+        }
+
+        // Luo uusi access token
+        const accessToken = generateAccessToken(user.username, user.user_id);
+
+        res.json({ accessToken });
+    } catch (err) {
+        next(err);
     }
-
-    // Tarkista että token on tietokannassa
-    const user = await getUserByRefreshToken(refreshToken);
-
-    if (!user) {
-      return next(new ApiError("Invalid refresh token", 403));
-    }
-
-    // Luo uusi access token
-    const accessToken = generateAccessToken(user.username);
-
-    res.json({ accessToken });
-  } catch (err) {
-    next(err);
-  }
 }
 
-// TODO: This needs to be updated in the future to actually be useful aside from testing
-export async function updateUser(req, res, next) {
+export async function changeUsername(req, res, next) {
     const id = req.params.id;
     const data = req.body;
 
     try {
-        if (!data.name || !data.password)
+        if (!data.name)
             return next(new ApiError("Required data missing", 400));
 
-        const updated = await updateOne(id, data);
+        const updated = await updateName(id, data.name);
+
         if (!updated)
             return next(new ApiError("User not found", 404));
 
+        res.status(200).json(updated);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function changePassword(req, res, next) {
+    const id = req.params.id;
+    const data = req.body;
+
+    try {
+        if (!data.oldPassword || !data.newPassword)
+            return next(new ApiError("Required data missing", 400));
+
+        if(data.oldPassword === data.newPassword)
+            return next(new ApiError("New password must be different from old password", 400));
+
+        const foundUser = await getOneByID(id);
+
+        if (!foundUser)
+            return next(new ApiError("User not found", 404));
+
+        const correctPassword = await compare(data.oldPassword, foundUser.password)
+
+        if (!correctPassword)
+            return next(new ApiError("Wrong old password", 401));
+
+        const updated = await updatePassword(id, data.newPassword);
+        
         res.status(200).json(updated);
     } catch (err) {
         next(err);
@@ -182,27 +214,27 @@ export async function deleteUser(req, res, next) {
 
 export async function deleteAccount(req, res, next) {
     const data = req.body;
-    const id = req.params.id; 
-    
+    const id = req.params.id;
+
     try {
 
-       if( !data.password)
+        if (!data.password)
             return next(new ApiError("Required data missing", 400));
 
         const foundUser = await getOneByID(id);
 
-        if(!foundUser)
+        if (!foundUser)
             return next(new ApiError("User not found", 404));
 
         const correctPassword = await compare(data.password, foundUser.password)
-   
-        if(!correctPassword)
+
+        if (!correctPassword)
             return next(new ApiError("Wrong password", 401));
 
         const now = new Date();
         const deletionDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-        const updatedUser = {username: data.username, password: data.password, deletion_date: deletionDate}
+        const updatedUser = { username: data.username, password: data.password, deletion_date: deletionDate }
 
         const updated = await updateDelete(id, updatedUser);
         if (!updated)

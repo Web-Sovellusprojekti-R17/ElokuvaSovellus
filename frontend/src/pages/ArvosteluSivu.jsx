@@ -38,7 +38,6 @@ function ArvosteluSivu(){
 
     return (
         <>
-            <Navbar />
             <div id="arvostelu-container-kokosivu">
                 <div>
                     <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Elokuvan juliste" />

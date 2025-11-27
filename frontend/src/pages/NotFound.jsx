@@ -7,7 +7,6 @@ function NotFound(){
 
     return (
         <>
-            <Navbar />
             <p>Sivua ei ole olemassa.</p>
         </>  
     );

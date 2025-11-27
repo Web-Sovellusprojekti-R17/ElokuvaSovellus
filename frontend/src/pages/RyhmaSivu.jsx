@@ -60,7 +60,6 @@ function RyhmaSivu(){
 
     return (
         <>
-            <Navbar />
             {luoRyhmaAuki && (
                 <div>
                     <input type="text" placeholder="Ryhmän nimi..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required/>

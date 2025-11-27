@@ -66,8 +66,6 @@ function App() {
   <>
 
   <div className="app">
-    <Navbar />
-
     {loading ? (
       <p>Ladataan elokuvia...</p>
     ) : (
@@ -102,7 +100,6 @@ function App() {
       </Routes>
       
     )}
-    <Footer/>
   </div>
   </>
 );
