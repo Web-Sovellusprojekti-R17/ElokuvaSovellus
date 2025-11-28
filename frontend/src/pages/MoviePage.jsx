@@ -3,6 +3,7 @@ import Navbar from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { IoBookmarks, IoBookmarksOutline} from "react-icons/io5";
 
 
 
@@ -27,6 +28,7 @@ export default function MoviePage() {
     const [editUserStars, setEditUserStars] = useState(1);
     const [editedReview, setEditedReview] =useState(0);
     const [editReviewInput, setEditReviewInput] = useState('');
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         async function fetchMovie() {
@@ -70,7 +72,24 @@ export default function MoviePage() {
 
         fetchMovie();
         fetchReviews();
+
+        const favs = JSON.parse(localStorage.getItem("favorites")) || [];
+        setIsFavorite(favs.includes(id));
+
     }, [id]);
+
+
+    const toggleFavorite = () => {
+        let favs = JSON.parse(localStorage.getItem("favorites")) || [];
+
+        if (favs.includes(id)){
+            favs = favs.filter(fid => fid !== id);
+        } else{
+            favs.push(id);
+        }
+        localStorage.setItem("favorites", JSON.stringify(favs));
+        setIsFavorite(!isFavorite);
+    }
 
     function handleSendButton(type, review_id) {
         if (type === "new") {
@@ -144,6 +163,9 @@ export default function MoviePage() {
                     <div className="movie-info">
                         <h1>{movie.title}</h1>
                         <p className="stars">{renderStars(movie.vote_average)}</p>
+                        <button className="fav-btn" onClick={toggleFavorite}>
+                            {isFavorite ? <IoBookmarks size={28}/> : <IoBookmarksOutline size={28}/>}
+                        </button>
                         <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
                         <p><strong>Kesto:</strong> {movie.runtime} min</p>
                         <p><strong>Kielet:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>

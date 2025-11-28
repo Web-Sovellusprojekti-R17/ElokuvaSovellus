@@ -16,6 +16,7 @@ import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./contexts/AuthContext.js"; 
 import "./index.css";
+import Favorites from "./pages/Favorites"
 
 const router = createBrowserRouter([
   {
@@ -120,6 +121,10 @@ const router = createBrowserRouter([
       <PasswordSettings />
       <Footer />
     </>
+},
+{
+  path: "/favorites",
+  element: <Favorites />
 }
  
 ])    
