@@ -1,9 +1,19 @@
-import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/message_model.js";
+import { getAll, getOne, addOne, updateOne, deleteOne, getOneGroup } from "../models/message_model.js";
 import { ApiError } from "../helpers/ApiError.js";
 
 export async function getMessages(req, res, next) {
     try {
         const messages = await getAll();
+        res.status(200).json(messages);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function getMessagesOneGroup(req, res, next) {
+    const id = req.params.group_id;
+    try {
+        const messages = await getOneGroup(id);
         res.status(200).json(messages);
     } catch (err) {
         next(err);
