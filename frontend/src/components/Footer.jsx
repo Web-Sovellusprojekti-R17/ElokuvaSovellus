@@ -1,14 +1,13 @@
 import React from "react";
 import {Container, Row, Col,Image,Stack} from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import "./Footer.css"
 
 const Footer = () => {
     return  (
         <footer>
             <Container fluid>
-                <Row className="bg-dark text-white p-4 justify-content-between">
+                <Row className="text-white p-4 justify-content-between">
                     <Col className="text-start">
                     <Stack>
                         <Image
