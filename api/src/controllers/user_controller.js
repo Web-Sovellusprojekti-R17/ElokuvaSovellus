@@ -64,7 +64,7 @@ export async function login(req, res, next) {
         console.log("foundUser object:", foundUser); // <-- ADD THIS DEBUG LOG
         console.log("foundUser.user_id:", foundUser?.user_id); // <-- ADD THIS TOO
 
-        console.log(foundUser);
+        
         if (!foundUser)
             return next(new ApiError("User not found", 404));
 
@@ -78,7 +78,7 @@ export async function login(req, res, next) {
 
         // Tallenna refresh token tietokantaan
         await saveRefreshToken(foundUser.username, refreshToken);
-
+console.log(foundUser);
         // Aseta refresh token HTTP-only cookieen
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,                                 // Ei JavaScript-pääsyä
