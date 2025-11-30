@@ -27,7 +27,6 @@ export default function Navbar() {
           <span className="logged-in-user">Tervetuloa, {user.name}!</span>
         )}
         <Link to="/" className="nav-link">Koti</Link>
-        <Link to="/movies" className="nav-link">Elokuvat</Link>
         <Link to="/about" className="nav-link">Tietoa</Link>
         {user ? <Link to="/arvostelu" className="nav-link">Arvostelut</Link> : null}
         {user ? <Link to="/ryhma" className="nav-link">Ryhmät</Link> : null}
