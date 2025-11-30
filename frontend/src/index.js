@@ -70,6 +70,14 @@ const router = createBrowserRouter([
     </>
   },
   {
+    path: "/ryhma/:id?",
+    element: <>
+      <Navbar />
+      <RyhmaSivu />
+      <Footer />
+    </>
+  },
+  {
     path: "/arvostelu",
     element: <>
       <Navbar />
