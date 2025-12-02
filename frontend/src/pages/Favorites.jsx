@@ -1,21 +1,32 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 
-
 export default function Favorites() {
     const [favoriteMovies, setFavoriteMovies] = useState([]);
 
     useEffect(() => {
-        const favIds = JSON.parse(localStorage.getItem("favorites")) || [];
+        const token = localStorage.getItem("accessToken");
 
-        Promise.all(
-            favIds.map(id =>
-                fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`)
-                    .then(res => res.ok ? res.json() : null)
-            )
-        ).then(data => {
-            setFavoriteMovies(data.filter(movie => movie));
-        });
+        fetch("http://localhost:3001/api/favorites/user", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+
+                if (!Array.isArray(data)) return;
+
+                Promise.all(
+                    data.map(fav =>
+                        fetch(
+                            `https://api.themoviedb.org/3/movie/${fav.movie_id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`
+                        ).then(res => res.json())
+                    )
+                ).then(movies => setFavoriteMovies(movies));
+            })
+            .catch(err => console.error("Error loading favorites:", err));
     }, []);
 
     return (
