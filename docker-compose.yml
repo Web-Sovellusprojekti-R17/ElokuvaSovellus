@@ -21,6 +21,20 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./database.sql:/docker-entrypoint-initdb.d/database.sql:ro
 
+  test_db:
+    image: postgres:16
+    container_name: postgres_test_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+      POSTGRES_DB: testdb
+    ports:
+      - "5433:5432"
+    tmpfs: /var/lib/postgresql/data      # NO persistence → database resets automatically
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+      
   frontend:
     build: ./frontend
     container_name: react_frontend

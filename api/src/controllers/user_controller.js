@@ -61,10 +61,7 @@ export async function login(req, res, next) {
             return next(new ApiError("Required data missing", 400));
 
         const foundUser = await getOneByName(data.name);
-        console.log("foundUser object:", foundUser); // <-- ADD THIS DEBUG LOG
-        console.log("foundUser.user_id:", foundUser?.user_id); // <-- ADD THIS TOO
-
-        console.log(foundUser);
+        
         if (!foundUser)
             return next(new ApiError("User not found", 404));
 
