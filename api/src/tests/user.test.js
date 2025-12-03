@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 dotenv.config(); 
 import app from "./app.js"; // Tuodaan Express-sovellusinstanssi ('app'), jota testataan.
 import pool from "../database.js"; // Tuodaan tietokantayhteyspooli (pool) tietokantayhteyden sulkemiseksi testien jälkeen.
-import jwt from "jsonwebtoken"; 
-import bcrypt from "bcryptjs";
 
 const testUsername = "testuser";
 const testPassword = "testpassword";
