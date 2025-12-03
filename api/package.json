@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon --legacy-watch src/index.js",
-    "test": "mocha \"src/**/*.test.js\""
+    "dev": "nodemon --legacy-watch src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
