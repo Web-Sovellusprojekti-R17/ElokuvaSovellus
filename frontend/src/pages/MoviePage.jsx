@@ -3,12 +3,14 @@ import Navbar from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth, accessToken } from "../contexts/AuthContext.js";
 
 
 
 export default function MoviePage() {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
+    const { user, accessToken } = useAuth();
 
     const renderStars = (rating) => {
         const stars = Math.round(rating / 2);
@@ -76,7 +78,7 @@ export default function MoviePage() {
         if (type === "new") {
             const newPost = {
                 movie_ID: id,
-                user_ID: 1,
+                user_ID: user.id,
                 review: reviewInput,
                 rating: userStars
             }
@@ -94,7 +96,8 @@ export default function MoviePage() {
             const newPut = {
 
                 review: editReviewInput,
-                rating: editUserStars
+                rating: editUserStars,
+                author: user.name
             }
 
             axios
@@ -126,6 +129,7 @@ export default function MoviePage() {
     }
 
     if (!movie) return <p>Elokuvaa ladataan...</p>;
+    if (!user) return <p>Arvosteluja ladataan...</p>;
 
     return (
         <>
@@ -197,11 +201,11 @@ export default function MoviePage() {
                     {Array.isArray(reviews) && reviews.length > 0 ? (
                         reviews.map((review) => (
                             <div className="review-card" key={review.review_id}>
-                                <h4>User id:{review.user_id} Review id: {review.review_id}</h4>
+                                <h4>{review.username}</h4>
                                 <p className="stars">{renderReviewStars(review.rating)}</p>
                                 <p>{review.review}</p>
                                 <div className="review-buttons">
-                                    <button className="review-edit-button" style={{ display: review.user_id === 1 && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleEditButton(review.review_id)}>Edit</button><button className="review-edit-button" style={{ display: review.user_id === 1 && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleRemoveButton(review.review_id)}>Delete</button>
+                                    <button className="review-edit-button" style={{ display: review.user_id === user.id && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleEditButton(review.review_id)}>Edit</button><button className="review-edit-button" style={{ display: review.user_id === user.id && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleRemoveButton(review.review_id)}>Delete</button>
                                 </div>
                                 <div className="editing-screen" style={{ display: editedReview === review.review_id ? "block" : "none" }}>
                                     <textarea className="edit-review-input" value={editReviewInput} onChange={e => setEditReviewInput(e.target.value)} />

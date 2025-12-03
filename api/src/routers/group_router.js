@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getGroups, getGroup, addGroup, updateGroup, deleteGroup } from "../controllers/group_controller.js";
+import { getGroups, getGroup, getOwnGroups, addGroup, updateGroup, deleteGroup } from "../controllers/group_controller.js";
 
 ///
 // REST API implementointiin tarvitaan 4 eri fileä:
@@ -13,6 +13,7 @@ const groupRouter = Router();
 
 groupRouter.get("/", getGroups);
 groupRouter.get("/:id", getGroup);
+groupRouter.get("/own/:id", getOwnGroups);
 groupRouter.post("/", addGroup);
 groupRouter.put("/:id", updateGroup);
 groupRouter.delete("/:id", deleteGroup);

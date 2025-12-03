@@ -8,10 +8,11 @@ import pool from "./database.js";
 import groupRouter from "./routers/group_router.js";
 import userRouter from "./routers/user_router.js";
 import membersRouter from "./routers/member_router.js";
-import reviewRouter from "./routers/review_router.js"
+import reviewRouter from "./routers/review_router.js";
 import messageRouter from "./routers/message_router.js";
 
 import { authenticateToken } from "./utils/auth.js";
+
 
 cron.schedule("0 * * * *", async () => {
     const now = new Date();
@@ -20,7 +21,8 @@ cron.schedule("0 * * * *", async () => {
     const res = await pool.query(
   "SELECT * FROM users WHERE is_active = false AND deletion_date <= NOW()"
 );
-
+    
+    
 const accountsToDelete = res.rows;
 
   for (const user of accountsToDelete) {
@@ -34,7 +36,7 @@ const accountsToDelete = res.rows;
 })
 
 const app = express();
-const port = process.env.PORT;
+
 
 app.use(cors({
   origin: process.env.FRONTEND_URL || "http://localhost:3000",
@@ -49,7 +51,7 @@ app.use("/review", reviewRouter)
 app.use("/user",  userRouter);
 app.use("/api/messages", authenticateToken, messageRouter);
 app.use("/api/members", authenticateToken, membersRouter);
-app.use("/group", authenticateToken, groupRouter);
+app.use("/group", groupRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500
@@ -61,6 +63,12 @@ app.use((err, req, res, next) => {
     })
 })
 
+export default app;
+
+if(process.env.NODE_ENV!=="test"){
+    const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is listening port ${port}`);
 });
+}
+
