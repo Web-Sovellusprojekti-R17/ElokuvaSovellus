@@ -9,13 +9,6 @@ export async function getAll() {
   return result.rows; 
 }
 
-export async function getOne(id) {
-  const result = await pool.query(`SELECT reviews.*, users.username FROM reviews
-    JOIN users ON reviews.user_id = users.user_id 
-    WHERE movie_ID = $1`, [id]);
-  return result.rows.length > 0 ? result.rows : null;
-  //return result.rows[0] || null; <- ^ nämä on sama asia eri tavalla kirjoitettuna
-}
 export async function getAllByMovieID(id) {
   const result = await pool.query( 
     `SELECT reviews.*, users.username

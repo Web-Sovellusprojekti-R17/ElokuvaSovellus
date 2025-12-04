@@ -61,35 +61,6 @@ export default function MoviePage() {
     useEffect(() => {
         fetchMovie();
         fetchReviews();
-
-    function handleSendButton(type, review_id) {
-        if (type === "new") {
-            const newPost = {
-                movie_ID: id,
-                user_ID: user.id,
-                review: reviewInput,
-                rating: userStars
-            }
-
-            axios
-                .post('http://localhost:3001/review', newPost)
-                .then(() => {
-                    console.log("post created succesfully!");
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    console.error('There was an error fetching users', err);
-                })
-        } else if (type === "edit") {
-            const newPut = {
-
-                review: editReviewInput,
-                rating: editUserStars,
-                author: user.name
-            }
-        const favs = JSON.parse(localStorage.getItem("favorites")) || [];
-        setIsFavorite(favs.includes(id));
-
     }, [id]);
 
     const toggleFavorite = async () => {
@@ -209,25 +180,6 @@ export default function MoviePage() {
                 <div className="review-section">
                     {Array.isArray(reviews) && reviews.length > 0 ? (
                         reviews.map((review) => (
-                            <div className="review-card" key={review.review_id}>
-                                <h4>{review.username}</h4>
-                                <p className="stars">{renderReviewStars(review.rating)}</p>
-                                <p>{review.review}</p>
-                                <div className="review-buttons">
-                                    <button className="review-edit-button" style={{ display: review.user_id === user.id && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleEditButton(review.review_id)}>Edit</button><button className="review-edit-button" style={{ display: review.user_id === user.id && editedReview != review.review_id ? "block" : "none" }} onClick={() => handleRemoveButton(review.review_id)}>Delete</button>
-                                </div>
-                                <div className="editing-screen" style={{ display: editedReview === review.review_id ? "block" : "none" }}>
-                                    <textarea className="edit-review-input" value={editReviewInput} onChange={e => setEditReviewInput(e.target.value)} />
-                                    <div className="user-review-star-container">
-                                        <button className="edit-review-star" style={{ color: editUserStars >= 1 ? "gold" : "white" }} onClick={() => setEditUserStars(1)}>★</button>
-                                        <button className="edit-review-star" style={{ color: editUserStars >= 2 ? "gold" : "white" }} onClick={() => setEditUserStars(2)}>★</button>
-                                        <button className="edit-review-star" style={{ color: editUserStars >= 3 ? "gold" : "white" }} onClick={() => setEditUserStars(3)}>★</button>
-                                        <button className="edit-review-star" style={{ color: editUserStars >= 4 ? "gold" : "white" }} onClick={() => setEditUserStars(4)}>★</button>
-                                        <button className="edit-review-star" style={{ color: editUserStars >= 5 ? "gold" : "white" }} onClick={() => setEditUserStars(5)}>★</button>
-                                    </div>
-                                    <button className="send-review-button" onClick={() => handleSendButton("edit", review.review_id)}>Send</button>
-                                </div>
-                            </div>
                             <ReviewCard key={review.review_id} review={review} />
                         ))
                     ) : (
