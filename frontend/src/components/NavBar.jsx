@@ -31,6 +31,7 @@ export default function Navbar() {
         {user ? <Link to="/arvostelu" className="nav-link">Minun Arvostelut</Link> : null}
         {user ? <Link to="/ryhma" className="nav-link">Ryhmät</Link> : null}
         {user ? <Link to="/settings" className="nav-link">Asetukset</Link> : null}
+        {user ? <Link to="/favorites" className="nav-link">Suosikit</Link> : null}
       </div>
 
       <div className="navbar-search">

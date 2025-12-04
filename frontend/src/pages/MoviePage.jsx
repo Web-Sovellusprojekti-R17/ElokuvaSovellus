@@ -3,6 +3,7 @@ import Navbar from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
 import ReviewCard from "../components/ReviewCard";
 import { useAuth } from "../contexts/AuthContext.js";
 
@@ -21,6 +22,7 @@ export default function MoviePage() {
     const [reviews, setReviews] = useState([]);
     const [reviewInput, setReviewInput] = useState('');
     const [userStars, setUserStars] = useState(1);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     async function fetchMovie() {
         try {
@@ -56,7 +58,31 @@ export default function MoviePage() {
     useEffect(() => {
         fetchMovie();
         fetchReviews();
+
+        const favs = JSON.parse(localStorage.getItem("favorites")) || [];
+        setIsFavorite(favs.includes(id));
+
     }, [id]);
+
+    const toggleFavorite = async () => {
+        try {
+            const response = await fetch("http://localhost:3001/api/favorites", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                },
+                body: JSON.stringify({ movie_id: id }),
+            });
+
+            const data = await response.json();
+            setIsFavorite(data.isFavorite);
+
+        } catch (error) {
+            console.error("Favorite toggle failed:", error);
+        }
+
+    }
 
     function handleSendButton() {
         axios.post(`${process.env.REACT_APP_API_URL}review/`,
@@ -101,6 +127,9 @@ export default function MoviePage() {
                     <div className="movie-info">
                         <h1>{movie.title}</h1>
                         <p className="stars">{renderStars(movie.vote_average)}</p>
+                        <button className="fav-btn" onClick={toggleFavorite}>
+                            {isFavorite ? <IoBookmarks size={28} /> : <IoBookmarksOutline size={28} />}
+                        </button>
                         <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
                         <p><strong>Kesto:</strong> {movie.runtime} min</p>
                         <p><strong>Kielet:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>
