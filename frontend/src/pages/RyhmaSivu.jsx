@@ -354,7 +354,7 @@ function RyhmaSivu() {
                     </div>
                 </div>
             </div>
-        </>
+        
                 <div id="jasenlista-container">
                     <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
                     {poistaRyhmaAuki && (
@@ -375,7 +375,7 @@ function RyhmaSivu() {
                         ))}
                     </div>
                 </div>
-            </div> 
+            
         </>   
     );
 }

@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
+import { useAuth, accessToken } from "../contexts/AuthContext.js";
 
 export default function Favorites() {
     const [favoriteMovies, setFavoriteMovies] = useState([]);
+        const { user, accessToken } = useAuth();
 
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken");
 
-        fetch("http://localhost:3001/api/favorites/user", {
+    function getFavorites(){
+         if(!accessToken)
+    {
+        return;
+    }
+       
+        fetch(`${process.env.REACT_APP_API_URL}favorites/2`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`
             },
         })
             .then(res => res.json())
             .then(data => {
 
-                if (!Array.isArray(data)) return;
+                console.log("toimii");
+                //if (!Array.isArray(data)) return;
 
                 Promise.all(
                     data.map(fav =>
@@ -27,7 +34,14 @@ export default function Favorites() {
                 ).then(movies => setFavoriteMovies(movies));
             })
             .catch(err => console.error("Error loading favorites:", err));
-    }, []);
+    }
+
+   useEffect(() => {
+
+    getFavorites();
+
+   }, [])
+   
 
     return (
         <div className="container">

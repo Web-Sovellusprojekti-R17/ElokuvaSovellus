@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/", authenticateToken, FavoriteController.add);
 router.delete("/", authenticateToken, FavoriteController.remove);
-router.get("/", authenticateToken, FavoriteController.list);
+router.get("/:id", authenticateToken, FavoriteController.list);
 
 export default router;

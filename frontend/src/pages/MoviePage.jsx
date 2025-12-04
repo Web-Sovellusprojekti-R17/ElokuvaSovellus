@@ -62,18 +62,18 @@ export default function MoviePage() {
 
     const toggleFavorite = async () => {
         try {
-            const response = await fetch("http://localhost:3001/api/favorites", {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}favorites/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    Authorization: `Bearer ${accessToken}`
                 },
                 body: JSON.stringify({ movie_id: id }),
             });
-
+            
             const data = await response.json();
             setIsFavorite(data.isFavorite);
-
+console.log("toimii jippii");
         } catch (error) {
             console.error("Favorite toggle failed:", error);
         }

@@ -29,8 +29,8 @@ export default {
 
     async list(req, res) {
         try {
-            const user_id = req.user.user_id;
-            const favorites = await FavoriteModel.getFavorites(user_id);
+            const id = req.params.id;
+            const favorites = await FavoriteModel.getFavorites(id);
             res.json({ favorites });
         } catch (err) {
             console.error(err);
