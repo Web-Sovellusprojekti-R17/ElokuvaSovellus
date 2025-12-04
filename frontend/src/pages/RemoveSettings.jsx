@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import './SettingsPage.css'
+import { useAuth, accessToken } from "../contexts/AuthContext.js";
 
 export default function RemoveSettings() {
     const [removeInput, setRemoveInput] = useState('');
     const [password, setPassword] = useState('');
     const [isVisible,setIsVisible] = useState(false);
+    const { user, accessToken } = useAuth();
 
     const navigate = useNavigate();
 
@@ -20,10 +22,13 @@ export default function RemoveSettings() {
 
     function handleRemoveButton() {
         const newPut = {
-            
+            headers:{
+                "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": `Bearer ${accessToken}`
+            },
             password: removeInput
         };
-        axios.put('http://localhost:3001/user/date/17',newPut)
+        axios.put(`http://localhost:3001/user/date/${user.id}`,newPut)
             .then(response => {
                 //setPassword(response.data[0].password);
                  //setResponseMessage("Post created successfully!");

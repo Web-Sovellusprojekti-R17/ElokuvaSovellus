@@ -5,21 +5,44 @@
 
 
 #chat{
+  display:flex;
+  flex-direction: column;
     margin-left: 10%;
     width: 50%;
+    height:1000px;
     padding: 10px;
    background-color: antiquewhite;
    color: #04AA6D;
 }
 
 #container-ryhmat{
-    border: 5px solid gray;
-    width: 25%;
+  display:flex;
+  flex-direction: column;
 }
 
-#container-ryhmat div{
-    margin: 2rem 0 2rem 0;
-    border: 2px solid grey;
+#container-kaikki-ryhmat{
+
+  flex: 0 0 400px;
+  
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  width: 300px;
+  border: 2px solid coral;
+}
+
+#container-omat-ryhmat{
+  flex: 0 0 400px;
+  
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  width: 300px;
+  border: 2px solid coral;
+  
+}
+
+#container-ryhmat{
+    
+   gap:10px;
 }
 
 #viestit{
@@ -30,10 +53,14 @@
 
 #viesti{
   border: 2px solid black;
+ 
 }
 
 #laheta{
-    display: grid;
+  margin-top:auto;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 
@@ -69,7 +96,7 @@ textarea:focus {
   border: none;
   cursor: pointer;
   width: 100%;
-  margin-bottom:10px;
+  
   opacity: 0.8;
 }
 
@@ -84,14 +111,22 @@ textarea:focus {
   background-color: lightblue;
 }
 
-
-#ryhma-kontti:hover{
-  cursor: pointer;
-  background-color: coral;
+.ryhma-kontti{
+  border: 2px solid grey;
 }
 
-#ryhma-kontti:active{
+.ryhma-kontti:hover{
+  cursor: pointer;
+  background-color: coral;
+  
+}
+
+.ryhma-kontti:active{
   background-color: crimson;
+}
+
+.ryhma-kontti.active{
+   background-color: coral;
 }
 
 #ryhman-nimi-otsikko{
