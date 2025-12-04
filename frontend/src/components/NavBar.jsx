@@ -28,7 +28,7 @@ export default function Navbar() {
         )}
         <Link to="/" className="nav-link">Koti</Link>
         <Link to="/about" className="nav-link">Tietoa</Link>
-        {user ? <Link to="/arvostelu" className="nav-link">Arvostelut</Link> : null}
+        {user ? <Link to="/arvostelu" className="nav-link">Minun Arvostelut</Link> : null}
         {user ? <Link to="/ryhma" className="nav-link">Ryhmät</Link> : null}
         {user ? <Link to="/settings" className="nav-link">Asetukset</Link> : null}
       </div>
