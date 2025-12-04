@@ -64,7 +64,6 @@ export async function login(req, res, next) {
         console.log("foundUser object:", foundUser); // <-- ADD THIS DEBUG LOG
         console.log("foundUser.user_id:", foundUser?.user_id); // <-- ADD THIS TOO
 
-        
         if (!foundUser)
             return next(new ApiError("User not found", 404));
 

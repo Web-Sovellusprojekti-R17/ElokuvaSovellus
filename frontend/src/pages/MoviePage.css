@@ -183,3 +183,17 @@
     background-color: #1c1c1c;
     font-size: 1.4rem;
 }
+
+.fav-btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 28px;
+    color: #ff6600;
+    transition: transform 0.2s ease;
+}
+
+.fav-btn :hover{
+    transform: scale(1.2);
+}

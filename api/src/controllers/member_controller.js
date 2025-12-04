@@ -1,4 +1,4 @@
-import { getAll, getOne, addOne, updateOne, deleteOne} from "../models/member_model.js";
+import { getAll, getOne, addOne, updateOne, deleteOne, getKaikkiJasenet} from "../models/member_model.js";
 
 import { ApiError } from "../helpers/ApiError.js";
 
@@ -24,6 +24,16 @@ export async function getMember(req, res, next) {
   } catch (err) {
     next(err);
   }
+}
+
+export async function getJasenet(req, res, next) {
+    const id = req.params.id;
+    try {
+        const users = await getKaikkiJasenet(id);
+        res.status(200).json(users);
+    } catch (err) {
+        next(err);
+    }
 }
 
 

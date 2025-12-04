@@ -1,4 +1,4 @@
-import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/group_model.js";
+import { getAll, getOne,getOwn, addOne, updateOne, deleteOne } from "../models/group_model.js";
 import { ApiError } from "../helpers/ApiError.js";
 
 //
@@ -22,6 +22,19 @@ export async function getGroup(req, res, next) {
   const id = req.params.id;
   try {
     const group = await getOne(id);
+    if (!group)
+      return next(new ApiError("Group not found", 404));
+
+    res.status(200).json(group);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getOwnGroups(req, res, next) {
+  const id = req.params.id;
+  try {
+    const group = await getOwn(id);
     if (!group)
       return next(new ApiError("Group not found", 404));
 
