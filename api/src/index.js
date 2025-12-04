@@ -10,6 +10,7 @@ import userRouter from "./routers/user_router.js";
 import membersRouter from "./routers/member_router.js";
 import reviewRouter from "./routers/review_router.js";
 import messageRouter from "./routers/message_router.js";
+import favoriteRouter from "./routers/favorite_router.js";
 
 import { authenticateToken } from "./utils/auth.js";
 
@@ -51,7 +52,8 @@ app.use("/review", reviewRouter)
 app.use("/user",  userRouter);
 app.use("/api/messages", authenticateToken, messageRouter);
 app.use("/api/members", authenticateToken, membersRouter);
-app.use("/group", groupRouter);
+app.use("/group", authenticateToken, groupRouter);
+app.use("/favorites", authenticateToken, favoriteRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500

@@ -1,38 +1,61 @@
 import { useEffect, useState } from "react";
 import "./ArvosteluSivu.css";
-import Navbar from "../components/NavBar";
 import { useParams } from "react-router";
-import MovieCard from "../components/MovieCard";
+import ReviewCard from "../components/ReviewCard.jsx";
+import axios from "axios";
+import { useAuth } from "../contexts/AuthContext.js"; 
 
-
-function ArvosteluSivu(){
+function ArvosteluSivu() {
     let params = useParams()
 
     const [movie_id, setMovie_id] = useState(params.movieID)
     const [title, setTitle] = useState('')
     const [year, setYear] = useState('')
     const [poster, setPoster] = useState('')
+    const [reviews, setReviews] = useState([]);
+    const { user } = useAuth(); 
 
+    async function fetchReviews() {
+        if (!movie_id && !user) 
+            return;
+        console.log(movie_id ? "true" : "false");
+        axios.get(movie_id ? `http://localhost:3001/review/movie/${movie_id}`
+                           : `http://localhost:3001/review/user/${user.id}`)
+            .then((response) => {
+                console.log("Reviews found: " + response);
+                setReviews(Array.isArray(response.data) ? response.data : []);
+
+            })
+            .catch((err) => {
+                console.error('There was an error fetching users', err)
+            })
+
+        
+    }
 
     const search = () => {
-            fetch(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`,{
-                headers: {
-                    'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS, 
-                    'Content-Type': 'appliction/json'
-                }
+        if(!movie_id) 
+            return;  
+
+        fetch(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`, {
+            headers: {
+                'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
+                'Content-Type': 'appliction/json'
+            }
+        })
+            .then(respose => respose.json())
+            .then(json => {
+                setTitle(json.title)
+                setYear(json.release_date.substr(0, 4))
+                setPoster(json.poster_path)
             })
-                .then(respose => respose.json())
-                .then(json => {
-                    setTitle(json.title)
-                    setYear(json.release_date.substr(0,4))
-                    setPoster(json.poster_path)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }
-    
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     useEffect(() => {
+        fetchReviews();
         search()
     }, [])
 
@@ -44,22 +67,19 @@ function ArvosteluSivu(){
                     <p>{title}</p>
                     <p>({year})</p>
                 </div>
-                <div id="arvostelut">
-                    <div id="arvostelu">
-                        <p><strong>käyttäjänimi</strong></p>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum, numquam, provident reprehenderit aperiam eaque veniam deserunt, assumenda sed culpa recusandae ullam dicta. Debitis quis, ipsum natus praesentium sed quae sunt?</p>
-                        <p>21.11.2025 14.18</p>
-                    </div>
-                    <div id="arvostelu">
-                        <p><strong>käyttäjänimi</strong></p>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum, numquam, provident reprehenderit aperiam eaque veniam deserunt, assumenda sed culpa recusandae ullam dicta. Debitis quis, ipsum natus praesentium sed quae sunt?</p>
-                        <p>21.11.2025 14.18</p>
-                    </div>
+                 <div className="review-section">
+                    {Array.isArray(reviews) && reviews.length > 0 ? (
+                        reviews.map((review) => (
+                            <ReviewCard key={review.review_id} review={review} />
+                        ))
+                    ) : (
+                        <p>Ei arvosteluja vielä.</p>
+                    )}
                 </div>
-                
+
             </div>
-            
-        </> 
+
+        </>
     );
 }
 

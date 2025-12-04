@@ -19,6 +19,9 @@ function RyhmaSivu() {
     const [paivitaChat, setPaivitaChat] = useState(true)
     const [paivitaRyhmat, setPaivitaRyhmat] = useState(true)
     const [nykRyhmNim, setNykRyhmNim] = useState('')
+    const [poistaRyhmaAuki, setPoistaRyhmaAuki] = useState(false)
+    const [oikeudet, setOikeudet] = useState('')
+    const [jasenet, setJasenet] = useState([])
 
     const containerRef = useRef();
     const bottomRef = useRef();
@@ -65,22 +68,6 @@ function RyhmaSivu() {
         )
     }
 
-    // const Messages = () => {
-    //     return (
-    //         <div id="chat">
-    //             <form id="form-container">
-    //                 <h1>Chat</h1>
-    //                 <div id="viestit">
-    //                     Tähän viestit tietokannasta.
-    //                 </div>
-    //                 <div id="laheta">
-    //                     <textarea placeholder="Type message.." name="msg" required></textarea>
-    //                     <button type="submit" className="btn">Send</button>
-    //                 </div>  
-    //             </form>
-    //         </div>
-    //     )
-    // }
 
     const haeRyhmat = async () => {
         await fetch(`${process.env.REACT_APP_API_URL}group`, {
@@ -122,7 +109,8 @@ function RyhmaSivu() {
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
             body: new URLSearchParams({ group_name: groupName })
-        });
+        })
+
 
         const data = await res.json();
         console.log(data);
@@ -200,6 +188,95 @@ function RyhmaSivu() {
         }
     }
 
+    const varmistusPop = () => {
+        setPoistaRyhmaAuki(true)
+    }
+
+    const poistaRyhma = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}group/${groupID}`, { 
+            method: "DELETE",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include",
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "Ryhmän poistaminen epäonnistui");
+        }
+        else{
+            setPoistaRyhmaAuki(false)
+            if(paivitaRyhmat){
+                setPaivitaRyhmat(false)
+            }
+            else{
+                setPaivitaRyhmat(true)
+            }
+        }
+    }
+
+    const haeJasenet = async () => {
+        await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}`, { 
+            method: "GET",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include"
+        })
+
+        .then(response => response.json())
+        .then(json => {
+            setJasenet(json)
+            console.log(groupID)
+            console.log(jasenet)
+        })
+        .catch(error => {
+            console.log(error)
+        }) 
+    }
+
+    const luoRooli = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, { 
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include",
+            body: new URLSearchParams({ group_id: groupID, user_id: user.id, role: oikeudet })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "Roolin asettaminen epäonnistui");
+        }
+    }
+
+    const asetaRooli = async (rID, kID, rooli) => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
+            method: "PUT",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include",
+            body: new URLSearchParams({ role: rooli })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "Roolin asettaminen epäonnistui");
+        }
+    }
+
+    const haeOikeudet = async (rID, kID) => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
+            method: "GET",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
+            credentials: "include",
+        })
+
+        .then(response => response.json())
+        .then(json => {
+            setOikeudet(json.role)
+            return oikeudet
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
     useEffect(() => {
         if(user){
         haeRyhmat()
@@ -209,6 +286,7 @@ function RyhmaSivu() {
     useEffect(() => {
         haeViestit()
         setViesti('')
+        haeJasenet()
     }, [groupID, paivitaChat])
 
     useEffect(() => {
@@ -277,6 +355,28 @@ function RyhmaSivu() {
                 </div>
             </div>
         </>
+                <div id="jasenlista-container">
+                    <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
+                    {poistaRyhmaAuki && (
+                        <>
+                            <p>Haluatko varmasti poistaa ryhmän?</p>
+                            <div>
+                                <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
+                                {/* <button>Ei</button> */}
+                            </div>
+                        </>    
+                    )}
+                    <div>
+                        {groupID && jasenet && jasenet.map(jasen => (
+                            <div key={jasen.user_id + jasen.group_id} id="jasen">
+                                <p id="jasen_nimi"><strong>{jasen.username}</strong></p>
+                                <p id="jasen_rooli">{jasen.role}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div> 
+        </>   
     );
 }
 

@@ -2,7 +2,10 @@ import pool from "../database.js";
 
 
 export async function getAll() {
-  const result = await pool.query("SELECT * FROM reviews");
+  const result = await pool.query( 
+    `SELECT reviews.*, users.username
+     FROM reviews
+     JOIN users ON reviews.user_id = users.user_id`);
   return result.rows; 
 }
 
@@ -12,6 +15,37 @@ export async function getOne(id) {
     WHERE movie_ID = $1`, [id]);
   return result.rows.length > 0 ? result.rows : null;
   //return result.rows[0] || null; <- ^ nämä on sama asia eri tavalla kirjoitettuna
+}
+export async function getAllByMovieID(id) {
+  const result = await pool.query( 
+    `SELECT reviews.*, users.username
+     FROM reviews
+     JOIN users ON reviews.user_id = users.user_id
+     WHERE reviews.movie_ID = $1`,
+    [id]);
+  return result.rows; 
+}
+
+export async function getAllByUserID(id) {
+  const result = await pool.query( 
+    `SELECT reviews.*, users.username
+     FROM reviews
+     JOIN users ON reviews.user_id = users.user_id
+     WHERE reviews.user_id = $1`,
+    [id]);
+  return result.rows; 
+}
+
+export async function getOneByReviewID(id) {
+  const result = await pool.query(
+    `SELECT reviews.*, users.username
+     FROM reviews
+     JOIN users ON reviews.user_id = users.user_id
+     WHERE reviews.review_id = $1`,
+    [id]
+  );
+
+  return result.rows.length > 0 ? result.rows[0] : null;
 }
 
 export async function addOne(review) {
