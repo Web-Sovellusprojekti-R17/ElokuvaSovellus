@@ -7,6 +7,9 @@
 #chat{
     margin-left: 10%;
     width: 50%;
+    padding: 10px;
+   background-color: antiquewhite;
+   color: #04AA6D;
 }
 
 #container-ryhmat{
@@ -25,6 +28,10 @@
     margin-bottom: 2ren;
 }
 
+#viesti{
+  border: 2px solid black;
+}
+
 #laheta{
     display: grid;
 }
@@ -35,11 +42,11 @@
   background-color: antiquewhite;
 }
 
-#form-container h1{
+h1{
     text-align: center;
 }
 
-.form-container textarea {
+textarea {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -49,13 +56,13 @@
 }
 
 
-.form-container textarea:focus {
+textarea:focus {
   background-color: #ddd;
   outline: none;
 }
 
 
-.form-container .btn {
+.btn {
   background-color: #04AA6D;
   color: white;
   padding: 16px 20px;
@@ -67,10 +74,43 @@
 }
 
 
-.form-container .btn:hover, .open-button:hover {
+.btn:hover, .open-button:hover {
   opacity: 1;
+  background-color: darkgreen;
+  color: white;
 }
 
 #luoButton:hover{
   background-color: lightblue;
+}
+
+
+#ryhma-kontti:hover{
+  cursor: pointer;
+  background-color: coral;
+}
+
+#ryhma-kontti:active{
+  background-color: crimson;
+}
+
+#ryhman-nimi-otsikko{
+  text-align: center;
+}
+
+#jasenlista-container{
+  margin-left: 5%;
+}
+
+#jasen{
+  margin-top: 2rem;
+  background-color: antiquewhite;
+}
+
+#jasen_nimi{
+  color: crimson;
+}
+
+#jasen_rooli{
+  color: #04AA6D;
 }

@@ -1,2 +1,7 @@
+footer {
+  background-color: #081124;
+}
 
-
+footer .row {
+  background-color: transparent;
+}

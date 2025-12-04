@@ -8,7 +8,11 @@ export async function getAll() {
 export async function getOne(id) {
     const result = await pool.query("SELECT * FROM messages WHERE message_id = $1", [id]);
     return result.rows.length > 0 ? result.rows[0] : null;
+}
 
+export async function getOneGroup(id) {
+    const result = await pool.query("SELECT * FROM messages WHERE group_id = $1", [id]);
+    return result.rows;
 }
 
 export async function addOne(message) {

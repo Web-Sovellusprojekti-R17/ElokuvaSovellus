@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { getReviews, getReview, addReview, updateReview, deleteReview } from "../controllers/review_controller.js";
-
+import { getReviews, getReviewByID, getReviewsByMovieID, getReviewsByUserID, addReview, updateReview, deleteReview } from "../controllers/review_controller.js";
+import { authenticateToken } from "../utils/auth.js";
 
 const reviewRouter = Router();
 
 reviewRouter.get("/", getReviews);
-reviewRouter.get("/:id", getReview);
-reviewRouter.post("/", addReview);
-reviewRouter.put("/:id", updateReview);
-reviewRouter.delete("/:id", deleteReview);
+reviewRouter.get("/:id", getReviewByID);
+reviewRouter.get("/movie/:id", getReviewsByMovieID);
+reviewRouter.get("/user/:id", getReviewsByUserID);
+reviewRouter.post("/", authenticateToken, addReview);
+reviewRouter.put("/:id", authenticateToken, updateReview);
+reviewRouter.delete("/:id", authenticateToken, deleteReview);
 
 export default reviewRouter;

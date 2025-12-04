@@ -10,7 +10,7 @@
     flex-direction: column;
     
     min-height: 100vh;   /* täyttää koko sivun */
-    background-color: #0f1626; /* tumma tausta */
+    background-color: hsl(222, 55%, 17%); /* tumma tausta */
     color: white;
    
 }
@@ -45,7 +45,7 @@
 
 .genre-tag {
     padding: 5px 12px;
-    background: #444;
+    background: hsl(222, 55%, 25%);
     border-radius: 12px;
     font-size: 0.9rem;
 }
@@ -125,7 +125,7 @@
 .user-review-input {
   width: 500px;
   height: 200px;
- 
+ background-color: #36425E;
   padding: 8px;
 }
 
@@ -151,7 +151,7 @@
     color:gold;
     margin-bottom: 10px;
     border:none;
-    background-color: white;
+    background-color: hsl(222, 55%, 25%);
     font-size: 1.4rem;
 }
 

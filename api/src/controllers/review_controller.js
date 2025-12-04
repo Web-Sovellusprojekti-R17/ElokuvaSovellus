@@ -1,4 +1,4 @@
-import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/review_model.js";
+import { getAll, getOneByReviewID, getAllByMovieID, getAllByUserID, addOne, updateOne, deleteOne } from "../models/review_model.js";
 import { ApiError } from "../helpers/ApiError.js";
 
 
@@ -11,12 +11,34 @@ export async function getReviews(req, res, next) {
   }
 }
 
-export async function getReview(req, res, next) {
+export async function getReviewByID(req, res, next) {
   const id = req.params.id;
   try {
-    const review = await getOne(id);
+    const review = await getOneByReviewID(id);
     if (!review)
       return next(new ApiError("Review not found", 404));
+
+    res.status(200).json(review);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getReviewsByMovieID(req, res, next) {
+  const id = req.params.id;
+  try {
+    const review = await getAllByMovieID(id);
+
+    res.status(200).json(review);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getReviewsByUserID(req, res, next) {
+  const id = req.params.id;
+  try {
+    const review = await getAllByUserID(id);
 
     res.status(200).json(review);
   } catch (err) {
