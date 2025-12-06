@@ -20,46 +20,22 @@ function App() {
   const containerRef = useRef();
 
   const apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&page=1`;
-
+  async function fetchMovies() {
+    try {
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error("Verkkovirhe");
+      const data = await res.json();
+      setMovies(data.results);
+    } catch (err) {
+      console.error("Virhe haettaessa elokuvia:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const res = await fetch(apiUrl);
-        if (!res.ok) throw new Error("Verkkovirhe");
-        const data = await res.json();
-        setMovies(data.results);
-      } catch (err) {
-        console.error("Virhe haettaessa elokuvia:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
     fetchMovies();
-
-    const token = localStorage.getItem("accessToken");
-    if (!token) return;
-
-    fetch("http://localhost:3001/favorites/user", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (!Array.isArray(data)) return;
-
-        Promise.all(
-          data.map(fav =>
-            fetch(`https://api.themoviedb.org/3/movie/${fav.movie_id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`)
-              .then(res => res.json())
-          )
-        ).then(movies => setFavoriteMovies(movies));
-      })
-      .catch(err => console.error("Error fetching favorites:", err));
   }, []);
-
-  function handleClick() {
-    console.log('clicked');
-  }
 
   function MovieCard({ media }) {
     const { title, name, backdrop_path } = media;
@@ -81,6 +57,7 @@ function App() {
       </div>
     );
   }
+
 
   return (
     <>
@@ -121,7 +98,7 @@ function App() {
                     ))}
                   </div>
                 </div>
-                
+
               </div>
             } />
             <Route path="/movie/template" element={<MoviePage />} />
