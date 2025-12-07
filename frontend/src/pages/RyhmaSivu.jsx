@@ -22,6 +22,8 @@ function RyhmaSivu() {
     const [poistaRyhmaAuki, setPoistaRyhmaAuki] = useState(false)
     const [oikeudet, setOikeudet] = useState('')
     const [jasenet, setJasenet] = useState([])
+    const [chatState, setChatState] = useState(0)
+    const [currentGroup, setCurrentGroup] = useState('')
     const [lisaaJasenAuki, setLisaaJasenAuki] = useState(false)
     const [lisattava, setLisattava] = useState('')
     const [kayttajatListaLisays, setKayttajatListaLisays] = useState([])
@@ -33,7 +35,9 @@ function RyhmaSivu() {
     const Groups = () => {
         const navigate = useNavigate()
 
-        const ryhmasivulle = (id, nimi) => () => {
+
+        const ryhmasivulle = (id, nimi) => async () => {
+
             setNykRyhmNim(nimi)
             setGroupID(id)
             navigate(`/ryhma/${id}`)
@@ -43,16 +47,16 @@ function RyhmaSivu() {
             <div>
                 {groups && groups.map(group => (
                     <div
-                    key={group.group_id}
-                    className={`ryhma-kontti ${groupID === group.group_id ? "active" : ""}`}
-                    onClick={ryhmasivulle(group.group_id, group.group_name)}
+                        key={group.group_id}
+                        className={`ryhma-kontti ${groupID === group.group_id ? "active" : ""}`}
+                        onClick={ryhmasivulle(group.group_id, group.group_name)}
                     >
-                    <p className="ryhman-nimi">{group.group_name}</p>
+                        <p className="ryhman-nimi">{group.group_name}</p>
                     </div>
                 ))}
             </div>
-            )
-        }
+        )
+    }
 
     const OwnGroups = () => {
         const navigate = useNavigate()
@@ -73,6 +77,7 @@ function RyhmaSivu() {
     }
 
 
+
     const haeRyhmat = async () => {
         await fetch(`${process.env.REACT_APP_API_URL}group`, {
             method: "GET",
@@ -88,7 +93,7 @@ function RyhmaSivu() {
                 console.log(error)
             })
 
-            await fetch(`${process.env.REACT_APP_API_URL}group/own/${user.id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}group/own/${user.id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}` },
             credentials: "include"
@@ -122,7 +127,7 @@ function RyhmaSivu() {
             throw new Error(data.error || "Ryhmän luominen epäonnistui");
         }
         else {
-            
+
             setLuoRyhmaAuki(false)
 
             if (paivitaRyhmat) {
@@ -137,12 +142,35 @@ function RyhmaSivu() {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
-            body: new URLSearchParams({ group_id: data.group_id, user_id:user.id, role:"Admin" })
-        }); 
+            body: new URLSearchParams({ group_id: data.group_id, user_id: user.id, role: "Admin" })
+        });
 
         if (!res2.ok) {
             const error = await res2.json();
             throw new Error(error.error || "memberin luominen epäonnistui");
+        }
+    }
+
+    async function liityRyhmaan() {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
+            credentials: "include",
+            body: new URLSearchParams({ group_id: groupID, user_id: user.id, role: "Pending" })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "memberin luominen epäonnistui");
+        } else {
+            if (paivitaChat) {
+                setPaivitaChat(false)
+
+            }
+            else {
+                setPaivitaChat(true)
+
+            }
         }
     }
 
@@ -176,11 +204,11 @@ function RyhmaSivu() {
         else {
             if (paivitaChat) {
                 setPaivitaChat(false)
-                
+
             }
             else {
                 setPaivitaChat(true)
-                
+
             }
         }
     }
@@ -197,9 +225,9 @@ function RyhmaSivu() {
     }
 
     const poistaRyhma = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}group/${groupID}`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}group/${groupID}`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
         });
 
@@ -207,21 +235,21 @@ function RyhmaSivu() {
             const error = await res.json();
             throw new Error(error.error || "Ryhmän poistaminen epäonnistui");
         }
-        else{
+        else {
             setPoistaRyhmaAuki(false)
-            if(paivitaRyhmat){
+            if (paivitaRyhmat) {
                 setPaivitaRyhmat(false)
             }
-            else{
+            else {
                 setPaivitaRyhmat(true)
             }
         }
     }
 
     const haeJasenet = async () => {
-        await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}`, { 
+        await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}` },
             credentials: "include"
         })
 
@@ -237,7 +265,7 @@ function RyhmaSivu() {
     const luoRooli = async (rID, kID, rooli) => {
         const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, { 
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
             body: new URLSearchParams({ group_id: rID, user_id: kID, role: rooli })
         });
@@ -257,9 +285,9 @@ function RyhmaSivu() {
     }
 
     const asetaRooli = async (rID, kID, rooli) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
             body: new URLSearchParams({ role: rooli })
         });
@@ -271,22 +299,88 @@ function RyhmaSivu() {
     }
 
     const haeOikeudet = async (rID, kID) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
-            method: "GET",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
-            credentials: "include",
-        })
+        try {
+            const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${user.id}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}` },
+                credentials: "include",
+            })
 
-        .then(response => response.json())
-        .then(json => {
-            setOikeudet(json.role)
-            console.log(oikeudet)
-            return oikeudet
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            const json = await res.json();
+            setOikeudet(json.role);
+            return json;
+        }
+        catch (err) {
+            console.error("haeOikeudet error: ", err);
+            return null;
+        }
     }
+
+    function ShowMessages() {
+        const [roleData, setRoleData] = useState(null);
+        const [loading, setLoading] = useState(true);
+
+        useEffect(() => {
+            async function fetchRole() {
+                const data = await haeOikeudet(groupID, user.username);
+                setRoleData(data);
+                setLoading(false);
+            }
+            if (groupID) fetchRole();
+        }, [groupID]);
+
+        if (loading) return <p>Loading...</p>;
+        if (!roleData) return <p>Error loading role</p>;
+
+        const role = roleData.role;
+        setOikeudet(role);
+
+        if (role === "Admin" || role === "Member") {
+            return (
+                <>
+                    <h1>Chat</h1>
+                    <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
+                    <div id="viestit" ref={containerRef}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            overflowY: "scroll",
+                            scrollBehavior: "smooth",
+                        }}>
+
+
+                        <p>Hello {role.toLowerCase()}!</p>
+                        {messages?.map(message => (
+                            <div key={message.message_id} id="viesti">
+                                <p>{message.user_id}</p>
+                                <p>{message.text}</p>
+                            </div>
+
+                        ))}
+                    </div>
+
+                </>
+            );
+        }
+
+        if (role === "Pending") {
+            return (
+                <div className="chat-notice">
+                    <h2>Your status is pending</h2>
+                </div>
+            );
+        }
+
+        return (
+            <div className="chat-notice">
+                <p>Join this group?</p>
+                <button id="joinButton" onClick={liityRyhmaan}>Kyllä</button>
+            </div>
+        );
+    }
+
+
+    
 
     const poistaJasen = async (rID, kID) => {
         const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
@@ -338,9 +432,33 @@ function RyhmaSivu() {
         });
     }
 
+    const updateJasen = async (userID) => {
+        console.log("updatejasenesta "+userID,groupID)
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${userID}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
+            credentials: "include",
+            body: new URLSearchParams({ role: "Member" })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "Roolin asettaminen epäonnistui");
+        }  else {
+            if (paivitaJasenet) {
+                setPaivitaJasenet(false)
+                
+            }
+            else {
+                setPaivitaJasenet(true)
+                
+            }
+        }
+    }
+
     useEffect(() => {
-        if(user){
-        haeRyhmat()
+        if (user) {
+            haeRyhmat()
         }
     }, [user, paivitaRyhmat])
 
@@ -368,39 +486,25 @@ function RyhmaSivu() {
                     <button id="luoButton" onClick={luoRyhma}>Luo</button>
                 </div>
             )}
-            
+
             <div id="container-ryhmasivu">
                 <div id="container-ryhmat">
                     <h3>Your groups</h3>
                     <button id="luoButton" onClick={luoRyhmaPop}>Luo uusi ryhmä</button>
-                <div id="container-kaikki-ryhmat">
-                    <OwnGroups />
-                </div>
-                <h3>Find groups</h3>
-            <div id="container-omat-ryhmat">
-                <Groups />
-            </div>
-            </div>
-                {/* <Messages /> */}
-                <div id="chat" >
-                    <h1>Chat</h1>
-                    <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
-                    <div id="viestit" ref={containerRef}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            overflowY: "scroll",
-                            scrollBehavior: "smooth",
-                        }}>
-                        {groupID && messages && messages.map(message => (
-                            <div key={message.message_id} id="viesti">
-                                <p>{message.user_id}</p>
-                                <p>{message.text}</p>
-                            </div>
-                        ))}
+                    <div id="container-kaikki-ryhmat">
+                        <OwnGroups />
                     </div>
+                    <h3>Find groups</h3>
+                    <div id="container-omat-ryhmat">
+                        <Groups />
+                    </div>
+                </div>
+                {/* <Messages /> */}
+
+                <div id="chat" >
+                    <ShowMessages />
                     <div ref={bottomRef} />
-                    <div id="laheta">
+                    {(oikeudet === "Admin" || oikeudet === "Member") && (<div id="laheta" >
                         <textarea
                             placeholder="Type message.."
                             name="msg"
@@ -409,24 +513,31 @@ function RyhmaSivu() {
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                     lisaa_viesti();
-                                    
                                 }
                             }}
                             required
                         ></textarea>
                         <button className="btn" onClick={lisaa_viesti}>Send</button>
-                    </div>
+                    </div>)}
                 </div>
+
+
+
                 <div id="jasenlista-container">
-                    <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
-                    {poistaRyhmaAuki && (
+
+                    {oikeudet === "Admin" && (
                         <>
-                            <p>Haluatko varmasti poistaa ryhmän?</p>
-                            <div>
-                                <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
-                                {/* <button>Ei</button> */}
-                            </div>
-                        </>    
+                            <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
+
+                            {poistaRyhmaAuki && (
+                                <>
+                                    <p>Haluatko varmasti poistaa ryhmän?</p>
+                                    <div>
+                                        <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
+                                    </div>
+                                </>
+                            )}
+                        </>
                     )}
                     <button id="luoButton" onClick={lisaaJasenPop}>Lisää Jäsen</button>
                     {lisaaJasenAuki && (
@@ -441,15 +552,21 @@ function RyhmaSivu() {
                             <div key={jasen.user_id + jasen.group_id} id="jasen">
                                 <p id="jasen_nimi"><strong>{jasen.username}</strong></p>
                                 <p id="jasen_rooli">{jasen.role}</p>
-                                {/*((haeOikeudet(groupID, user.id)) == "Admin") &&*/(
-                                    <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
-                                )}
+                                {oikeudet==="Admin" && jasen.role==="Pending" &&(
+                                    <div className="jasen-napit">
+                                    <button onClick={() => updateJasen(jasen.user_id)}>Lisää</button>
+                                     <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
+                                    </div>
+                                    )}
+                               
                             </div>
                         ))}
                     </div>
+                   
                 </div>
-            </div>  
-        </>   
+            </div>
+
+        </>
     );
 }
 
