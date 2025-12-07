@@ -154,3 +154,9 @@ textarea:focus {
   text-align: center;
  margin-top: 400px;
 }
+
+.jasen-napit{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

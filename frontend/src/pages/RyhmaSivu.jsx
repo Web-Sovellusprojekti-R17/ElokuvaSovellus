@@ -22,7 +22,7 @@ function RyhmaSivu() {
     const [poistaRyhmaAuki, setPoistaRyhmaAuki] = useState(false)
     const [oikeudet, setOikeudet] = useState('')
     const [jasenet, setJasenet] = useState([])
-    const [chatState, setChatState] =useState(0)
+    const [chatState, setChatState] = useState(0)
     const [currentGroup, setCurrentGroup] = useState('')
 
     const containerRef = useRef();
@@ -31,9 +31,9 @@ function RyhmaSivu() {
     const Groups = () => {
         const navigate = useNavigate()
 
-        
-        const ryhmasivulle = (id, nimi) =>  async () => {
-            
+
+        const ryhmasivulle = (id, nimi) => async () => {
+
             setNykRyhmNim(nimi)
             setGroupID(id)
             navigate(`/ryhma/${id}`)
@@ -41,16 +41,16 @@ function RyhmaSivu() {
 
         return (
             <div>
-  {groups && groups.map(group => (
-    <div
-      key={group.group_id}
-      className={`ryhma-kontti ${groupID === group.group_id ? "active" : ""}`}
-      onClick={ryhmasivulle(group.group_id, group.group_name)}
-    >
-      <p className="ryhman-nimi">{group.group_name}</p>
-    </div>
-  ))}
-</div>
+                {groups && groups.map(group => (
+                    <div
+                        key={group.group_id}
+                        className={`ryhma-kontti ${groupID === group.group_id ? "active" : ""}`}
+                        onClick={ryhmasivulle(group.group_id, group.group_name)}
+                    >
+                        <p className="ryhman-nimi">{group.group_name}</p>
+                    </div>
+                ))}
+            </div>
         )
     }
 
@@ -89,7 +89,7 @@ function RyhmaSivu() {
                 console.log(error)
             })
 
-            await fetch(`${process.env.REACT_APP_API_URL}group/own/${user.id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}group/own/${user.id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}` },
             credentials: "include"
@@ -123,7 +123,7 @@ function RyhmaSivu() {
             throw new Error(data.error || "Ryhmän luominen epäonnistui");
         }
         else {
-            
+
             setLuoRyhmaAuki(false)
 
             if (paivitaRyhmat) {
@@ -138,8 +138,8 @@ function RyhmaSivu() {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
-            body: new URLSearchParams({ group_id: data.group_id, user_id:user.id, role:"Admin" })
-        }); 
+            body: new URLSearchParams({ group_id: data.group_id, user_id: user.id, role: "Admin" })
+        });
 
         if (!res2.ok) {
             const error = await res2.json();
@@ -147,26 +147,25 @@ function RyhmaSivu() {
         }
     }
 
-    async function liityRyhmaan()
-    {
+    async function liityRyhmaan() {
         const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
-            body: new URLSearchParams({ group_id: groupID, user_id:user.id, role:"Pending" })
-        }); 
+            body: new URLSearchParams({ group_id: groupID, user_id: user.id, role: "Pending" })
+        });
 
         if (!res.ok) {
             const error = await res.json();
             throw new Error(error.error || "memberin luominen epäonnistui");
-        }else {
+        } else {
             if (paivitaChat) {
                 setPaivitaChat(false)
-                
+
             }
             else {
                 setPaivitaChat(true)
-                
+
             }
         }
     }
@@ -201,11 +200,11 @@ function RyhmaSivu() {
         else {
             if (paivitaChat) {
                 setPaivitaChat(false)
-                
+
             }
             else {
                 setPaivitaChat(true)
-                
+
             }
         }
     }
@@ -222,9 +221,9 @@ function RyhmaSivu() {
     }
 
     const poistaRyhma = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}group/${groupID}`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}group/${groupID}`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
         });
 
@@ -232,39 +231,39 @@ function RyhmaSivu() {
             const error = await res.json();
             throw new Error(error.error || "Ryhmän poistaminen epäonnistui");
         }
-        else{
+        else {
             setPoistaRyhmaAuki(false)
-            if(paivitaRyhmat){
+            if (paivitaRyhmat) {
                 setPaivitaRyhmat(false)
             }
-            else{
+            else {
                 setPaivitaRyhmat(true)
             }
         }
     }
 
     const haeJasenet = async () => {
-        await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}`, { 
+        await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}` },
             credentials: "include"
         })
 
-        .then(response => response.json())
-        .then(json => {
-            setJasenet(Array.isArray(json) ? json : [])
-            //console.log(groupID)
-            //console.log(jasenet)
-        })
-        .catch(error => {
-            console.log(error)
-        }) 
+            .then(response => response.json())
+            .then(json => {
+                setJasenet(Array.isArray(json) ? json : [])
+                //console.log(groupID)
+                //console.log(jasenet)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const luoRooli = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
             body: new URLSearchParams({ group_id: groupID, user_id: user.id, role: oikeudet })
         });
@@ -276,9 +275,9 @@ function RyhmaSivu() {
     }
 
     const asetaRooli = async (rID, kID, rooli) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
             body: new URLSearchParams({ role: rooli })
         });
@@ -290,45 +289,46 @@ function RyhmaSivu() {
     }
 
     const haeOikeudet = async (rID, kID) => {
-        try{
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${user.id}`, { 
-            method: "GET",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
-            credentials: "include",
-        })
+        try {
+            const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${user.id}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}` },
+                credentials: "include",
+            })
 
-        const json = await res.json();
-        setOikeudet(json.role);
-        return json;
-    }
-    catch (err){
-        console.error("haeOikeudet error: ",err);
-        return null;
-    }
-    }
-
-function ShowMessages() {
-    const [roleData, setRoleData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchRole() {
-            const data = await haeOikeudet(groupID, user.username);
-            setRoleData(data);
-            setLoading(false);
+            const json = await res.json();
+            setOikeudet(json.role);
+            return json;
         }
-        if (groupID) fetchRole();
-    }, [groupID]);
+        catch (err) {
+            console.error("haeOikeudet error: ", err);
+            return null;
+        }
+    }
 
-    if (loading) return <p>Loading...</p>;
-    if (!roleData) return <p>Error loading role</p>;
+    function ShowMessages() {
+        const [roleData, setRoleData] = useState(null);
+        const [loading, setLoading] = useState(true);
 
-    const role = roleData.role;
+        useEffect(() => {
+            async function fetchRole() {
+                const data = await haeOikeudet(groupID, user.username);
+                setRoleData(data);
+                setLoading(false);
+            }
+            if (groupID) fetchRole();
+        }, [groupID]);
 
-    if (role === "Admin" || role === "Member") {
-        return (
-            <>
-              <h1>Chat</h1>
+        if (loading) return <p>Loading...</p>;
+        if (!roleData) return <p>Error loading role</p>;
+
+        const role = roleData.role;
+        setOikeudet(role);
+
+        if (role === "Admin" || role === "Member") {
+            return (
+                <>
+                    <h1>Chat</h1>
                     <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
                     <div id="viestit" ref={containerRef}
                         style={{
@@ -337,55 +337,43 @@ function ShowMessages() {
                             overflowY: "scroll",
                             scrollBehavior: "smooth",
                         }}>
-                            
-                       
-                <p>Hello {role.toLowerCase()}!</p>
-                {messages?.map(message => (
-                    <div key={message.message_id} id="viesti">
-                        <p>{message.user_id}</p>
-                        <p>{message.text}</p>
+
+
+                        <p>Hello {role.toLowerCase()}!</p>
+                        {messages?.map(message => (
+                            <div key={message.message_id} id="viesti">
+                                <p>{message.user_id}</p>
+                                <p>{message.text}</p>
+                            </div>
+
+                        ))}
                     </div>
-                    
-                ))}
+
+                </>
+            );
+        }
+
+        if (role === "Pending") {
+            return (
+                <div className="chat-notice">
+                    <h2>Your status is pending</h2>
                 </div>
-                  <div ref={bottomRef} />
-                    <div id="laheta">
-                        <textarea
-                            placeholder="Type message.."
-                            name="msg"
-                            value={viesti}
-                            onChange={e => setViesti(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    lisaa_viesti();
-                                }
-                            }}
-                            required
-                        ></textarea>
-                        <button className="btn" onClick={lisaa_viesti}>Send</button>
-                    </div>
-            </>
+            );
+        }
+
+        return (
+            <div className="chat-notice">
+                <p>Join this group?</p>
+                <button id="joinButton" onClick={liityRyhmaan}>Kyllä</button>
+            </div>
         );
     }
 
-    if (role === "Pending") {
-        return (
-        <div className="chat-notice">
-            <h2>Your status is pending</h2>
-        </div>
-    );
-    }
 
-    return (
-        <div className="chat-notice">
-            <p>Join this group?</p>
-            <button id="joinButton" onClick={liityRyhmaan}>Kyllä</button>
-        </div>
-    );
-}
+
     useEffect(() => {
-        if(user){
-        haeRyhmat()
+        if (user) {
+            haeRyhmat()
         }
     }, [user, paivitaRyhmat])
 
@@ -410,48 +398,78 @@ function ShowMessages() {
                     <button id="luoButton" onClick={luoRyhma}>Luo</button>
                 </div>
             )}
-            
+
             <div id="container-ryhmasivu">
                 <div id="container-ryhmat">
                     <h3>Your groups</h3>
                     <button id="luoButton" onClick={luoRyhmaPop}>Luo uusi ryhmä</button>
-                <div id="container-kaikki-ryhmat">
-                    <OwnGroups />
+                    <div id="container-kaikki-ryhmat">
+                        <OwnGroups />
+                    </div>
+                    <h3>Find groups</h3>
+                    <div id="container-omat-ryhmat">
+                        <Groups />
+                    </div>
                 </div>
-                <h3>Find groups</h3>
-            <div id="container-omat-ryhmat">
-                <Groups />
-            </div>
-            </div>
                 {/* <Messages /> */}
-                <div id="chat" >      
-                       <ShowMessages />
+
+                <div id="chat" >
+                    <ShowMessages />
+                    <div ref={bottomRef} />
+                    {(oikeudet === "Admin" || oikeudet === "Member") && (<div id="laheta" >
+                        <textarea
+                            placeholder="Type message.."
+                            name="msg"
+                            value={viesti}
+                            onChange={e => setViesti(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    lisaa_viesti();
+                                }
+                            }}
+                            required
+                        ></textarea>
+                        <button className="btn" onClick={lisaa_viesti}>Send</button>
+                    </div>)}
                 </div>
-            
-        
+
+
+
                 <div id="jasenlista-container">
-                    <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
-                    {poistaRyhmaAuki && (
+
+                    {oikeudet === "Admin" && (
                         <>
-                            <p>Haluatko varmasti poistaa ryhmän?</p>
-                            <div>
-                                <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
-                                {/* <button>Ei</button> */}
-                            </div>
-                        </>    
+                            <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
+
+                            {poistaRyhmaAuki && (
+                                <>
+                                    <p>Haluatko varmasti poistaa ryhmän?</p>
+                                    <div>
+                                        <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
+                                    </div>
+                                </>
+                            )}
+                        </>
                     )}
                     <div>
                         {groupID && jasenet && jasenet.map(jasen => (
                             <div key={jasen.user_id + jasen.group_id} id="jasen">
                                 <p id="jasen_nimi"><strong>{jasen.username}</strong></p>
                                 <p id="jasen_rooli">{jasen.role}</p>
+                                {oikeudet==="Admin" && jasen.role==="Pending" &&(
+                                    <div className="jasen-napit">
+                                    <button>Lisää jäsen</button>
+                                    <button>Poista jäsen</button>
+                                    </div>
+                                    )}
                             </div>
                         ))}
                     </div>
+                   
                 </div>
-                </div>
-            
-        </>   
+            </div>
+
+        </>
     );
 }
 
