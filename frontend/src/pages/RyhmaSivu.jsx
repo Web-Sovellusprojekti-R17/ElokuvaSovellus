@@ -22,6 +22,8 @@ function RyhmaSivu() {
     const [poistaRyhmaAuki, setPoistaRyhmaAuki] = useState(false)
     const [oikeudet, setOikeudet] = useState('')
     const [jasenet, setJasenet] = useState([])
+    const [chatState, setChatState] =useState(0)
+    const [currentGroup, setCurrentGroup] = useState('')
 
     const containerRef = useRef();
     const bottomRef = useRef();
@@ -29,7 +31,9 @@ function RyhmaSivu() {
     const Groups = () => {
         const navigate = useNavigate()
 
-        const ryhmasivulle = (id, nimi) => () => {
+        
+        const ryhmasivulle = (id, nimi) =>  async () => {
+            
             setNykRyhmNim(nimi)
             setGroupID(id)
             navigate(`/ryhma/${id}`)
@@ -67,6 +71,7 @@ function RyhmaSivu() {
             </div>
         )
     }
+
 
 
     const haeRyhmat = async () => {
@@ -139,6 +144,30 @@ function RyhmaSivu() {
         if (!res2.ok) {
             const error = await res2.json();
             throw new Error(error.error || "memberin luominen epäonnistui");
+        }
+    }
+
+    async function liityRyhmaan()
+    {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
+            credentials: "include",
+            body: new URLSearchParams({ group_id: groupID, user_id:user.id, role:"Pending" })
+        }); 
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "memberin luominen epäonnistui");
+        }else {
+            if (paivitaChat) {
+                setPaivitaChat(false)
+                
+            }
+            else {
+                setPaivitaChat(true)
+                
+            }
         }
     }
 
@@ -223,9 +252,9 @@ function RyhmaSivu() {
 
         .then(response => response.json())
         .then(json => {
-            setJasenet(json)
-            console.log(groupID)
-            console.log(jasenet)
+            setJasenet(Array.isArray(json) ? json : [])
+            //console.log(groupID)
+            //console.log(jasenet)
         })
         .catch(error => {
             console.log(error)
@@ -261,22 +290,99 @@ function RyhmaSivu() {
     }
 
     const haeOikeudet = async (rID, kID) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
+        try{
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${user.id}`, { 
             method: "GET",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
             credentials: "include",
         })
 
-        .then(response => response.json())
-        .then(json => {
-            setOikeudet(json.role)
-            return oikeudet
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        const json = await res.json();
+        setOikeudet(json.role);
+        return json;
+    }
+    catch (err){
+        console.error("haeOikeudet error: ",err);
+        return null;
+    }
     }
 
+function ShowMessages() {
+    const [roleData, setRoleData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchRole() {
+            const data = await haeOikeudet(groupID, user.username);
+            setRoleData(data);
+            setLoading(false);
+        }
+        if (groupID) fetchRole();
+    }, [groupID]);
+
+    if (loading) return <p>Loading...</p>;
+    if (!roleData) return <p>Error loading role</p>;
+
+    const role = roleData.role;
+
+    if (role === "Admin" || role === "Member") {
+        return (
+            <>
+              <h1>Chat</h1>
+                    <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
+                    <div id="viestit" ref={containerRef}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            overflowY: "scroll",
+                            scrollBehavior: "smooth",
+                        }}>
+                            
+                       
+                <p>Hello {role.toLowerCase()}!</p>
+                {messages?.map(message => (
+                    <div key={message.message_id} id="viesti">
+                        <p>{message.user_id}</p>
+                        <p>{message.text}</p>
+                    </div>
+                    
+                ))}
+                </div>
+                  <div ref={bottomRef} />
+                    <div id="laheta">
+                        <textarea
+                            placeholder="Type message.."
+                            name="msg"
+                            value={viesti}
+                            onChange={e => setViesti(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    lisaa_viesti();
+                                }
+                            }}
+                            required
+                        ></textarea>
+                        <button className="btn" onClick={lisaa_viesti}>Send</button>
+                    </div>
+            </>
+        );
+    }
+
+    if (role === "Pending") {
+        return (
+        <div className="chat-notice">
+            <h2>Your status is pending</h2>
+        </div>
+    );
+    }
+
+    return (
+        <div className="chat-notice">
+            <p>Join this group?</p>
+            <button id="joinButton" onClick={liityRyhmaan}>Kyllä</button>
+        </div>
+    );
+}
     useEffect(() => {
         if(user){
         haeRyhmat()
@@ -318,42 +424,10 @@ function RyhmaSivu() {
             </div>
             </div>
                 {/* <Messages /> */}
-                <div id="chat" >
-                    <h1>Chat</h1>
-                    <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
-                    <div id="viestit" ref={containerRef}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            overflowY: "scroll",
-                            scrollBehavior: "smooth",
-                        }}>
-                        {groupID && messages && messages.map(message => (
-                            <div key={message.message_id} id="viesti">
-                                <p>{message.user_id}</p>
-                                <p>{message.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div ref={bottomRef} />
-                    <div id="laheta">
-                        <textarea
-                            placeholder="Type message.."
-                            name="msg"
-                            value={viesti}
-                            onChange={e => setViesti(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    lisaa_viesti();
-                                    
-                                }
-                            }}
-                            required
-                        ></textarea>
-                        <button className="btn" onClick={lisaa_viesti}>Send</button>
-                    </div>
+                <div id="chat" >      
+                       <ShowMessages />
                 </div>
-            </div>
+            
         
                 <div id="jasenlista-container">
                     <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
@@ -374,6 +448,7 @@ function RyhmaSivu() {
                             </div>
                         ))}
                     </div>
+                </div>
                 </div>
             
         </>   

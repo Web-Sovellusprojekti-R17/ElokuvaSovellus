@@ -149,3 +149,8 @@ textarea:focus {
 #jasen_rooli{
   color: #04AA6D;
 }
+
+.chat-notice{
+  text-align: center;
+ margin-top: 400px;
+}
