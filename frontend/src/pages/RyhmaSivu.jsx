@@ -432,6 +432,30 @@ function RyhmaSivu() {
         });
     }
 
+    const updateJasen = async (userID) => {
+        console.log("updatejasenesta "+userID,groupID)
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${userID}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
+            credentials: "include",
+            body: new URLSearchParams({ role: "Member" })
+        });
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || "Roolin asettaminen epäonnistui");
+        }  else {
+            if (paivitaJasenet) {
+                setPaivitaJasenet(false)
+                
+            }
+            else {
+                setPaivitaJasenet(true)
+                
+            }
+        }
+    }
+
     useEffect(() => {
         if (user) {
             haeRyhmat()
@@ -530,13 +554,11 @@ function RyhmaSivu() {
                                 <p id="jasen_rooli">{jasen.role}</p>
                                 {oikeudet==="Admin" && jasen.role==="Pending" &&(
                                     <div className="jasen-napit">
-                                    <button>Lisää jäsen</button>
-                                    <button>Poista jäsen</button>
+                                    <button onClick={() => updateJasen(jasen.user_id)}>Lisää</button>
+                                     <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
                                     </div>
                                     )}
-                                {/*((haeOikeudet(groupID, user.id)) == "Admin") &&*/(
-                                    <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
-                                )}
+                               
                             </div>
                         ))}
                     </div>

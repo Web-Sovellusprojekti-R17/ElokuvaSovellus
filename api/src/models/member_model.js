@@ -37,7 +37,7 @@ export async function updateOne(groupId, userId, role) {
      SET role = $1
      WHERE group_id = $2 AND user_id = $3
      RETURNING *`,
-    [role, groupId, userId]
+    [role.role, groupId, userId]
   );
   return result.rows[0] || null;
 }
