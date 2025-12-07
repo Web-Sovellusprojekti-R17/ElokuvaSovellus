@@ -138,7 +138,6 @@ const router = createBrowserRouter([
       <Favorites />
       <Footer />
     </>
-    
 }
  
 ])    
