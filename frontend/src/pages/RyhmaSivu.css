@@ -1,18 +1,18 @@
 
 #container-ryhmasivu{
-    display: flex;
+  display: flex;
 }
 
 
 #chat{
   display:flex;
   flex-direction: column;
-    margin-left: 10%;
-    width: 50%;
-    height:1000px;
-    padding: 10px;
-   background-color: antiquewhite;
-   color: #04AA6D;
+  margin-left: 7%;
+  width: 50%;
+  height:1000px;
+  padding: 10px;
+  background-color: antiquewhite;
+  color: #04AA6D;
 }
 
 #container-ryhmat{
@@ -134,12 +134,18 @@ textarea:focus {
 }
 
 #jasenlista-container{
-  margin-left: 5%;
+  flex: 0 0 400px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  width: 200px;
+  border: 2px solid coral;
+  margin-right: 0px;
+  margin-left: auto;
 }
 
 #jasen{
   margin-top: 2rem;
-  background-color: antiquewhite;
+  background-color: lightblue;
 }
 
 #jasen_nimi{
@@ -148,4 +154,8 @@ textarea:focus {
 
 #jasen_rooli{
   color: #04AA6D;
+}
+
+#poista-jasen-button:hover{
+  background-color: lightblue;
 }
