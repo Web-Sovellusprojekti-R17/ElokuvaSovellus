@@ -11,7 +11,7 @@ const Footer = () => {
                     <Col className="text-start">
                     <Stack>
                         <Image
-                        src="/images/image_placeholder.svg"
+                        src="/images/elokuvasovelluslogoinv.png"
                         alt="some kind of logo"
                         rounded
                         width={150}

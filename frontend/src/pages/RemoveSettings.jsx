@@ -7,8 +7,8 @@ import { useAuth, accessToken } from "../contexts/AuthContext.js";
 export default function RemoveSettings() {
     const [removeInput, setRemoveInput] = useState('');
     const [password, setPassword] = useState('');
-    const [isVisible,setIsVisible] = useState(false);
     const { user, accessToken } = useAuth();
+    const [isVisible,setIsVisible] = useState(false);
 
     const navigate = useNavigate();
 
@@ -22,12 +22,13 @@ export default function RemoveSettings() {
 
     function handleRemoveButton() {
         const newPut = {
-            headers:{
+         headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
                     "Authorization": `Bearer ${accessToken}`
             },
             password: removeInput
         };
+        
         axios.put(`http://localhost:3001/user/date/${user.id}`,newPut)
             .then(response => {
                 //setPassword(response.data[0].password);

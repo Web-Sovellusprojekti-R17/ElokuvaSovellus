@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth, accessToken } from "../contexts/AuthContext.js";
-import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
+/* import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5"; */
 import ReviewCard from "../components/ReviewCard";
 
 export default function MoviePage() {
@@ -154,7 +154,7 @@ export default function MoviePage() {
                         <h1>{movie.title}</h1>
                         <p className="stars">{renderStars(movie.vote_average)}</p>
                         <button className="fav-btn" onClick={toggleFavorite}>
-                            {isFavorite ? <IoBookmarks size={28} /> : <IoBookmarksOutline size={28} />}
+                            {isFavorite ? "★ Suosikki" : "☆ Lisää suosikkeihin"}
                         </button>
                         <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
                         <p><strong>Kesto:</strong> {movie.runtime} min</p>

@@ -1,38 +1,55 @@
 
-#results{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+#results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
 }
 
-#items{
-    font-size: large;
-    margin: 2rem; 
+
+#items {
+  font-size: 1.2rem;
+  margin: 2rem;
+  color: var(--text-light);
 }
 
-ul{
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
+
+ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0;
+  gap: 0.5rem;
 }
 
-ul li{
-    width: 2em;
-    font-size: large;
+ul li {
+  width: 2em;
+  font-size: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-li.selected{
-    color: rgb(47, 255, 0);
+ul li:hover {
+  color: var(--color-accent);
+  transform: scale(1.15);
 }
+
+li.selected {
+  color: var(--color-accent); 
+  font-weight: bold;
+}
+
 
 .hakuContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 1rem;
 }
 
-#top{
-    padding:20px;
+#top {
+  padding: 20px;
+  color: var(--text-light);
 }
