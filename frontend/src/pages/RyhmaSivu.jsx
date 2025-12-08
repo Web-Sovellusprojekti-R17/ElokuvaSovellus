@@ -539,7 +539,7 @@ function RyhmaSivu() {
                             )}
                         </>
                     )}
-                    <button id="luoButton" onClick={lisaaJasenPop}>Lisää Jäsen</button>
+                    {oikeudet === "Admin" && (<button id="luoButton" onClick={lisaaJasenPop}>Lisää Jäsen</button>)}
                     {lisaaJasenAuki && (
                         <>
                             <input type="text" placeholder="Jäsenen nimi..." value={lisattava} onChange={(e) => setLisattava(e.target.value)} required />
