@@ -1,7 +1,7 @@
 :root {
   --color-main: #1f2937;      /* 60% */
   --color-secondary: #374151; /* 30% */
-  --color-accent: #facc15;    /* 10% */
+  --color-accent: #ff6600;    /* 10% */
 
   --text-light: #ffffff;
   --text-muted: #d1d5db;
@@ -28,11 +28,11 @@ justify-content: flex-start;
  
 
 .movies-container {
-  width: 750%;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 20px;
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
   padding: 1rem 2rem;
   border-radius: 1rem;
 }
@@ -40,7 +40,8 @@ justify-content: flex-start;
 
 .movie_img {
   border-radius: 1rem;
-  transition: 0.2s ease; 
+  transition: 0.2s ease;
+  border: 2px solid transparent;
 }
 
 .movie_img:hover {

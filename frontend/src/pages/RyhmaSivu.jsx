@@ -36,18 +36,22 @@ function RyhmaSivu() {
         }
 
         return (
-            <div>
-  {groups && groups.map(group => (
-    <div
-      key={group.group_id}
-      className={`ryhma-kontti ${groupID === group.group_id ? "active" : ""}`}
-      onClick={ryhmasivulle(group.group_id, group.group_name)}
-    >
-      <p className="ryhman-nimi">{group.group_name}</p>
+    <div>
+        {!Array.isArray(groups) ? (
+            <p>No groups available</p>
+        ) : (
+            groups.map(group => (
+                <div
+                    key={group.group_id}
+                    className={`ryhma-kontti ${groupID === group.group_id ? "active" : ""}`}
+                    onClick={ryhmasivulle(group.group_id, group.group_name)}
+                >
+                    <p className="ryhman-nimi">{group.group_name}</p>
+                </div>
+            ))
+        )}
     </div>
-  ))}
-</div>
-        )
+);
     }
 
     const OwnGroups = () => {
@@ -296,88 +300,104 @@ function RyhmaSivu() {
 
 
 
-    return (
-        <>
-            {luoRyhmaAuki && (
-                <div>
-                    <input type="text" placeholder="Ryhmän nimi..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required />
-                    <button id="luoButton" onClick={luoRyhma}>Luo</button>
-                </div>
-            )}
-            
-            <div id="container-ryhmasivu">
-                <div id="container-ryhmat">
-                    <h3>Your groups</h3>
-                    <button id="luoButton" onClick={luoRyhmaPop}>Luo uusi ryhmä</button>
+  return (
+    <>
+    
+        {luoRyhmaAuki && (
+            <div>
+                <input
+                    type="text"
+                    placeholder="Ryhmän nimi..."
+                    value={groupName}
+                    onChange={(e) => setGroupName(e.target.value)}
+                    required
+                />
+                <button id="luoButton" onClick={luoRyhma}>Luo</button>
+            </div>
+        )}
+
+        <div id="container-ryhmasivu">
+            <div id="container-ryhmat">
+                <h3>Your groups</h3>
+                <button id="luoButton" onClick={luoRyhmaPop}>Luo uusi ryhmä</button>
+
                 <div id="container-kaikki-ryhmat">
                     <OwnGroups />
                 </div>
+
                 <h3>Find groups</h3>
-            <div id="container-omat-ryhmat">
-                <Groups />
-            </div>
-            </div>
-                {/* <Messages /> */}
-                <div id="chat" >
-                    <h1>Chat</h1>
-                    <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
-                    <div id="viestit" ref={containerRef}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            overflowY: "scroll",
-                            scrollBehavior: "smooth",
-                        }}>
-                        {groupID && messages && messages.map(message => (
-                            <div key={message.message_id} id="viesti">
-                                <p>{message.user_id}</p>
-                                <p>{message.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div ref={bottomRef} />
-                    <div id="laheta">
-                        <textarea
-                            placeholder="Type message.."
-                            name="msg"
-                            value={viesti}
-                            onChange={e => setViesti(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    lisaa_viesti();
-                                    
-                                }
-                            }}
-                            required
-                        ></textarea>
-                        <button className="btn" onClick={lisaa_viesti}>Send</button>
-                    </div>
+                <div id="container-omat-ryhmat">
+                    <Groups />
                 </div>
             </div>
-        </>
-                <div id="jasenlista-container">
-                    <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
-                    {poistaRyhmaAuki && (
-                        <>
-                            <p>Haluatko varmasti poistaa ryhmän?</p>
-                            <div>
-                                <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
-                                {/* <button>Ei</button> */}
-                            </div>
-                        </>    
-                    )}
+
+            <div id="chat">
+                <h1>Chat</h1>
+                <h3 id="ryhman-nimi-otsikko">{nykRyhmNim}</h3>
+
+                <div
+                    id="viestit"
+                    ref={containerRef}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        overflowY: "scroll",
+                        scrollBehavior: "smooth",
+                    }}
+                >
+                    {groupID && messages && messages.map(message => (
+                        <div key={message.message_id} id="viesti">
+                            <p>{message.user_id}</p>
+                            <p>{message.text}</p>
+                        </div>
+                    ))}
+                </div>
+
+                <div ref={bottomRef} />
+
+                <div id="laheta">
+                    <textarea
+                        placeholder="Type message.."
+                        name="msg"
+                        value={viesti}
+                        onChange={e => setViesti(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                lisaa_viesti();
+                            }
+                        }}
+                        required
+                    ></textarea>
+
+                    <button className="btn" onClick={lisaa_viesti}>Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="jasenlista-container">
+            <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
+
+            {poistaRyhmaAuki && (
+                <>
+                    <p>Haluatko varmasti poistaa ryhmän?</p>
                     <div>
-                        {groupID && jasenet && jasenet.map(jasen => (
-                            <div key={jasen.user_id + jasen.group_id} id="jasen">
-                                <p id="jasen_nimi"><strong>{jasen.username}</strong></p>
-                                <p id="jasen_rooli">{jasen.role}</p>
-                            </div>
-                        ))}
+                        <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
                     </div>
-                </div>
-            </div> 
-        </>   
-    );
+                </>
+            )}
+
+            <div>
+                {groupID && jasenet && jasenet.map(jasen => (
+                    <div key={jasen.user_id + jasen.group_id} id="jasen">
+                        <p id="jasen_nimi"><strong>{jasen.username}</strong></p>
+                        <p id="jasen_rooli">{jasen.role}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </>
+);
+
 }
 
 export default RyhmaSivu;

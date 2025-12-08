@@ -11,8 +11,8 @@
     width: 50%;
     height:1000px;
     padding: 10px;
-   background-color: antiquewhite;
-   color: #04AA6D;
+   background-color: var(--color-secondary);
+   color: var(--color-primary);
 }
 
 #container-ryhmat{
@@ -27,7 +27,7 @@
     overflow-y: scroll;
     scroll-behavior: smooth;
   width: 300px;
-  border: 2px solid coral;
+  border: 2px solid var(--color-accent);
 }
 
 #container-omat-ryhmat{
@@ -36,7 +36,7 @@
     overflow-y: scroll;
     scroll-behavior: smooth;
   width: 300px;
-  border: 2px solid coral;
+  border: 2px solid var(--color-accent);
   
 }
 
@@ -52,7 +52,7 @@
 }
 
 #viesti{
-  border: 2px solid black;
+  border: 2px solid var(--color-primary);
  
 }
 
@@ -66,7 +66,7 @@
 
 #form-container {
   padding: 10px;
-  background-color: antiquewhite;
+  background-color: var(--color-secondary);
 }
 
 h1{
@@ -90,7 +90,7 @@ textarea:focus {
 
 
 .btn {
-  background-color: #04AA6D;
+  background-color: var(--color-accent);
   color: white;
   padding: 16px 20px;
   border: none;
@@ -103,7 +103,7 @@ textarea:focus {
 
 .btn:hover, .open-button:hover {
   opacity: 1;
-  background-color: darkgreen;
+  background-color: var(--color-accent);
   color: white;
 }
 
@@ -117,7 +117,7 @@ textarea:focus {
 
 .ryhma-kontti:hover{
   cursor: pointer;
-  background-color: coral;
+  background-color: var(--color-accent);
   
 }
 

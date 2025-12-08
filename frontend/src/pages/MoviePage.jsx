@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth, accessToken } from "../contexts/AuthContext.js";
-import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
+/* import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5"; */
 import ReviewCard from "../components/ReviewCard";
 
 export default function MoviePage() {

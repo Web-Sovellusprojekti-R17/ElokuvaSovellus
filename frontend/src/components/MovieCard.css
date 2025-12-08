@@ -1,11 +1,11 @@
 
 .movie-card {
   width: 200px;
-  background-color: #1f2937;
+  background-color: var(--color-main);
   border-radius: 12px;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  border: 2px solid #374151;
+  border: 2px solid var(--color-secondary);
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
   display: flex;
   flex-direction: column;
@@ -18,8 +18,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* hides overflow from cover */
-  background: #374151; /* fallback background */
+  /* overflow: hidden; hides overflow from cover */
+  background: var(--color-secondary); /* fallback background */
 }
 
 /* POSTER IMAGE */
@@ -33,7 +33,7 @@
 
 .movie-card:hover {
   transform: scale(1.05);
-  border-color: #facc15;
+  border-color: var(--color-accent);
   box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
 }
 

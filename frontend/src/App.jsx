@@ -14,7 +14,6 @@ import Footer from "./components/Footer";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const containerRef = useRef();
@@ -36,36 +35,18 @@ function App() {
       }
     }
     fetchMovies();
-
-    const token = localStorage.getItem("accessToken");
-    if (!token) return;
-
-    fetch("http://localhost:3001/favorites/user", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (!Array.isArray(data)) return;
-
-        Promise.all(
-          data.map(fav =>
-            fetch(`https://api.themoviedb.org/3/movie/${fav.movie_id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`)
-              .then(res => res.json())
-          )
-        ).then(movies => setFavoriteMovies(movies));
-      })
-      .catch(err => console.error("Error fetching favorites:", err));
+    
   }, []);
 
-  function handleClick() {
+  function handleClick(){
     console.log('clicked');
   }
 
-  function MovieCard({ media }) {
-    const { title, name, backdrop_path } = media;
+  function MovieCard({media}) {
+    const {title,name,backdrop_path} = media;
 
     const navigate = useNavigate();
-
+    
     const showMoviePage = () => {
       navigate(`/movies/${media.id}`);
     };
@@ -83,59 +64,45 @@ function App() {
   }
 
   return (
-    <>
-
-      <div className="app">
-        {loading ? (
-          <p>Ladataan elokuvia...</p>
-        ) : (
-          <Routes>
-            <Route path="/" element={
-              <div className="container">
-                {favoriteMovies.length > 0 && (
-                  <>
-                    <h1>Suosikkisi</h1>
-                    <div className="movies-container">
-                      {favoriteMovies.map((movie) => (
-                        <div className="movie" key={movie.id}>
-                          <MovieCard media={movie} />
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-                <h1>Nyt elokuvateatterissa</h1>
-                <div
-                  ref={containerRef}
-                  style={{
-                    width: "1400px",
-                    overflowX: "scroll",
-                    scrollBehavior: "smooth",
-                  }}
-                >
-                  <div className="movies-container">
-                    {movies.map((movie) => (
-                      <div className="movie" key={movie.id} >
-                        <MovieCard media={movie} />
-                      </div>
-                    ))}
+  <>
+  <div className="app">
+    {loading ? (
+      <p>Ladataan elokuvia...</p>
+    ) : (
+      <Routes>
+        <Route path="/" element={
+          <div className="container">
+            <h1>Nyt elokuvateatterissa</h1>
+            <div
+              ref={containerRef}
+              style={{
+                width: "1400px",
+                overflowX: "scroll",
+                scrollBehavior: "smooth",
+              }}
+            >
+              <div className="movies-container">
+                {movies.map((movie) => (
+                  <div className="movie" key={movie.id} >
+                    <MovieCard media={movie} />
                   </div>
-                </div>
-                
+                ))}
               </div>
-            } />
-            <Route path="/movie/template" element={<MoviePage />} />
-            <Route path="/movies" element={<Haku />} />
-            <Route path="/about" element={<h1>About Page</h1>} />
-            <Route path="/settings" element={<UserSettings />} />
-            <Route path="/settings/remove" element={<RemoveSettings />} />
-            <Route path="/settings/password" element={<PasswordSettings />} />
-          </Routes>
-
-        )}
-      </div>
-    </>
-  );
+            </div>
+          </div>
+        } />
+        <Route path="/movie/template" element={<MoviePage />} />
+        <Route path="/movies" element={<Haku />} />
+        <Route path="/about" element={<h1>About Page</h1>} />
+        <Route path="/settings" element={<UserSettings />} />
+        <Route path="/settings/remove" element={<RemoveSettings />} />
+        <Route path="/settings/password" element={<PasswordSettings />} />
+      </Routes>
+      
+    )}
+  </div>
+  </>
+);
 
 }
 

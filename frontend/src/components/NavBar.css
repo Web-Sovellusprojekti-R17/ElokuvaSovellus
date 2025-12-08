@@ -9,7 +9,7 @@
 
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 9999;
     backdrop-filter: blur(6px);
 }
 
@@ -38,14 +38,13 @@
 .navbar-search input {
     padding: 6px 10px;
     border-radius: 15px;
-    border: 1px solid #414B63;
+    border: 1px solid var(--color-secondary);
 }
 
 .navbar-search button {
     padding: 6px 12px;
-    background-color: #414B63;
+    background-color: var(--color-secondary);
     border: none;
-    border-radius: 4px;
     color: white;
     cursor: pointer;
     border-radius: 15px;
@@ -55,6 +54,6 @@
     background-color: var(--color-accent);
 }
 
-h2:hover{
+.navbar h2:hover{
     cursor: pointer;
 }
