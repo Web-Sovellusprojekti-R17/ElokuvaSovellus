@@ -132,7 +132,12 @@ const router = createBrowserRouter([
 },
 {
   path: "/favorites",
-  element: <Favorites />
+  element: 
+    <>
+      <Navbar />
+      <Favorites />
+      <Footer />
+    </>
 }
  
 ])    

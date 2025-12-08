@@ -44,40 +44,69 @@ export default function MoviePage() {
     }
 
     async function fetchReviews() {
-        axios.get(`http://localhost:3001/review/movie/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}review/movie/${id}`)
             .then((response) => {
                 console.log(response);
                 setReviews(Array.isArray(response.data) ? response.data : []);
 
             })
             .catch((err) => {
-                console.error('There was an error fetching users', err)
+                console.error('There was an error fetching reviews', err)
+            })
+    }
+
+     async function fetchIsFavorite() {
+        if(user === null) return;
+
+        console.log("Fetching is favorite for user ID:", user.id, "and movie ID:", id);
+        axios.post(`${process.env.REACT_APP_API_URL}favorites/check`,
+                new URLSearchParams({
+                    movie_id: id,
+                    user_id: user.id,
+                }),
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": `Bearer ${accessToken}`
+                    },
+                    withCredentials: true
+                }
+            ).then((response) => {
+                setIsFavorite(response.data);
+            }).catch((err) => {
+                console.error('There was an error fetching favorites', err);
             })
     }
 
     useEffect(() => {
         fetchMovie();
         fetchReviews();
+        fetchIsFavorite();
     }, [id]);
 
     const toggleFavorite = async () => {
         try {
-            const response = await fetch("http://localhost:3001/api/favorites", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                },
-                body: JSON.stringify({ movie_id: id }),
-            });
-
-            const data = await response.json();
-            setIsFavorite(data.isFavorite);
-
+            axios.post(`${process.env.REACT_APP_API_URL}favorites/`,
+                new URLSearchParams({
+                    movie_id: id,
+                    user_id: user.id,
+                }),
+                {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": `Bearer ${accessToken}`
+                    },
+                    withCredentials: true
+                }
+            ).then((response) => {
+                console.log("Favorite toggled successfully!");
+                setIsFavorite(!isFavorite);
+            }).catch((err) => {
+                console.error('There was an error fetching favorites', err);
+            })
         } catch (error) {
             console.error("Favorite toggle failed:", error);
         }
-
     }
 
     function handleSendButton() {
@@ -185,7 +214,7 @@ export default function MoviePage() {
                 </div>
 
                 <div className="user-review">
-                    {user ? <h2>Write a review and give a rating for this movie!</h2> : <h2>Sign in to give a rating for this movie!</h2> }
+                    {user ? <h2>Write a review and give a rating for this movie!</h2> : <h2>Sign in to give a rating for this movie!</h2>}
                     {user && (
                         <>
                             <div className="input-and-label">
@@ -202,7 +231,7 @@ export default function MoviePage() {
                         </>
                     )}
 
-                    
+
 
                 </div>
 

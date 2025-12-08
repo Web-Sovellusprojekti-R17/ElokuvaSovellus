@@ -1,40 +1,64 @@
-import FavoriteModel from "../models/favorite_model.js";
+import { isFavorite, addFavorite, removeFavorite, getFavoritesForUser, getAll } from "../models/favorite_model.js";
+import { ApiError } from "../helpers/ApiError.js";
 
-export default {
-    async add(req, res) {
-        try {
-            const { movie_id } = req.body;
-            const user_id = req.user.user_id;
-
-            const fav = await FavoriteModel.addFavorite(user_id, movie_id);
-            res.json({ success: true, favorite: fav });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ error: "Failed to add favorite" });
-        }
-    },
-
-    async remove(req, res) {
-        try {
-            const { movie_id } = req.body;
-            const user_id = req.user.user_id;
-
-            await FavoriteModel.removeFavorite(user_id, movie_id);
-            res.json({ success: true });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ error: "Failed to remove favorite" });
-        }
-    },
-
-    async list(req, res) {
-        try {
-            const user_id = req.user.user_id;
-            const favorites = await FavoriteModel.getFavorites(user_id);
-            res.json({ favorites });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ error: "Failed to get favorites" });
-        }
+export async function getFavorites(req, res, next) {
+    try {
+        const favorites = await getAll();
+        res.status(200).json(favorites);
+    } catch (err) {
+        console.error(err);
+        return next(new ApiError("Failed to get favorites", 500));
     }
-};
+}
+
+export async function toggleFavorite(req, res, next) {
+    const data = req.body;
+    try {
+        if (!data.movie_id || !data.user_id)
+            return next(new ApiError("Required data missing", 400));
+
+        const isFav = await isFavorite(data.user_id, data.movie_id);
+
+        if (isFav) {
+            const removed = await removeFavorite(data.user_id, data.movie_id);
+            console.log("Favorite removed");
+            return res.status(201).json(removed);
+        }
+
+        const fav = await addFavorite(data.user_id, data.movie_id);
+        console.log("Favorite added");
+
+        res.status(201).json(fav);
+    } catch (err) {
+        return next(new ApiError("Failed to add favorite", 500));
+    }
+}
+
+export async function getByUserID(req, res, next) {
+    const id = req.params.id;
+    try {
+        const favorites = await getFavoritesForUser(id);
+        res.status(200).json(favorites);
+    } catch (err) {
+        console.error(err);
+        return next(new ApiError("Failed to get favorites", 500));
+    }
+}
+
+
+export async function getIsFavorite(req, res, next) {
+   const data = req.body;
+    try {
+        if (!data.movie_id || !data.user_id)
+            return next(new ApiError("Required data missing", 400));
+
+        const isFav = await isFavorite(data.user_id, data.movie_id);
+
+        res.status(200).json(isFav);
+    } catch (err) {
+        console.error(err);
+        return next(new ApiError("Failed to get favorites", 500));
+    }
+}
+
+

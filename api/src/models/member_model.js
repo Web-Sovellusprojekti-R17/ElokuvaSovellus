@@ -27,7 +27,7 @@ export async function addOne(member) {
 }
 
 export async function getKaikkiJasenet(id) {
-  const result = await pool.query("SELECT username, role FROM users INNER JOIN members ON users.user_id = members.user_id WHERE group_id = $1", [id]);
+  const result = await pool.query("SELECT username, role, members.user_id, group_id FROM users INNER JOIN members ON users.user_id = members.user_id WHERE group_id = $1", [id]);
   return result.rows; 
 }
 
@@ -37,7 +37,7 @@ export async function updateOne(groupId, userId, role) {
      SET role = $1
      WHERE group_id = $2 AND user_id = $3
      RETURNING *`,
-    [role, groupId, userId]
+    [role.role, groupId, userId]
   );
   return result.rows[0] || null;
 }

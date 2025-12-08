@@ -19,31 +19,25 @@ function App() {
   const containerRef = useRef();
 
   const apiUrl = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&page=1`;
-
-
-  useEffect(() => {
-    async function fetchMovies() {
-      try {
-        const res = await fetch(apiUrl);
-        if (!res.ok) throw new Error("Verkkovirhe");
-        const data = await res.json();
-        setMovies(data.results);
-      } catch (err) {
-        console.error("Virhe haettaessa elokuvia:", err);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchMovies() {
+    try {
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error("Verkkovirhe");
+      const data = await res.json();
+      setMovies(data.results);
+    } catch (err) {
+      console.error("Virhe haettaessa elokuvia:", err);
+    } finally {
+      setLoading(false);
     }
-    fetchMovies();
-    
-  }, []);
-
-  function handleClick(){
-    console.log('clicked');
   }
 
-  function MovieCard({media}) {
-    const {title,name,backdrop_path} = media;
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  function MovieCard({ media }) {
+    const { title, name, backdrop_path } = media;
 
     const navigate = useNavigate();
     
@@ -62,6 +56,7 @@ function App() {
       </div>
     );
   }
+
 
   return (
   <>
