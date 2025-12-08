@@ -154,7 +154,7 @@ export default function MoviePage() {
                         <h1>{movie.title}</h1>
                         <p className="stars">{renderStars(movie.vote_average)}</p>
                         <button className="fav-btn" onClick={toggleFavorite}>
-                            {isFavorite ? <IoBookmarks size={28} /> : <IoBookmarksOutline size={28} />}
+                            {isFavorite ? "★ Suosikki" : "☆ Lisää suosikkeihin"}
                         </button>
                         <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
                         <p><strong>Kesto:</strong> {movie.runtime} min</p>
