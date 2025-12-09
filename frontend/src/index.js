@@ -20,7 +20,11 @@ import Favorites from "./pages/Favorites"
 
 const router = createBrowserRouter([
   {
-    errorElement: <NotFound />
+    errorElement: <>
+      <Navbar />
+      <NotFound />
+      <Footer />
+    </>
   },
   {
     path: "/",
