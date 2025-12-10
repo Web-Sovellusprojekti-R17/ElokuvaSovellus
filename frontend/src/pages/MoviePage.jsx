@@ -37,7 +37,7 @@ export default function MoviePage() {
                 `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
             );
             const castData = await castResponse.json();
-            setCast(castData.cast.slice(0, 10));
+            setCast(castData.cast.slice(0, 12));
         } catch (error) {
             console.error("Error loading movie:", error);
         }
@@ -134,7 +134,6 @@ export default function MoviePage() {
     }
 
     if (!movie) return <p>Elokuvaa ladataan...</p>;
-    if (!user) return <p>Arvosteluja ladataan...</p>;
 
     return (
         <>
