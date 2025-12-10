@@ -48,12 +48,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/review", reviewRouter)
+app.use("/review", reviewRouter);
 app.use("/user",  userRouter);
+app.use("/favorites", favoriteRouter);
 app.use("/api/messages", authenticateToken, messageRouter);
 app.use("/api/members", authenticateToken, membersRouter);
 app.use("/group", authenticateToken, groupRouter);
-app.use("/favorites", authenticateToken, favoriteRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500

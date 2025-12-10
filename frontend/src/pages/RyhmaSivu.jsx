@@ -76,8 +76,6 @@ function RyhmaSivu() {
         )
     }
 
-
-
     const haeRyhmat = async () => {
         await fetch(`${process.env.REACT_APP_API_URL}group`, {
             method: "GET",
@@ -352,7 +350,7 @@ function RyhmaSivu() {
                         <p>Hello {role.toLowerCase()}!</p>
                         {messages?.map(message => (
                             <div key={message.message_id} id="viesti">
-                                <p>{message.user_id}</p>
+                                <p>{message.username}</p>
                                 <p>{message.text}</p>
                             </div>
 

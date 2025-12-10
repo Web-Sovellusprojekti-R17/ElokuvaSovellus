@@ -142,6 +142,15 @@ const router = createBrowserRouter([
       <Favorites />
       <Footer />
     </>
+},
+{
+  path: "/favorites/public/:token?",
+  element: 
+    <>
+      <Navbar />
+      <Favorites />
+      <Footer />
+    </>
 }
  
 ])    

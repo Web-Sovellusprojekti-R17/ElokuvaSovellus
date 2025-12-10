@@ -55,27 +55,27 @@ export default function MoviePage() {
             })
     }
 
-     async function fetchIsFavorite() {
-        if(user === null) return;
+    async function fetchIsFavorite() {
+        if (user === null) return;
 
         console.log("Fetching is favorite for user ID:", user.id, "and movie ID:", id);
         axios.post(`${process.env.REACT_APP_API_URL}favorites/check`,
-                new URLSearchParams({
-                    movie_id: id,
-                    user_id: user.id,
-                }),
-                {
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "Authorization": `Bearer ${accessToken}`
-                    },
-                    withCredentials: true
-                }
-            ).then((response) => {
-                setIsFavorite(response.data);
-            }).catch((err) => {
-                console.error('There was an error fetching favorites', err);
-            })
+            new URLSearchParams({
+                movie_id: id,
+                user_id: user.id,
+            }),
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                withCredentials: true
+            }
+        ).then((response) => {
+            setIsFavorite(response.data);
+        }).catch((err) => {
+            console.error('There was an error fetching favorites', err);
+        })
     }
 
     useEffect(() => {
@@ -134,7 +134,7 @@ export default function MoviePage() {
     }
 
     if (!movie) return <p>Elokuvaa ladataan...</p>;
-    if (!user) return <p>Arvosteluja ladataan...</p>;
+
 
     return (
         <>
@@ -153,9 +153,11 @@ export default function MoviePage() {
                     <div className="movie-info">
                         <h1>{movie.title}</h1>
                         <p className="stars">{renderStars(movie.vote_average)}</p>
-                        <button className="fav-btn" onClick={toggleFavorite}>
-                            {isFavorite ? "★ Suosikki" : "☆ Lisää suosikkeihin"}
-                        </button>
+                        {
+                            user && (<button className="fav-btn" onClick={toggleFavorite}>
+                                {isFavorite ? "★ Suosikki" : "☆ Lisää suosikkeihin"}
+                            </button>)
+                        }
                         <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
                         <p><strong>Kesto:</strong> {movie.runtime} min</p>
                         <p><strong>Kielet:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>
@@ -204,12 +206,13 @@ export default function MoviePage() {
                 <h2>Arvostelut</h2>
 
                 <div className="review-section">
-                    {Array.isArray(reviews) && reviews.length > 0 ? (
-                        reviews.map((review) => (
-                            <ReviewCard key={review.review_id} review={review} />
-                        ))
-                    ) : (
-                        <p>Ei arvosteluja vielä.</p>
+                    {(
+                        Array.isArray(reviews) && reviews.length > 0 ? (
+                            reviews.map((review) => (
+                                <ReviewCard key={review.review_id} review={review} />
+                            ))
+                        ) : (
+                            <p>Ei arvosteluja vielä.</p>)
                     )}
                 </div>
 
