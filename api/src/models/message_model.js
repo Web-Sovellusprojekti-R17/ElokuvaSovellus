@@ -1,8 +1,8 @@
 import pool from "../database.js";
 
 export async function getAll() {
-    const result = await pool.query( 
-    `SELECT messages.*, users.username
+    const result = await pool.query(
+        `SELECT messages.*, users.username
      FROM messages
      JOIN users ON messages.user_id = users.user_id`);
     return result.rows;
@@ -13,24 +13,31 @@ export async function getOne(id) {
      FROM messages
      JOIN users ON messages.user_id = users.user_id
      WHERE messages.message_id = $1`,
-    [id]);
+        [id]);
     return result.rows.length > 0 ? result.rows[0] : null;
 }
 
 export async function getOneGroup(id) {
-    const result = await pool.query( 
-    `SELECT messages.*, users.username
+    const result = await pool.query(
+        `SELECT messages.*, users.username
      FROM messages
      JOIN users ON messages.user_id = users.user_id
      WHERE messages.group_id = $1`,
-    [id]);
+        [id]);
     return result.rows;
 }
 
-export async function addOne(message) {
-    const result = await pool.query("INSERT INTO messages (text, user_id, group_id) VALUES ($1, $2, $3) RETURNING *", [message.text, message.user_id, message.group_id]);
-    return result.rows[0] || null;
+export async function addOne({ text, user_id, group_id, movie_id = null, movie_title = null, movie_poster = null }) {
+    const query = `
+        INSERT INTO messages (text, user_id, group_id, movie_id, movie_title, movie_poster)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *;
+    `;
+    const values = [text, user_id, group_id, movie_id, movie_title, movie_poster];
+    const { rows } = await pool.query(query, values);
+    return rows[0];
 }
+
 
 export async function updateOne(id, message) {
     console.log("update:" + id);

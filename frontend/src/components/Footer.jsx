@@ -3,6 +3,7 @@ import {Container, Row, Col,Image,Stack} from "react-bootstrap"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return  (

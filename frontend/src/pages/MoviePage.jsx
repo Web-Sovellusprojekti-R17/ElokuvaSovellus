@@ -23,6 +23,9 @@ export default function MoviePage() {
     const [reviewInput, setReviewInput] = useState('');
     const [userStars, setUserStars] = useState(1);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [groups, setGroups] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState("");
+    const [shareMessage, setShareMessage] = useState("");
 
     async function fetchMovie() {
         try {
@@ -82,6 +85,19 @@ export default function MoviePage() {
         fetchMovie();
         fetchReviews();
         fetchIsFavorite();
+
+        if (user) {
+            fetch(`${process.env.REACT_APP_API_URL}group/own/${user.id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+                .then(res => res.json())
+                .then(json => {
+                    if (Array.isArray(json)) setGroups(json);
+                })
+                .catch(err => console.error("Group fetch error:", err));
+        }
     }, [id]);
 
     const toggleFavorite = async () => {
@@ -131,6 +147,43 @@ export default function MoviePage() {
             console.error('There was an error fetching users', err);
         })
 
+    }
+
+    async function shareMovieToGroup() {
+        if (!selectedGroup) {
+            alert("Valitse ryhmä ensin");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}api/messages`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: new URLSearchParams({
+                    text: shareMessage || "Watch this movie!",
+                    user_id: user.id,
+                    group_id: selectedGroup,
+                    movie_id: movie.id,
+                    movie_title: movie.title,
+                    movie_poster: movie.poster_path
+                })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error);
+            }
+
+            alert("Elokuva jaettu!");
+            setShareMessage("");
+
+        } catch (error) {
+            console.error("Share failed:", error);
+            alert("Jakaminen epäonnistui");
+        }
     }
 
     if (!movie) return <p>Elokuvaa ladataan...</p>;
@@ -238,6 +291,33 @@ export default function MoviePage() {
 
                 </div>
 
+                {user && (
+                    <div className="share-movie-box">
+                        <h3>Jaa elokuva ryhmälle</h3>
+
+                        <select
+                            value={selectedGroup}
+                            onChange={(e) => setSelectedGroup(e.target.value)}
+                        >
+                            <option value="">Valitse ryhmä</option>
+                            {groups.map(g => (
+                                <option key={g.group_id} value={g.group_id}>
+                                    {g.group_name}
+                                </option>
+                            ))}
+                        </select>
+
+                        <textarea
+                            placeholder="Kirjoita viesti..."
+                            value={shareMessage}
+                            onChange={(e) => setShareMessage(e.target.value)}
+                        />
+
+                        <button onClick={shareMovieToGroup}>
+                            Jaa ryhmään
+                        </button>
+                    </div>
+                )}
 
             </div>
         </>

@@ -56,3 +56,8 @@ CREATE TABLE IF NOT EXISTS favorites (
     FOREIGN KEY (user_id) REFERENCES users(user_id) 
         ON DELETE CASCADE
 );
+
+ALTER TABLE messages
+ADD COLUMN movie_id INTEGER,
+ADD COLUMN movie_title TEXT,
+ADD COLUMN movie_poster TEXT;
