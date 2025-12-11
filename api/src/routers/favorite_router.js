@@ -1,8 +1,10 @@
 import express from "express";
-import {getFavorites, getByUserID, toggleFavorite, getIsFavorite} from "../controllers/favorite_controller.js";
+import {getFavorites, getPublicFavorites, getByUserID, toggleFavorite, getIsFavorite} from "../controllers/favorite_controller.js";
 import { authenticateToken } from "../utils/auth.js";
 
 const router = express.Router();
+
+router.get("/public/:token", getPublicFavorites);
 
 router.post("/", authenticateToken, toggleFavorite);
 router.get("/:id", authenticateToken, getByUserID);

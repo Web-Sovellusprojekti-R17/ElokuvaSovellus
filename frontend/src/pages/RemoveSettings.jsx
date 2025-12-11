@@ -49,7 +49,7 @@ export default function RemoveSettings() {
             <div className="setting-screen">
                 <h2>Warning! This will remove your account! Tread carefully!</h2>
                 <div className="remove-user-box">
-                    <label >Password: </label> <input className="remove-user-password-input" value={removeInput} onChange={e => setRemoveInput(e.target.value)}></input>
+                    <label >Password: </label> <input type="password" className="remove-user-password-input" value={removeInput} onChange={e => setRemoveInput(e.target.value)}></input>
                 </div>
                 <button className="remove-user-button" onClick={() => handleRemoveButton()}>Delete</button>
                 <label style={{display: isVisible ? "block" : "none"}}>Wrong password!</label>

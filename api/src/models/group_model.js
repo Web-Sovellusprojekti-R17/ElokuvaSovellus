@@ -24,7 +24,7 @@ export async function getOwn(id) {
   FROM groups
   JOIN members ON groups.group_id = members.group_id
   WHERE members.user_id = $1    
-  AND members.role = 'Admin';`, [id]);
+  AND members.role IN ('Admin', 'Member');`, [id]);
   return result.rows.length > 0 ? result.rows : null;
   //return result.rows[0] || null; <- ^ nämä on sama asia eri tavalla kirjoitettuna
 }

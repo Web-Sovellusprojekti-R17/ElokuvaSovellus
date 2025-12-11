@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { useAuth } from "../contexts/AuthContext.js";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export default function Favorites() {
     const [favoriteMovieIDs, setFavoriteMovieIDs] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
-    const { user, accessToken } = useAuth();
+    const { user, accessToken, loading } = useAuth();
+    const [copied, setCopied] = useState(false);
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const shareToken = params.get("t");
 
     async function fetchMovieDetails(movieID) {
         try {
@@ -20,7 +26,36 @@ export default function Favorites() {
         }
     }
 
+    const handleCopyLink = async () => {
+        if (!user) return;
+        console.log(user);
+        const shareLink = user?.shareToken ? `${window.location.origin}/favorites?t=${user.shareToken}` : null;
+
+        try {
+            await navigator.clipboard.writeText(shareLink);
+            setCopied(true);
+            console.log("Link copied to clipboard:", shareLink);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error("Failed to copy link:", err);
+        }
+    };
+
     async function getFavorites() {
+        if (shareToken) {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API_URL}favorites/public/${shareToken}`
+                );
+
+                const ids = Array.isArray(response.data) ? response.data : [];
+                setFavoriteMovieIDs(ids);
+            } catch (err) {
+                console.error("There was an error fetching public favorites", err);
+            }
+            return;
+        }
+
         if (!accessToken || !user) return;
 
         try {
@@ -61,12 +96,30 @@ export default function Favorites() {
     }, [favoriteMovieIDs]);
 
     useEffect(() => {
-        getFavorites();
-    }, []);
+        if (loading) return;
+
+        
+        if (shareToken) {
+            getFavorites();
+            return;
+        }
+
+        
+        if (user && accessToken) {
+            getFavorites();
+        }
+    }, [loading, user, accessToken, shareToken]);
 
     return (
         <div className="container">
             <h1>Suosikit</h1>
+            {user && (
+                <div className="share-link-container" style={{ marginBottom: "1rem" }}>
+                    <button onClick={handleCopyLink} className="btn btn-primary">
+                        {copied ? "Link copied!" : "Copy shareable link"}
+                    </button>
+                </div>
+            )}
 
             <div className="movies-container">
                 {favoriteMovies.length > 0 ? (

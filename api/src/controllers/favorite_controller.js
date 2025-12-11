@@ -1,5 +1,6 @@
 import { isFavorite, addFavorite, removeFavorite, getFavoritesForUser, getAll } from "../models/favorite_model.js";
 import { ApiError } from "../helpers/ApiError.js";
+import { decryptToken } from "../utils/shareToken.js";
 
 export async function getFavorites(req, res, next) {
     try {
@@ -45,6 +46,22 @@ export async function getByUserID(req, res, next) {
     }
 }
 
+export async function getPublicFavorites(req, res, next) {
+    const { token } = req.params;
+    try {
+        const userId = decryptToken(token);
+
+        if (!userId) {
+            return next(new ApiError("Invalid share token", 400));
+        }
+
+        const favorites = await getFavoritesForUser(userId);
+        res.status(200).json(favorites);
+    } catch (err) {
+        console.error(err);
+        return next(new ApiError("Failed to get public favorites", 500));
+    }
+}
 
 export async function getIsFavorite(req, res, next) {
    const data = req.body;

@@ -3,6 +3,7 @@ import {Container, Row, Col,Image,Stack} from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return  (
@@ -29,8 +30,10 @@ const Footer = () => {
                     <Link to="https://github.com/Web-Sovellusprojekti-R17/ElokuvaSovellus.git" className="nav-link">Github repositorio</Link>
                     </Col>
                     <Col className="text-end">
-                    <h2></h2>
-                    
+                    <h2>Linkkejä</h2>
+                    <a href="#top" className="top-link">Takaisin sivun alkuun</a>
+                    <p>Linkki</p>
+                    <p>Linkki</p>
                     </Col>
                 </Row>
             </Container>

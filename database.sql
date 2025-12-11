@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     refresh_token TEXT,
     is_active BOOLEAN DEFAULT TRUE,
-    deletion_date DATE DEFAULT NULL
+    deletion_date DATE DEFAULT NULL,
+    share_token TEXT
 );
 
 CREATE TABLE IF NOT EXISTS groups (

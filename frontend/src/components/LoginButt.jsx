@@ -53,7 +53,7 @@ export default function UserIconWithAuth() {
         await login(username, password);
       closeLogin();
     } catch (err) {
-      setError(err.message);
+      setError("Väärä tunnus tai salasana");
       console.log(err.message);
     } 
   };
@@ -61,8 +61,8 @@ export default function UserIconWithAuth() {
   const handleLoginButtonClick = async () => {
     if(user){
       try {
-        await logout();
         navigate(`/`);
+        await logout();
       } catch (error) {
         console.log(error.message);
       }
@@ -90,12 +90,14 @@ export default function UserIconWithAuth() {
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
+                placeholder="Käyttäjätunnus"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
               <input
                 type="password"
+                placeholder="Salasana"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required

@@ -90,6 +90,8 @@ textarea:focus {
     text-align: center;
     margin-top: 2rem;
     margin-bottom: 2ren;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 #viesti{
@@ -140,13 +142,13 @@ textarea {
   padding: 15px;
   margin: 5px 0 22px 0;
   border: none;
-  background: var(--color-primary);
+  background: var(--color-main);
   resize: none;
 }
 
 
 textarea:focus {
-  background-color: var(--color-primary);
+  background-color: var(--color-main);
   outline: none;
 }
 

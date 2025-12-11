@@ -4,6 +4,7 @@ import {
     getOneByName,
     addOne,
     updatePassword,
+    updateShareToken,
     updateName,
     deleteOne,
     deleteSelf,
@@ -15,6 +16,7 @@ import {
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
 import { ApiError } from "../helpers/ApiError.js";
 import { compare } from 'bcryptjs';
+import { encryptUserId } from "../utils/shareToken.js";
 
 export async function getUsers(req, res, next) {
     try {
@@ -45,9 +47,16 @@ export async function addUser(req, res, next) {
     try {
         if (!data.name || !data.password)
             return next(new ApiError("Required data missing", 400));
+
         const response = await addOne(data);
-        res.status(201).json(response);
+        console.log("User added:", response);
+        console.log("Loaded SHARE_KEY length:", process.env.SHARE_KEY?.length);
+        const shareToken = encryptUserId(response.user_id);
+        const response2 = await updateShareToken(response.user_id, shareToken);
+
+        res.status(201).json(response2);
     } catch (err) {
+        console.log(err);
         if (err.code === '23505') // PostgreSQL unique violation
             return res.status(409).json({ error: "Username already exists" });
         next(err);
@@ -61,8 +70,6 @@ export async function login(req, res, next) {
             return next(new ApiError("Required data missing", 400));
 
         const foundUser = await getOneByName(data.name);
-        console.log("foundUser object:", foundUser); // <-- ADD THIS DEBUG LOG
-        console.log("foundUser.user_id:", foundUser?.user_id); // <-- ADD THIS TOO
 
         if (!foundUser)
             return next(new ApiError("User not found", 404));
@@ -72,12 +79,12 @@ export async function login(req, res, next) {
         if (!correctPassword)
             return next(new ApiError("Wrong password", 401));
 
-        const accessToken = generateAccessToken(foundUser.username, foundUser.user_id);
-        const refreshToken = generateRefreshToken(foundUser.username, foundUser.user_id);
+        const accessToken = generateAccessToken(foundUser.username, foundUser.user_id, foundUser.share_token);
+        const refreshToken = generateRefreshToken(foundUser.username, foundUser.user_id, foundUser.share_token);
 
         // Tallenna refresh token tietokantaan
         await saveRefreshToken(foundUser.username, refreshToken);
-console.log(foundUser);
+
         // Aseta refresh token HTTP-only cookieen
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,                                 // Ei JavaScript-pääsyä
@@ -90,6 +97,7 @@ console.log(foundUser);
             message: "Login successful",
             username: foundUser.username,
             user_id: foundUser.user_id,
+            share_token: foundUser.share_token,
             accessToken
         });
     } catch (err) {
@@ -143,7 +151,7 @@ export async function refreshAccessToken(req, res, next) {
         }
 
         // Luo uusi access token
-        const accessToken = generateAccessToken(user.username, user.user_id);
+        const accessToken = generateAccessToken(user.username, user.user_id, user.share_token);
 
         res.json({ accessToken });
     } catch (err) {

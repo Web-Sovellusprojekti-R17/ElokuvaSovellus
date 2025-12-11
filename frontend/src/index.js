@@ -20,7 +20,11 @@ import Favorites from "./pages/Favorites"
 
 const router = createBrowserRouter([
   {
-    errorElement: <NotFound />
+    errorElement: <>
+      <Navbar />
+      <NotFound />
+      <Footer />
+    </>
   },
   {
     path: "/",
@@ -132,6 +136,15 @@ const router = createBrowserRouter([
 },
 {
   path: "/favorites",
+  element: 
+    <>
+      <Navbar />
+      <Favorites />
+      <Footer />
+    </>
+},
+{
+  path: "/favorites/public/:token?",
   element: 
     <>
       <Navbar />
