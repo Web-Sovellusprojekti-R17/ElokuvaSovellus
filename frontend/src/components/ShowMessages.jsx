@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import "ShowMessages.css";
 
 function ShowMessages({
     groupID,
@@ -55,12 +56,27 @@ function ShowMessages({
                         scrollBehavior: "smooth",
                     }}
                 >
-                    {messages?.map(message => (
-                        <div key={message.message_id} id="viesti">
-                            <p>{message.username}</p>
-                            <p>{message.text}</p>
-                        </div>
-                    ))}
+                    {messages?.map(message => {
+    const avatarColor = getUserColor(message.user_id);
+
+    return (
+        <div key={message.message_id} className="message-bubble">
+    
+            <div 
+                className="message-avatar"
+                style={{ backgroundColor: avatarColor }}
+            ></div>
+
+            <div className="message-content">
+                <span className="message-username">
+                    User {message.user_id}
+                </span>
+                <span className="message-text">{message.text}</span>
+            </div>
+
+        </div>
+    );
+})}
                 </div>
 
                 <div id="laheta">

@@ -4,6 +4,7 @@ import Navbar from "../components/NavBar";
 import { useAuth, accessToken } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import "../components/ShowMessages.css"
 
 
 function RyhmaSivu() {
@@ -316,6 +317,14 @@ function RyhmaSivu() {
         }
     }
 
+    function getUserColor(userId) {
+  const colors = [
+    "#F87171", "#FBBF24", "#34D399",
+    "#60A5FA", "#A78BFA", "#F472B6"
+  ];
+  return colors[userId % colors.length];
+}
+
     function ShowMessages() {
         const [roleData, setRoleData] = useState(null);
         const [loading, setLoading] = useState(true);
@@ -350,13 +359,29 @@ function RyhmaSivu() {
 
 
                         <p>Hello {role.toLowerCase()}!</p>
-                        {messages?.map(message => (
-                            <div key={message.message_id} id="viesti">
-                                <p>{message.username}</p>
-                                <p>{message.text}</p>
-                            </div>
 
-                        ))}
+                        {messages?.map(message => {
+    const avatarColor = getUserColor(message.user_id);
+
+    return (
+        <div key={message.message_id} className="message-bubble">
+            
+            <div 
+                className="message-avatar"
+                style={{ backgroundColor: avatarColor }}>
+                    
+                </div>
+
+            <div className="message-content">
+                <span className="message-username">
+                    User {message.username}
+                </span>
+                <span className="message-text">{message.text}</span>
+            </div>
+
+        </div>
+    );
+})}
                     </div>
 
                 </>
