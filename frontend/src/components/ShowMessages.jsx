@@ -57,7 +57,7 @@ function ShowMessages({
                 >
                     {messages?.map(message => (
                         <div key={message.message_id} id="viesti">
-                            <p>{message.user_id}</p>
+                            <p>{message.username}</p>
                             <p>{message.text}</p>
                         </div>
                     ))}

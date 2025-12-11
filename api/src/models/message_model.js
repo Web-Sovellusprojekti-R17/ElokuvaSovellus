@@ -1,17 +1,29 @@
 import pool from "../database.js";
 
 export async function getAll() {
-    const result = await pool.query("SELECT * FROM messages");
+    const result = await pool.query( 
+    `SELECT messages.*, users.username
+     FROM messages
+     JOIN users ON messages.user_id = users.user_id`);
     return result.rows;
 }
 
 export async function getOne(id) {
-    const result = await pool.query("SELECT * FROM messages WHERE message_id = $1", [id]);
+    const result = await pool.query(`SELECT messages.*, users.username
+     FROM messages
+     JOIN users ON messages.user_id = users.user_id
+     WHERE messages.message_id = $1`,
+    [id]);
     return result.rows.length > 0 ? result.rows[0] : null;
 }
 
 export async function getOneGroup(id) {
-    const result = await pool.query("SELECT * FROM messages WHERE group_id = $1", [id]);
+    const result = await pool.query( 
+    `SELECT messages.*, users.username
+     FROM messages
+     JOIN users ON messages.user_id = users.user_id
+     WHERE messages.group_id = $1`,
+    [id]);
     return result.rows;
 }
 
