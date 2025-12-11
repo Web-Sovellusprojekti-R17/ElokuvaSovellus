@@ -254,17 +254,17 @@ function RyhmaSivu() {
             credentials: "include"
         })
 
-        .then(response => response.json())
-        .then(json => {
-            setJasenet(Array.isArray(json) ? json : [])
-        })
-        .catch(error => {
-            console.log(error)
-        }) 
+            .then(response => response.json())
+            .then(json => {
+                setJasenet(Array.isArray(json) ? json : [])
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const luoRooli = async (rID, kID, rooli) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members`, {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
@@ -275,11 +275,11 @@ function RyhmaSivu() {
             const error = await res.json();
             throw new Error(error.error || "Roolin asettaminen epäonnistui");
         }
-        else{
-            if(paivitaJasenet){
+        else {
+            if (paivitaJasenet) {
                 setPaivitaJasenet(false)
             }
-            else{
+            else {
                 setPaivitaJasenet(true)
             }
         }
@@ -318,12 +318,12 @@ function RyhmaSivu() {
     }
 
     function getUserColor(userId) {
-  const colors = [
-    "#F87171", "#FBBF24", "#34D399",
-    "#60A5FA", "#A78BFA", "#F472B6"
-  ];
-  return colors[userId % colors.length];
-}
+        const colors = [
+            "#F87171", "#FBBF24", "#34D399",
+            "#60A5FA", "#A78BFA", "#F472B6"
+        ];
+        return colors[userId % colors.length];
+    }
 
     function ShowMessages() {
         const [roleData, setRoleData] = useState(null);
@@ -331,6 +331,7 @@ function RyhmaSivu() {
 
         useEffect(() => {
             async function fetchRole() {
+                console.log("joo");
                 const data = await haeOikeudet(groupID, user.username);
                 setRoleData(data);
                 setLoading(false);
@@ -361,27 +362,27 @@ function RyhmaSivu() {
                         <p>Hello {role.toLowerCase()}!</p>
 
                         {messages?.map(message => {
-    const avatarColor = getUserColor(message.user_id);
+                            const avatarColor = getUserColor(message.user_id);
 
-    return (
-        <div key={message.message_id} className="message-bubble">
-            
-            <div 
-                className="message-avatar"
-                style={{ backgroundColor: avatarColor }}>
-                    
-                </div>
+                            return (
+                                <div key={message.message_id} className="message-bubble">
 
-            <div className="message-content">
-                <span className="message-username">
-                    User {message.username}
-                </span>
-                <span className="message-text">{message.text}</span>
-            </div>
+                                    <div
+                                        className="message-avatar"
+                                        style={{ backgroundColor: avatarColor }}>
 
-        </div>
-    );
-})}
+                                    </div>
+
+                                    <div className="message-content">
+                                        <span className="message-username">
+                                            User {message.username}
+                                        </span>
+                                        <span className="message-text">{message.text}</span>
+                                    </div>
+
+                                </div>
+                            );
+                        })}
                     </div>
 
                 </>
@@ -405,12 +406,12 @@ function RyhmaSivu() {
     }
 
 
-    
+
 
     const poistaJasen = async (rID, kID) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, { 
+        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}`},
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
             credentials: "include",
         });
 
@@ -421,17 +422,17 @@ function RyhmaSivu() {
         else {
             if (paivitaJasenet) {
                 setPaivitaJasenet(false)
-                
+
             }
             else {
                 setPaivitaJasenet(true)
-                
+
             }
         }
     }
 
     const lisaaJasenPop = () => {
-        setLisaaJasenAuki(true) 
+        setLisaaJasenAuki(true)
     }
 
     const lisaaJasen = async () => {
@@ -441,24 +442,24 @@ function RyhmaSivu() {
             credentials: "include"
         })
 
-        .then(response => response.json())
-        .then(json => {
-            setKayttajatListaLisays(json)
-            setLisaaJasenAuki(false)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            .then(response => response.json())
+            .then(json => {
+                setKayttajatListaLisays(json)
+                setLisaaJasenAuki(false)
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
         kayttajatListaLisays.forEach(kayttaja => {
-            if(kayttaja.username == lisattava){
+            if (kayttaja.username == lisattava) {
                 luoRooli(groupID, kayttaja.user_id, "Member")
             }
         });
     }
 
     const updateJasen = async (userID) => {
-        console.log("updatejasenesta "+userID,groupID)
+        console.log("updatejasenesta " + userID, groupID)
         const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${userID}`, {
             method: "PUT",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
@@ -469,38 +470,45 @@ function RyhmaSivu() {
         if (!res.ok) {
             const error = await res.json();
             throw new Error(error.error || "Roolin asettaminen epäonnistui");
-        }  else {
+        } else {
             if (paivitaJasenet) {
                 setPaivitaJasenet(false)
-                
+
             }
             else {
                 setPaivitaJasenet(true)
-                
+
             }
         }
     }
 
     useEffect(() => {
         if (user) {
+            console.log("jooRyhmat");
             haeRyhmat()
         }
     }, [user, paivitaRyhmat])
 
     useEffect(() => {
-        haeViestit()
-        setViesti('')
-        haeJasenet()
+        if (user) {
+            console.log("jooViestit+Jasenet");
+            haeViestit()
+            setViesti('')
+            haeJasenet()
+        }
     }, [groupID, paivitaChat])
 
     useEffect(() => {
+        console.log("ScrollToBottom");
         scrollToBottom();
     }, [messages])
 
     useEffect(() => {
-      haeJasenet()
+        console.log("jooJasenet");
+        if (user)
+            haeJasenet()
     }, [paivitaJasenet])
-    
+
 
 
     return (
@@ -570,28 +578,28 @@ function RyhmaSivu() {
                             <input type="text" placeholder="Jäsenen nimi..." value={lisattava} onChange={(e) => setLisattava(e.target.value)} required />
                             <button id="luoButton" onClick={lisaaJasen}>Lisää</button>
                         </>
-                        
+
                     )}
                     <div>
                         {groupID && jasenet && jasenet.map(jasen => (
                             <div key={jasen.user_id + jasen.group_id} id="jasen">
                                 <p id="jasen_nimi"><strong>{jasen.username}</strong></p>
                                 <p id="jasen_rooli">{jasen.role}</p>
-                                {oikeudet==="Admin" && jasen.role==="Pending" &&(
+                                {oikeudet === "Admin" && jasen.role === "Pending" && (
                                     <div className="jasen-napit">
-                                    <button onClick={() => updateJasen(jasen.user_id)}>Lisää</button>
-                                     <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
+                                        <button onClick={() => updateJasen(jasen.user_id)}>Lisää</button>
+                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
                                     </div>
-                                    )}
-                                {oikeudet==="Admin" && jasen.role==="Member" &&(
+                                )}
+                                {oikeudet === "Admin" && jasen.role === "Member" && (
                                     <div className="jasen-napit">
                                         <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
                                     </div>
-                                    )}
+                                )}
                             </div>
                         ))}
                     </div>
-                   
+
                 </div>
             </div>
 

@@ -61,8 +61,8 @@ export default function UserIconWithAuth() {
   const handleLoginButtonClick = async () => {
     if(user){
       try {
-        await logout();
         navigate(`/`);
+        await logout();
       } catch (error) {
         console.log(error.message);
       }

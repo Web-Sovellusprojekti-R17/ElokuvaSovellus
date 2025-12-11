@@ -96,15 +96,15 @@ export default function Favorites() {
     }, [favoriteMovieIDs]);
 
     useEffect(() => {
-        if (loading) return; // Wait for AuthContext to finish refreshing
+        if (loading) return;
 
-        // Public link (shareToken) requires no auth
+        
         if (shareToken) {
             getFavorites();
             return;
         }
 
-        // Private favorites require user and accessToken
+        
         if (user && accessToken) {
             getFavorites();
         }
