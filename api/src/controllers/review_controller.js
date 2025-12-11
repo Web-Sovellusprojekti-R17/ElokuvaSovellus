@@ -54,7 +54,8 @@ export async function addReview(req, res, next) {
     if(!review.movie_ID || !review.review || !review.user_ID || !review.rating)
      return next(new ApiError("Required data missing", 400));  
   
-    const response = await addOne(review);
+    const date = new Date(Date.now());
+    const response = await addOne(review,date);
     res.status(201).json(response);
   } catch (err) {
     next(err);
@@ -65,7 +66,8 @@ export async function updateReview(req, res, next) {
   const review = req.body;
   const id = req.params.id;
   try {
-    const response = await updateOne(id, review);
+    const date = new Date(Date.now());
+    const response = await updateOne(id, review, date);
     if(!response)
       return next(new ApiError("Review not found", 404));
     

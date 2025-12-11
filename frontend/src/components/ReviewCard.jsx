@@ -59,6 +59,7 @@ const ReviewCard = ({ review }) => {
     return (
         <div className="review-card">
             <h4>User: {review.username}</h4>
+            <p>{new Date(review.review_date).toISOString().split("T")[0]}</p>
             <p className="stars">{renderReviewStars(review.rating)}</p>
             <p>{review.review}</p>
             <div className="review-buttons">
