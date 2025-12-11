@@ -2,6 +2,7 @@ import React from "react";
 import {Container, Row, Col,Image,Stack} from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return  (
@@ -28,7 +29,7 @@ const Footer = () => {
                     </Col>
                     <Col className="text-end">
                     <h2>Linkkejä</h2>
-                    <p>Linkki</p>
+                    <a href="#top" className="top-link">Takaisin sivun alkuun</a>
                     <p>Linkki</p>
                     <p>Linkki</p>
                     </Col>
