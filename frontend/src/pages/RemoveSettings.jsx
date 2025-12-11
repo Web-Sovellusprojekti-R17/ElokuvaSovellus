@@ -21,25 +21,17 @@ export default function RemoveSettings() {
     
 
     function handleRemoveButton() {
-        const newPut = {
-         headers:{
-                "Content-Type": "application/x-www-form-urlencoded",
-                    "Authorization": `Bearer ${accessToken}`
-            },
-            password: removeInput
-        };
         
-        axios.put(`http://localhost:3001/user/date/${user.id}`,newPut)
-            .then(response => {
-                //setPassword(response.data[0].password);
-                 //setResponseMessage("Post created successfully!");
-                console.log("toimii");
-                setIsVisible(false);
-            })
-            .catch(error => {
-                console.error('There was an error fetching users', error);
-                setIsVisible(true);
-            })
+        axios.put(
+  `http://localhost:3001/user/date/${user.id}`,
+  { password: removeInput },
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`
+    }
+  }
+)
     }
 
     return (
