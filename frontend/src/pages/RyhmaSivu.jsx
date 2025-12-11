@@ -41,6 +41,7 @@ function RyhmaSivu() {
 
             setNykRyhmNim(nimi)
             setGroupID(id)
+            setJasenet([])
             navigate(`/ryhma/${id}`)
         }
 
@@ -65,6 +66,7 @@ function RyhmaSivu() {
         const ryhmasivulle = (id, nimi) => () => {
             setNykRyhmNim(nimi)
             setGroupID(id)
+            setJasenet([])
             navigate(`/ryhma/${id}`)
         }
 
@@ -76,8 +78,6 @@ function RyhmaSivu() {
             </div>
         )
     }
-
-
 
     const haeRyhmat = async () => {
         await fetch(`${process.env.REACT_APP_API_URL}group`, {
@@ -374,7 +374,7 @@ function RyhmaSivu() {
 
             <div className="message-content">
                 <span className="message-username">
-                    User {message.user_id}
+                    User {message.username}
                 </span>
                 <span className="message-text">{message.text}</span>
             </div>
@@ -564,7 +564,7 @@ function RyhmaSivu() {
                             )}
                         </>
                     )}
-                    <button id="luoButton" onClick={lisaaJasenPop}>Lisää Jäsen</button>
+                    {oikeudet === "Admin" && (<button id="luoButton" onClick={lisaaJasenPop}>Lisää Jäsen</button>)}
                     {lisaaJasenAuki && (
                         <>
                             <input type="text" placeholder="Jäsenen nimi..." value={lisattava} onChange={(e) => setLisattava(e.target.value)} required />
@@ -583,7 +583,11 @@ function RyhmaSivu() {
                                      <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
                                     </div>
                                     )}
-                               
+                                {oikeudet==="Admin" && jasen.role==="Member" &&(
+                                    <div className="jasen-napit">
+                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
+                                    </div>
+                                    )}
                             </div>
                         ))}
                     </div>

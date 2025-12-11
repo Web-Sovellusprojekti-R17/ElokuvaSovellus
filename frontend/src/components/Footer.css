@@ -5,3 +5,14 @@ footer {
 footer .row {
   background-color: transparent;
 }
+
+.top-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border-radius: 15px;
+}
+
+.top-link:hover {
+  text-decoration: underline;
+}
