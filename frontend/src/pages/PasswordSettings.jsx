@@ -70,10 +70,10 @@ export default function PasswordSettings() {
                 <h3>password setting</h3>
                 {message && <div>{message}</div>}
                 <div className="change-password-current">
-                    <label >Current password: </label> <input className="change-password-current-input" value={passInput1} onChange={e => setPassInput1(e.target.value)}></input>
+                    <label >Current password: </label> <input type="password" className="change-password-current-input" value={passInput1} onChange={e => setPassInput1(e.target.value)}></input>
                 </div>
                 <div className="change-password-notcurrent">
-                    <label >New password: </label> <input className="change-password-notcurrent-input" value={passInput2} onChange={e => setPassInput2(e.target.value)}></input>
+                    <label >New password: </label> <input type="password" className="change-password-notcurrent-input" value={passInput2} onChange={e => setPassInput2(e.target.value)}></input>
                 </div>
                 <button className="change-password-button" onClick={submitChangePassword}>Change</button>
             </div>
