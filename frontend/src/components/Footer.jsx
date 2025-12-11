@@ -1,5 +1,6 @@
 import React from "react";
 import {Container, Row, Col,Image,Stack} from "react-bootstrap"
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
 
@@ -21,16 +22,15 @@ const Footer = () => {
                     </Stack>
                     </Col>
                     <Col className="text-center">
-                    <h2>Tietoa meistä</h2>
-                    <p>Tietoa</p>
-                    <p>Lisää tietoa</p>
-                    <p>Lisää tietoa</p>
+                    <h2>Linkkejä</h2>
+                    <p></p>
+                    <Link to="/about" className="nav-link">About us sivulle</Link>
+                    <p></p>
+                    <Link to="https://github.com/Web-Sovellusprojekti-R17/ElokuvaSovellus.git" className="nav-link">Github repositorio</Link>
                     </Col>
                     <Col className="text-end">
-                    <h2>Linkkejä</h2>
-                    <p>Linkki</p>
-                    <p>Linkki</p>
-                    <p>Linkki</p>
+                    <h2></h2>
+                    
                     </Col>
                 </Row>
             </Container>

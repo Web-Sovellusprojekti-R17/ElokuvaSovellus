@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     movie_id INT NOT NULL,
     user_id INT NOT NULL,
     review TEXT,
+    review_date DATE NOT NULL,
     rating INT CHECK (rating >= 0 AND rating <= 5),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
         ON DELETE CASCADE
