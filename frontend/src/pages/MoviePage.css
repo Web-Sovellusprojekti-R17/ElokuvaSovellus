@@ -47,7 +47,7 @@
 .genre-tag {
     padding: 5px 12px;
     /* background: hsl(222, 55%, 25%); */
-    background: var(--color-main);
+    background: var(--color-accent);
     border-radius: 12px;
     font-size: 0.9rem;
 }
