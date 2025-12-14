@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./LoginButt.css"; 
+import "./LoginButt.css";
 import UserIcon from '../assets/freeusericon.png';
 import { useAuth } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
@@ -15,14 +15,14 @@ export default function UserIconWithAuth() {
   const openLogin = () => {
     setIsSignup(false);
     setIsOpen(true);
-  } 
+  }
 
   const closeLogin = () => setIsOpen(false);
 
   const toggleMode = () => setIsSignup((prev) => !prev);
   const { user, login, logout } = useAuth();
 
-  const register = async (name, password) =>{
+  const register = async (name, password) => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}user/register`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -47,22 +47,22 @@ export default function UserIconWithAuth() {
     //setLoading(true);
 
     try {
-      if(isSignup)
+      if (isSignup)
         await register(username, password);
-      else  
+      else
         await login(username, password);
       closeLogin();
     } catch (err) {
       setError("Wrong username or password.");
       console.log(err.message);
-    } 
+    }
   };
 
   const handleLoginButtonClick = async () => {
-    if(user){
+    if (user) {
       try {
-        await logout();
         navigate(`/`);
+        await logout();
       } catch (error) {
         console.log(error.message);
       }
@@ -74,7 +74,7 @@ export default function UserIconWithAuth() {
   return (
     <>
       <button className="user-icon-btn" onClick={handleLoginButtonClick}>
-       {user ? "Log out" : "Sign in"}
+        {user ? "Log out" : "Sign in"}
       </button>
 
       {isOpen && (

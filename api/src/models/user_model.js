@@ -57,7 +57,7 @@ export async function saveRefreshToken(username, refreshToken) {
 
 export async function getUserByRefreshToken(refreshToken) {
   const result = await pool.query(
-    "SELECT username, user_id FROM users WHERE refresh_token = $1",
+    "SELECT username, user_id, share_token FROM users WHERE refresh_token = $1",
     [refreshToken]
   );
   return result.rows.length > 0 ? result.rows[0] : null;

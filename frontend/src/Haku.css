@@ -53,3 +53,22 @@ li.selected {
   padding: 20px;
   color: var(--text-light);
 }
+
+.filter-buttons{
+  display: flex;
+  flex-direction: row;
+    
+}
+
+.filter-button{
+  background-color:#ff6600;
+
+}
+
+.filter-button:hover{
+  background-color:#ff7f2a;
+}
+
+.delete-filter-button{
+  background-color:#ffffff;
+}

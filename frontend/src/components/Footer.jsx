@@ -1,8 +1,8 @@
 import React from "react";
 import {Container, Row, Col,Image,Stack} from "react-bootstrap"
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
-import { Link } from "react-router-dom";
 
 const Footer = () => {
     return  (
@@ -23,15 +23,17 @@ const Footer = () => {
                     </Col>
                     <Col className="text-center">
                     <h2>About us</h2>
-                    <p>Information</p>
-                    <p>More information</p>
-                    <p>More information</p>
+                    <p></p>
+                    <Link to="/about" className="nav-link">To our about page</Link>
+                    <p></p>
+                    
                     </Col>
                     <Col className="text-end">
-                    <h2>Links</h2>
-                    <a href="#top" className="top-link">Back to top of page</a>
-                    <p>Link</p>
-                    <p>Link</p>
+                    <h2>Linkkejä</h2>
+                    <a href="#top" className="top-link">Back to page top</a>
+                    <p></p>
+                    <Link to="https://github.com/Web-Sovellusprojekti-R17/ElokuvaSovellus.git" className="nav-link">Github repository</Link>
+                    
                     </Col>
                 </Row>
             </Container>

@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 export default function Favorites() {
     const [favoriteMovieIDs, setFavoriteMovieIDs] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
-    const { user, accessToken } = useAuth();
+    const { user, accessToken, loading } = useAuth();
     const [copied, setCopied] = useState(false);
 
     const location = useLocation();
@@ -96,8 +96,19 @@ export default function Favorites() {
     }, [favoriteMovieIDs]);
 
     useEffect(() => {
-        getFavorites();
-    }, []);
+        if (loading) return;
+
+        
+        if (shareToken) {
+            getFavorites();
+            return;
+        }
+
+        
+        if (user && accessToken) {
+            getFavorites();
+        }
+    }, [loading, user, accessToken, shareToken]);
 
     return (
         <div className="container">
