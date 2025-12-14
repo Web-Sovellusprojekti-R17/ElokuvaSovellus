@@ -1,6 +1,6 @@
 import React from "react";
 import {Container, Row, Col,Image,Stack} from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
 

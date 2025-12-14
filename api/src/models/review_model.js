@@ -41,14 +41,14 @@ export async function getOneByReviewID(id) {
   return result.rows.length > 0 ? result.rows[0] : null;
 }
 
-export async function addOne(review,date) {
-  const result = await pool.query("INSERT INTO reviews (movie_ID, review, user_ID, rating, review_date) VALUES($1, $2, $3, $4, $5) RETURNING *", [review.movie_ID, review.review, review.user_ID, review.rating, date]);
+export async function addOne(review) {
+  const result = await pool.query("INSERT INTO reviews (movie_ID, review, user_ID, rating) VALUES($1, $2, $3, $4) RETURNING *", [review.movie_ID, review.review, review.user_ID, review.rating]);
   return result.rows[0] || null;
 }
 
-export async function updateOne(id, review,date) {
+export async function updateOne(id, review) {
   console.log("update:"+id);
-  const result = await pool.query("UPDATE reviews SET review=$1, rating=$2, review_date=$3 WHERE review_ID=$4 RETURNING *", [review.review, review.rating, date, id]);
+  const result = await pool.query("UPDATE reviews SET review=$1, rating=$2, review_date=CURRENT_DATE WHERE review_ID=$3 RETURNING *", [review.review, review.rating, id]);
   return result.rows[0] || null;
 }
 
