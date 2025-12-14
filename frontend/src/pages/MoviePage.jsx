@@ -1,6 +1,6 @@
 import "./MoviePage.css";
 import Navbar from "../components/NavBar";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth, accessToken } from "../contexts/AuthContext.js";
@@ -16,7 +16,7 @@ export default function MoviePage() {
         const stars = Math.round(rating / 2);
         return "★".repeat(stars) + "☆".repeat(5 - stars);
     };
-
+    const navigate = useNavigate();
     const [cast, setCast] = useState([]);
     const [visibleCount, setVisibleCount] = useState(8);
     const [reviews, setReviews] = useState([]);
@@ -132,10 +132,12 @@ export default function MoviePage() {
         })
 
     }
-
+    function handleShowMoreReviews() {
+        navigate(`/arvostelu/${id}`);
+    }
+    
     if (!movie) return <p>Loading...</p>;
-
-
+   
     return (
         <>
             <div className="movie-container">
@@ -217,6 +219,14 @@ export default function MoviePage() {
                             ))
                         ) : (
                             <p>No reviews yet.</p>)
+                    )}
+                    {reviews.length > 0 && (
+                    <button
+                        className="show-more-btn"
+                        onClick={() => handleShowMoreReviews() }
+                    >
+                        {"Read more reviews"}
+                    </button>
                     )}
                 </div>
 

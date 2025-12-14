@@ -495,6 +495,7 @@ function RyhmaSivu() {
             haeViestit()
             setViesti('')
             haeJasenet()
+            scrollToBottom()
         }
     }, [groupID, paivitaChat])
 
@@ -594,6 +595,11 @@ function RyhmaSivu() {
                                 {oikeudet === "Admin" && jasen.role === "Member" && (
                                     <div className="jasen-napit">
                                         <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Remove member</button>
+                                    </div>
+                                )}
+                                {user.id === jasen.user_id && (
+                                    <div className="jasen-napit">
+                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poistu Ryhmästä</button>
                                     </div>
                                 )}
                             </div>
