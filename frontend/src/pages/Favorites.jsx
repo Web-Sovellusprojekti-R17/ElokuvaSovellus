@@ -77,7 +77,6 @@ export default function Favorites() {
         }
     }
 
-    // Fetch movie details when IDs change
     useEffect(() => {
         if (favoriteMovieIDs.length === 0) {
             setFavoriteMovies([]);
@@ -89,7 +88,7 @@ export default function Favorites() {
                 favoriteMovieIDs.map((id) => fetchMovieDetails(id))
             );
 
-            setFavoriteMovies(movies.filter(Boolean)); // remove nulls
+            setFavoriteMovies(movies.filter(Boolean));
         }
 
         loadMovies();
