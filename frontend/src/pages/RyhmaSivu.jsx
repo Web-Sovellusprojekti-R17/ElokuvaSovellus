@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import "./RyhmaSivu.css";
-import Navbar from "../components/NavBar";
-import { useAuth, accessToken } from "../contexts/AuthContext.js";
+import { useAuth } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "../components/ShowMessages.css"
@@ -15,7 +14,6 @@ function RyhmaSivu() {
     const [messages, setMessages] = useState([])
     const [viesti, setViesti] = useState('')
     const { user, accessToken } = useAuth();
-    let params = useParams()
     const [groupID, setGroupID] = useState('')
     const [paivitaChat, setPaivitaChat] = useState(true)
     const [paivitaRyhmat, setPaivitaRyhmat] = useState(true)
@@ -23,8 +21,6 @@ function RyhmaSivu() {
     const [poistaRyhmaAuki, setPoistaRyhmaAuki] = useState(false)
     const [oikeudet, setOikeudet] = useState('')
     const [jasenet, setJasenet] = useState([])
-    const [chatState, setChatState] = useState(0)
-    const [currentGroup, setCurrentGroup] = useState('')
     const [lisaaJasenAuki, setLisaaJasenAuki] = useState(false)
     const [lisattava, setLisattava] = useState('')
     const [kayttajatListaLisays, setKayttajatListaLisays] = useState([])
@@ -285,20 +281,6 @@ function RyhmaSivu() {
         }
     }
 
-    const asetaRooli = async (rID, kID, rooli) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
-            credentials: "include",
-            body: new URLSearchParams({ role: rooli })
-        });
-
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.error || "Failed to set role");
-        }
-    }
-
     const haeOikeudet = async (rID, kID) => {
         try {
             const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${user.id}`, {
@@ -533,7 +515,6 @@ function RyhmaSivu() {
                         <Groups />
                     </div>
                 </div>
-                {/* <Messages /> */}
 
                 <div id="chat" >
                     <ShowMessages />
@@ -599,7 +580,7 @@ function RyhmaSivu() {
                                 )}
                                 {user.id === jasen.user_id && (
                                     <div className="jasen-napit">
-                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poistu Ryhmästä</button>
+                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Leave group</button>
                                     </div>
                                 )}
                             </div>

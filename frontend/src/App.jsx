@@ -1,16 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
-import UserIconWithAuth from "./components/LoginButt";
-
 import UserSettings from "./pages/UserSettings";
 import RemoveSettings from "./pages/RemoveSettings";
 import PasswordSettings from "./pages/PasswordSettings";
-import Footer from "./components/Footer";
-//^tää valitti sitä UserIconWithAuth nii vaihoin tuohon ton /LoginButt
 
 function App() {
   const [movies, setMovies] = useState([]);

@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import "./Tietoa.css";
-import Navbar from "../components/NavBar";
 
 function Tietoa(){
 
