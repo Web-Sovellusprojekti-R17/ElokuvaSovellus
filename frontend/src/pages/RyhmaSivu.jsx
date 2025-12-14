@@ -125,7 +125,7 @@ function RyhmaSivu() {
         const data = await res.json();
         console.log(data);
         if (!res.ok) {
-            throw new Error(data.error || "Ryhmän luominen epäonnistui");
+            throw new Error(data.error || "Failed to create group");
         }
         else {
 
@@ -148,7 +148,7 @@ function RyhmaSivu() {
 
         if (!res2.ok) {
             const error = await res2.json();
-            throw new Error(error.error || "memberin luominen epäonnistui");
+            throw new Error(error.error || "Failed to add member");
         }
     }
 
@@ -162,7 +162,7 @@ function RyhmaSivu() {
 
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "memberin luominen epäonnistui");
+            throw new Error(error.error || "Failed to join group");
         } else {
             if (paivitaChat) {
                 setPaivitaChat(false)
@@ -200,7 +200,7 @@ function RyhmaSivu() {
         });
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "Viestin lisääminen epäonnistui");
+            throw new Error(error.error || "Failed to send message");
         }
         else {
             if (paivitaChat) {
@@ -234,7 +234,7 @@ function RyhmaSivu() {
 
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "Ryhmän poistaminen epäonnistui");
+            throw new Error(error.error || "Failed to delete group");
         }
         else {
             setPoistaRyhmaAuki(false)
@@ -273,7 +273,7 @@ function RyhmaSivu() {
 
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "Roolin asettaminen epäonnistui");
+            throw new Error(error.error || "Failed to set role");
         }
         else {
             if (paivitaJasenet) {
@@ -295,7 +295,7 @@ function RyhmaSivu() {
 
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "Roolin asettaminen epäonnistui");
+            throw new Error(error.error || "Failed to set role");
         }
     }
 
@@ -400,7 +400,7 @@ function RyhmaSivu() {
         return (
             <div className="chat-notice">
                 <p>Join this group?</p>
-                <button id="joinButton" onClick={liityRyhmaan}>Kyllä</button>
+                <button id="joinButton" onClick={liityRyhmaan}>Yes</button>
             </div>
         );
     }
@@ -417,7 +417,7 @@ function RyhmaSivu() {
 
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "Jäsenen poistaminen epäonnistui");
+            throw new Error(error.error || "Failed to remove member");
         }
         else {
             if (paivitaJasenet) {
@@ -469,8 +469,8 @@ function RyhmaSivu() {
 
         if (!res.ok) {
             const error = await res.json();
-            throw new Error(error.error || "Roolin asettaminen epäonnistui");
-        } else {
+            throw new Error(error.error || "Failed to set role");
+        }  else {
             if (paivitaJasenet) {
                 setPaivitaJasenet(false)
 
@@ -517,14 +517,14 @@ function RyhmaSivu() {
             {luoRyhmaAuki && (
                 <div>
                     <input type="text" placeholder="Ryhmän nimi..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required />
-                    <button id="luoButton" onClick={luoRyhma}>Luo</button>
+                    <button id="luoButton" onClick={luoRyhma}>Create</button>
                 </div>
             )}
 
             <div id="container-ryhmasivu">
                 <div id="container-ryhmat">
                     <h3>Your groups</h3>
-                    <button id="luoButton" onClick={luoRyhmaPop}>Luo uusi ryhmä</button>
+                    <button id="luoButton" onClick={luoRyhmaPop}>Create a new group</button>
                     <div id="container-kaikki-ryhmat">
                         <OwnGroups />
                     </div>
@@ -561,23 +561,23 @@ function RyhmaSivu() {
 
                     {oikeudet === "Admin" && (
                         <>
-                            <button id="luoButton" onClick={varmistusPop}>Poista Ryhmä</button>
+                            <button id="luoButton" onClick={varmistusPop}>Delete group</button>
 
                             {poistaRyhmaAuki && (
                                 <>
-                                    <p>Haluatko varmasti poistaa ryhmän?</p>
+                                    <p>Are you sure you want to delete the group?</p>
                                     <div>
-                                        <button id="luoButton" onClick={poistaRyhma}>Kyllä</button>
+                                        <button id="luoButton" onClick={poistaRyhma}>Yes</button>
                                     </div>
                                 </>
                             )}
                         </>
                     )}
-                    {oikeudet === "Admin" && (<button id="luoButton" onClick={lisaaJasenPop}>Lisää Jäsen</button>)}
+                    {oikeudet === "Admin" && (<button id="luoButton" onClick={lisaaJasenPop}>Add member</button>)}
                     {lisaaJasenAuki && (
                         <>
-                            <input type="text" placeholder="Jäsenen nimi..." value={lisattava} onChange={(e) => setLisattava(e.target.value)} required />
-                            <button id="luoButton" onClick={lisaaJasen}>Lisää</button>
+                            <input type="text" placeholder="Member name..." value={lisattava} onChange={(e) => setLisattava(e.target.value)} required />
+                            <button id="luoButton" onClick={lisaaJasen}>Add</button>
                         </>
 
                     )}
@@ -588,13 +588,13 @@ function RyhmaSivu() {
                                 <p id="jasen_rooli">{jasen.role}</p>
                                 {oikeudet === "Admin" && jasen.role === "Pending" && (
                                     <div className="jasen-napit">
-                                        <button onClick={() => updateJasen(jasen.user_id)}>Lisää</button>
-                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
+                                    <button onClick={() => updateJasen(jasen.user_id)}>Add</button>
+                                     <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Remove member</button>
                                     </div>
                                 )}
                                 {oikeudet === "Admin" && jasen.role === "Member" && (
                                     <div className="jasen-napit">
-                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poista Jäsen</button>
+                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Remove member</button>
                                     </div>
                                 )}
                                 {user.id === jasen.user_id && (

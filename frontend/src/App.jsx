@@ -22,11 +22,11 @@ function App() {
   async function fetchMovies() {
     try {
       const res = await fetch(apiUrl);
-      if (!res.ok) throw new Error("Verkkovirhe");
+      if (!res.ok) throw new Error("Network error");
       const data = await res.json();
       setMovies(data.results);
     } catch (err) {
-      console.error("Virhe haettaessa elokuvia:", err);
+      console.error("Error fetching movies:", err);
     } finally {
       setLoading(false);
     }
@@ -62,12 +62,12 @@ function App() {
   <>
   <div className="app">
     {loading ? (
-      <p>Ladataan elokuvia...</p>
+      <p>Loading movies...</p>
     ) : (
       <Routes>
         <Route path="/" element={
           <div className="container">
-            <h1>Nyt elokuvateatterissa</h1>
+            <h1>Now in theaters</h1>
             <div
               ref={containerRef}
               style={{
@@ -88,7 +88,7 @@ function App() {
         } />
         <Route path="/movie/template" element={<MoviePage />} />
         <Route path="/movies" element={<Haku />} />
-        <Route path="/about" element={<h1>About Page</h1>} />
+        <Route path="/about" element={<h1>About page</h1>} />
         <Route path="/settings" element={<UserSettings />} />
         <Route path="/settings/remove" element={<RemoveSettings />} />
         <Route path="/settings/password" element={<PasswordSettings />} />

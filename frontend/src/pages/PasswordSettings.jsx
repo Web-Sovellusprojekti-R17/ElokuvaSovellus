@@ -61,7 +61,7 @@ export default function PasswordSettings() {
                 <div className="setting-box">
                     <h2 className="header">Settings!</h2>
                     <p className={`setting-item`} onClick={() => changeSite("user")}>User information</p>
-                    <p className={`setting-item`} style={{ color: "#facc15", textDecoration: "underline" }}>Change password</p>
+                    <p className={`setting-item`} style={{ color: "var(--color-accent)", textDecoration: "underline" }}>Change password</p>
                     <p className={`setting-item`} onClick={() => changeSite("remove")}>Remove user</p>
                 </div>
             </div>

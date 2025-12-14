@@ -84,21 +84,18 @@ function ArvosteluSivu() {
     return (
         <>
             <div id="arvostelu-container-kokosivu">
-                {movie_id && (
-                    <div>
-                        <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Elokuvan juliste" />
-                        <p>{title}</p>
-                        <p>({year})</p>
-                    </div>
-                )}
-                
+                <div>
+                    <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Movie poster" />
+                    <p>{title}</p>
+                    <p>({year})</p>
+                </div>
                  <div className="review-section">
                     {Array.isArray(reviews) && reviews.length > 0 ? (
                         reviews.map((review) => (
                             <ReviewCard key={review.review_id} review={review} />
                         ))
                     ) : (
-                        <p>Ei arvosteluja vielä.</p>
+                        <p>No reviews yet.</p>
                     )}
                 </div>
 

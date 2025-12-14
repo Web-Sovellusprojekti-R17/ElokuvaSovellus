@@ -4,7 +4,7 @@
   border: none;
   font-size: 1.8rem;
   cursor: pointer;
-  color: #facc15;
+  color: var(--color-accent);
   transition: transform 0.2s ease;
   filter: invert(1);
 }
@@ -26,11 +26,11 @@
 }
 
 .login {
-  background-color: #1f2937; 
+  background-color: var(--color-main); 
   padding: 2rem;
   border-radius: 12px;
   width: 320px;
-  border: 2px solid #374151; 
+  border: 2px solid var(--color-accent); 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   /* overflow: hidden; */
   text-align: left;
@@ -41,8 +41,8 @@
 
 .login:hover {
   transform: scale(1.03);
-  border-color: #facc15;
-  box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 15px rgba(250, 132, 21, 0.4);
 }
 
 @keyframes pop {
@@ -57,14 +57,14 @@
   background: none;
   border: none;
   font-size: 1.4rem;
-  color: #facc15;
+  color: var(--color-accent);
   cursor: pointer;
   transition: transform 0.2s;
 }
 
 
 .logsign-btn {
-  background-color: #1f2937;
+  background-color: var(--color-main);
   color: white;
   border: none;
   padding: 8px 20px;
@@ -74,7 +74,7 @@
 }
 
 .logsign-btn:hover {
-  background-color: #374151;
+  background-color: var(--color-secondary);
 }
 
 .close-btn:hover {
