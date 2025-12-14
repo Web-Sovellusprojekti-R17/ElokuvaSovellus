@@ -77,8 +77,9 @@ function ArvosteluSivu() {
         }
         if(loading) return;
 
-        if(user)
+        if(user && !movie_id)
             fetchReviewsByUserID();
+        
     }, [user, loading, movie_id])
 
     return (

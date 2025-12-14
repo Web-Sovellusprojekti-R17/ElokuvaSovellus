@@ -132,10 +132,12 @@ export default function MoviePage() {
         })
 
     }
-
+    function handleShowMoreReviews() {
+        navigate(`/arvostelu/${id}`);
+    }
+    
     if (!movie) return <p>Loading...</p>;
-
-
+   
     return (
         <>
             <div className="movie-container">
