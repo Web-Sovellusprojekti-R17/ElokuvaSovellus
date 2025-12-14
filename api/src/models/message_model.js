@@ -22,7 +22,7 @@ export async function getOneGroup(id) {
     `SELECT messages.*, users.username
      FROM messages
      JOIN users ON messages.user_id = users.user_id
-     WHERE messages.group_id = $1`,
+     WHERE messages.group_id = $1 ORDER BY message_id`,
     [id]);
     return result.rows;
 }
