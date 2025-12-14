@@ -27,7 +27,7 @@ export default function MoviePage() {
     async function fetchMovie() {
         try {
             const response = await fetch(
-                `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`
+                `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
             );
             const data = await response.json();
             setMovie(data);

@@ -17,7 +17,7 @@ export default function Favorites() {
     async function fetchMovieDetails(movieID) {
         try {
             const response = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`
+                `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
             );
             return response.data;
         } catch (error) {
