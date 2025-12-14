@@ -16,6 +16,7 @@ function Haku(){
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
     const [query, setQuery] = useState(params.query)
+    const [filterInput, setFilterInput] = useState('')
     const [filterGenrePop, setFilterGenrePop] = useState(false);
 
     // const location = useLocation();
@@ -36,7 +37,7 @@ function Haku(){
         
     }
 
-    const search = (selectedGenreId) => {
+    const search = (selectedGenreId,year) => {
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,{
             headers: {
                 'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
@@ -45,6 +46,7 @@ function Haku(){
         })
             .then(response => response.json())
             .then(json => {
+                if(!year){
                  const filtered = selectedGenreId
             ? json.results.filter(movie =>
                   movie.genre_ids.includes(selectedGenreId)
@@ -52,6 +54,16 @@ function Haku(){
             : json.results;
                 setMovies(filtered)
                 setPageCount(json.total_pages)
+            }
+            if(year){
+                 const filtered = selectedGenreId
+            ? json.results.filter(movie =>
+                  movie.genre_ids.includes(selectedGenreId) && movie.release_date.startsWith(year)
+              )
+            : json.results;
+                setMovies(filtered)
+                setPageCount(json.total_pages)
+            }
             })
             .catch(error => {
                 console.log(error)
@@ -97,6 +109,11 @@ function Haku(){
                             <button className="filter-button" onClick={() => search(10751)}>Family</button>
                             <button className="filter-button" onClick={() => search(10765)}>Sci-Fi & Fantasy</button>
                             <button className="delete-filter-button" onClick={() => search()}>Delete filter</button>
+                            <div>
+                                <input 
+                                value={filterInput} 
+                                onChange={e => setFilterInput(e.target.value)}  /><button className="delete-filter-button" onClick={() => search(null,filterInput)}>Filter</button>
+                            </div>
                         </div>
                         
                     )}
