@@ -53,7 +53,7 @@ export default function UserIconWithAuth() {
         await login(username, password);
       closeLogin();
     } catch (err) {
-      setError("Väärä tunnus tai salasana");
+      setError("Wrong username or password.");
       console.log(err.message);
     } 
   };
@@ -90,21 +90,21 @@ export default function UserIconWithAuth() {
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
-                placeholder="Käyttäjätunnus"
+                placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
               <input
                 type="password"
-                placeholder="Salasana"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
 
               <button type="submit" className="logsign-btn">
-                {isSignup ? "Luo tunnus" : "Kirjaudu sisään"}
+                {isSignup ? "Create account" : "Log in"}
               </button>
             </form>
 

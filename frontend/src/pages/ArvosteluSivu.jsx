@@ -63,7 +63,7 @@ function ArvosteluSivu() {
         <>
             <div id="arvostelu-container-kokosivu">
                 <div>
-                    <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Elokuvan juliste" />
+                    <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Movie poster" />
                     <p>{title}</p>
                     <p>({year})</p>
                 </div>
@@ -73,7 +73,7 @@ function ArvosteluSivu() {
                             <ReviewCard key={review.review_id} review={review} />
                         ))
                     ) : (
-                        <p>Ei arvosteluja vielä.</p>
+                        <p>No reviews yet.</p>
                     )}
                 </div>
 

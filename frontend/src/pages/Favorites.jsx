@@ -101,7 +101,7 @@ export default function Favorites() {
 
     return (
         <div className="container">
-            <h1>Suosikit</h1>
+            <h1>Your favorites</h1>
             {user && (
                 <div className="share-link-container" style={{ marginBottom: "1rem" }}>
                     <button onClick={handleCopyLink} className="btn btn-primary">
@@ -116,7 +116,7 @@ export default function Favorites() {
                         <MovieCard key={movie.id} movie={movie} />
                     ))
                 ) : (
-                    <p>Ei suosikkeja vielä.</p>
+                    <p>No favorites yet.</p>
                 )}
             </div>
         </div>

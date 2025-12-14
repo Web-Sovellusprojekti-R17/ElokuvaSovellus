@@ -12,26 +12,26 @@ const Footer = () => {
                     <Col className="text-start">
                     <Stack>
                         <Image
-                        src="/images/elokuvasovelluslogoinv.png"
+                        src="/images/elokuvasovelluslogoinvis.png"
                         alt="some kind of logo"
                         rounded
                         width={150}
                         height={150}
                         />
-                        <p>Elokuvasovellus</p>
+                        <p>Elokuvasovellus 2025</p>
                     </Stack>
                     </Col>
                     <Col className="text-center">
-                    <h2>Tietoa meistä</h2>
-                    <p>Tietoa</p>
-                    <p>Lisää tietoa</p>
-                    <p>Lisää tietoa</p>
+                    <h2>About us</h2>
+                    <p>Information</p>
+                    <p>More information</p>
+                    <p>More information</p>
                     </Col>
                     <Col className="text-end">
-                    <h2>Linkkejä</h2>
-                    <a href="#top" className="top-link">Takaisin sivun alkuun</a>
-                    <p>Linkki</p>
-                    <p>Linkki</p>
+                    <h2>Links</h2>
+                    <a href="#top" className="top-link">Back to top of page</a>
+                    <p>Link</p>
+                    <p>Link</p>
                     </Col>
                 </Row>
             </Container>

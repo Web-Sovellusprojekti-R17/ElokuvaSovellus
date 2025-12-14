@@ -24,20 +24,20 @@ export default function Navbar() {
       <div className="nav-links">
         <UserIconWithAuth />
         {user && (
-          <span className="logged-in-user">Tervetuloa, {user.name}!</span>
+          <span className="logged-in-user">Welcome, {user.name}!</span>
         )}
-        <Link to="/" className="nav-link">Koti</Link>
-        <Link to="/about" className="nav-link">Tietoa</Link>
-        {user ? <Link to="/arvostelu" className="nav-link">Minun Arvostelut</Link> : null}
-        {user ? <Link to="/ryhma" className="nav-link">Ryhmät</Link> : null}
-        {user ? <Link to="/settings" className="nav-link">Asetukset</Link> : null}
-        {user ? <Link to="/favorites" className="nav-link">Suosikit</Link> : null}
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/about" className="nav-link">About</Link>
+        {user ? <Link to="/arvostelu" className="nav-link">My Reviews</Link> : null}
+        {user ? <Link to="/ryhma" className="nav-link">Groups</Link> : null}
+        {user ? <Link to="/settings" className="nav-link">Settings</Link> : null}
+        {user ? <Link to="/favorites" className="nav-link">Favorites</Link> : null}
       </div>
 
       <div className="navbar-search">
         <input
           type="text"
-          placeholder="Hae elokuvia..."
+          placeholder="Search movies..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e)=>{
@@ -46,7 +46,7 @@ export default function Navbar() {
             }
           }}
         />
-        <button onClick={handleSearch}>Hae</button>
+        <button onClick={handleSearch}>Search</button>
       </div>
     </nav>
   );

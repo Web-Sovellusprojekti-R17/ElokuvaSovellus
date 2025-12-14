@@ -133,7 +133,7 @@ export default function MoviePage() {
 
     }
 
-    if (!movie) return <p>Elokuvaa ladataan...</p>;
+    if (!movie) return <p>Loading...</p>;
 
 
     return (
@@ -155,24 +155,28 @@ export default function MoviePage() {
                         <p className="stars">{renderStars(movie.vote_average)}</p>
                         {
                             user && (<button className="fav-btn" onClick={toggleFavorite}>
-                                {isFavorite ? "★ Suosikki" : "☆ Lisää suosikkeihin"}
+                                {isFavorite ? "★ Favorite" : "☆ Add to Favorites"}
                             </button>)
                         }
-                        <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
-                        <p><strong>Kesto:</strong> {movie.runtime} min</p>
-                        <p><strong>Kielet:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>
+                        <p><strong>Year: </strong>{movie.release_date?.substr(0, 4)}</p>
+                        <p><strong>Runtime:</strong> {movie.runtime} min</p>
+                        <p><strong>Languages:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>
+                        
+                        <div className="info-row">
+                         <strong>Genres:</strong>
+                         <div className="genre-container">
+                               {movie.genres?.map(g => (
+                                 <span className="genre-tag" key={g.id}>{g.name}</span>
+                               ))}
+                            </div>
+                          </div>
 
-                        <div className="genre-container">
-                            {movie.genres?.map((g) => (
-                                <span className="genre-tag" key={g.id}>{g.name}</span>
-                            ))}
-                        </div>
 
-                        <p><strong>Lisätietoja:</strong> {movie.overview}</p>
+                        <p><strong>Overview:</strong> {movie.overview}</p>
                     </div>
                 </div>
 
-                <h2>Näyttelijät</h2>
+                <h2>Actors</h2>
 
                 <div className="actor-grid">
                     {cast.slice(0, visibleCount).map((actor) => (
@@ -186,7 +190,7 @@ export default function MoviePage() {
                                 alt={actor.name}
                             />
                             <p><strong>{actor.name}</strong></p>
-                            <p>{actor.character || "Tuntematon"}</p>
+                            <p>{actor.character || "Unknown"}</p>
                         </div>
                     ))}
                 </div>
@@ -198,12 +202,12 @@ export default function MoviePage() {
                             setVisibleCount(visibleCount === 8 ? cast.length : 8)
                         }
                     >
-                        {visibleCount === 8 ? "Näytä lisää" : "Näytä vähemmän"}
+                        {visibleCount === 8 ? "Show more" : "Show less"}
                     </button>
                 )}
 
 
-                <h2>Arvostelut</h2>
+                <h2>Reviews</h2>
 
                 <div className="review-section">
                     {(
@@ -212,7 +216,7 @@ export default function MoviePage() {
                                 <ReviewCard key={review.review_id} review={review} />
                             ))
                         ) : (
-                            <p>Ei arvosteluja vielä.</p>)
+                            <p>No reviews yet.</p>)
                     )}
                 </div>
 
