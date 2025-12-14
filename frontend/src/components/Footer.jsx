@@ -1,5 +1,6 @@
 import React from "react";
 import {Container, Row, Col,Image,Stack} from "react-bootstrap"
+import { Link } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Footer.css"
@@ -29,7 +30,7 @@ const Footer = () => {
                     
                     </Col>
                     <Col className="text-end">
-                    <h2>Linkkejä</h2>
+                    <h2>Links</h2>
                     <a href="#top" className="top-link">Back to page top</a>
                     <p></p>
                     <Link to="https://github.com/Web-Sovellusprojekti-R17/ElokuvaSovellus.git" className="nav-link">Github repository</Link>
