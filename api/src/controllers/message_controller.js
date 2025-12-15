@@ -38,11 +38,18 @@ export async function addMessage(req, res, next) {
     console.log(req.body);
     const message = req.body;
     try {
-        if (!message.text || !message.user_id || !message.group_id)
-            return next(new ApiError("Required data missing", 400));
+        const { text, user_id, group_id, movie_id, movie_title, movie_poster } = req.body;
 
-        const response = await addOne(message);
-        res.status(201).json(response);
+        const message = await addOne({
+            text,
+            user_id,
+            group_id,
+            movie_id,
+            movie_title,
+            movie_poster
+        });
+
+        res.status(201).json(message);
     } catch (err) {
         next(err);
     }

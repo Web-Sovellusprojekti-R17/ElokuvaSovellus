@@ -370,16 +370,30 @@ function RyhmaSivu() {
                                     <div
                                         className="message-avatar"
                                         style={{ backgroundColor: avatarColor }}>
-
                                     </div>
 
                                     <div className="message-content">
                                         <span className="message-username">
-                                            User {message.username}
+                                            {message.username}
                                         </span>
-                                        <span className="message-text">{message.text}</span>
-                                    </div>
 
+                                        {message.movie_id ? (
+                                            <div className="movie-message">
+                                                <img
+                                                    src={`https://image.tmdb.org/t/p/w200${message.movie_poster}`}
+                                                    alt={message.movie_title}
+                                                    className="movie-message-poster"
+                                                />
+
+                                                <div className="movie-message-info">
+                                                    <h4>{message.movie_title}</h4>
+                                                    <p>{message.text}</p>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <span className="message-text">{message.text}</span>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}
