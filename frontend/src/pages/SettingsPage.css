@@ -4,23 +4,32 @@
     flex-direction: row;
     gap: 10px;              
     padding: 20px;
-    max-width: 1400px;      
+    max-width: 1400px;
+        
     margin: 0 auto;          
     box-sizing: border-box; 
 }
 
+.setting-buttons{
+    display:flex;
+    flex-direction: column;
+}
+
 .setting-box{
     flex: 0 0 250px;       
-    background-color: hsl(222, 55%, 17%);
+    background-color: #374151;
     padding: 16px;
     border-radius: 8px;
+    height:370px;
 }
 
 .setting-screen{
     flex: 1;                
-    background-color: hsl(222, 55%, 17%);
+    background-color: #374151;
     padding: 16px;
     border-radius: 8px;
+    justify-content: center; 
+  align-items: center;    
 }
 
 @media (max-width: 800px) {
@@ -29,13 +38,17 @@
     }
 }
 
+.setting-item{
+    padding: 10px;
+    margin-top: 20px;
+}
+
 .setting-item:hover{
   cursor: pointer;
-  color: #facc15;
   text-decoration: underline;
 }
 .setting-item.active{
-  color: #facc15;
+  color: #ff6600;
   text-decoration: underline;
 }
 

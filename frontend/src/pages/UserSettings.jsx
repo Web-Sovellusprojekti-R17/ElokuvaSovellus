@@ -54,19 +54,46 @@ export default function UserSettings() {
     <div className="settings-container">
       <div className="">
         <div className="setting-box">
-          <h2 className="header">Settings!</h2>
-          <p className={`setting-item`} style={{ color: "#facc15", textDecoration: "underline" }}>User information</p>
-          <p className={`setting-item`} onClick={() => changeSite("password")}>Change password</p>
-          <p className={`setting-item`} onClick={() => changeSite("remove")}>Remove user</p>
-        </div>
+    <div className="setting-buttons">
+    <h2 className="header">Settings!</h2>
+
+    <button
+      className="setting-item"
+      type="button"
+      style={{ backgroundColor: "#ff6600", textDecoration: "underline" }}
+    >
+      User information
+    </button>
+
+    <button
+      className="setting-item"
+      onClick={() => changeSite("password")}
+      type="button"
+    >
+      Change password
+    </button>
+
+    <button
+      className="setting-item"
+      type="button"
+      onClick={() => changeSite("remove")}
+    >
+      Remove user
+    </button>
+    </div>
+  </div>
       </div>
 
       <div className="setting-screen">
+        <div className="user-settings">
         <h2>User Information</h2>
+        <div className="user-settings-input">
         <label>Username:</label>
         {message && <div>{message}</div>}
         <input value={username} onChange={e => setUsername(e.target.value)} />
         <button onClick={submitChangeName}>Save</button>
+        </div>
+        </div>
       </div>
     </div>
   );

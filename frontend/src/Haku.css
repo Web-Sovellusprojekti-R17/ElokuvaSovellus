@@ -1,9 +1,14 @@
+.search-container{
+  margin-left: 20px;;
+}
+
 
 #results {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
   padding: 20px 0;
+  margin-left: 40px;
 }
 
 
@@ -60,6 +65,12 @@ li.selected {
     
 }
 
+.filter-buttons-year{
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
 .filter-button{
   background-color:#ff6600;
 
@@ -71,4 +82,14 @@ li.selected {
 
 .delete-filter-button{
   background-color:#ffffff;
+}
+
+.filter-components{
+  margin-top: 10px;
+  display:flex;
+  flex-direction: column;
+}
+
+.filter-input-year{
+  width:150px
 }

@@ -59,11 +59,35 @@ export default function PasswordSettings() {
 
             <div className="">
                 <div className="setting-box">
-                    <h2 className="header">Settings!</h2>
-                    <p className={`setting-item`} onClick={() => changeSite("user")}>User information</p>
-                    <p className={`setting-item`} style={{ color: "var(--color-accent)", textDecoration: "underline" }}>Change password</p>
-                    <p className={`setting-item`} onClick={() => changeSite("remove")}>Remove user</p>
-                </div>
+    <div className="setting-buttons">
+    <h2 className="header">Settings!</h2>
+
+    <button
+      className="setting-item"
+      onClick={() => changeSite("user")}
+      type="button"
+    >
+      User information
+    </button>
+
+    <button
+      className="setting-item"
+      type="button"
+      style={{ backgroundColor: "#ff6600", textDecoration: "underline" }}
+    >
+      Change password
+    </button>
+
+    <button
+      className="setting-item"
+      type="button"
+      onClick={() => changeSite("remove")}
+
+    >
+      Remove user
+    </button>
+    </div>
+  </div>
             </div>
 
             <div className="setting-screen">

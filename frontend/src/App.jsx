@@ -64,6 +64,7 @@ function App() {
           <div className="container">
             <h1>Now in theaters</h1>
             <div
+            
               ref={containerRef}
               style={{
                 width: "1400px",
