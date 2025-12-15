@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "9765a1df-6567-4076-9acd-36607124987c",
+		"name": "Messages",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43010221"
+	},
+	"item": [
+		{
+			"name": "GetMessages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/messages/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"messages",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMessagesByGroupID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/messages/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"messages",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddMessage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "Yo guys did you see this movie",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "group_id",
+							"value": "10",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/messages/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"messages",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateMessage",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "text",
+							"value": "What i meant was...",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "group_id",
+							"value": "10",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/messages/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"messages",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteMessage",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/messages/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"messages",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

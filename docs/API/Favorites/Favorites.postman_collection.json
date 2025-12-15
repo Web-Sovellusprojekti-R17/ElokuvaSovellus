@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "0e94bd6d-7b72-4a0b-9fb5-ed0f3ed7ead9",
+		"name": "Favorites",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43010221"
+	},
+	"item": [
+		{
+			"name": "GetIsFavorite",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "movie_id",
+							"value": "1084242",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/favorites/check",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"favorites",
+						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFavorites",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/favorites",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFavoritesByUserID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/favorites/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"favorites",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ToggleFavourite",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movie_id",
+							"value": "5532",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/favorites",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFavoritesByShareToken",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/favorites/public/48347598fgasdfy2374",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"favorites",
+						"public",
+						"48347598fgasdfy2374"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -3,7 +3,7 @@ import { getUsers, getUserByID, addUser, changeUsername, changePassword, deleteU
 import { authenticateToken } from "../utils/auth.js";
 const userRouter = Router();
 
-userRouter.get("/", getUsers);
+userRouter.get("/", authenticateToken, getUsers);
 userRouter.get("/:id", authenticateToken, getUserByID);
 
 userRouter.post("/login", login);

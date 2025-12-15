@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "1812a24e-207f-4605-b7e9-fa9f65cd6f33",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43010221"
+	},
+	"item": [
+		{
+			"name": "GetAllUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserByID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Pentti5",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Pentti5",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "asd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/logout",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddUser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Testing5",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/register",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefreshToken",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/user/refresh",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUsername",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Pentti",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/name/10",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"name",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePassword",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/password/10",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"password",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeactivateAccount",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "4321",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/date/10",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"date",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/user/13",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"user",
+						"13"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

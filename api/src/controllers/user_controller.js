@@ -48,8 +48,7 @@ export async function addUser(req, res, next) {
             return next(new ApiError("Required data missing", 400));
 
         const response = await addOne(data);
-        console.log("User added:", response);
-        console.log("Loaded SHARE_KEY length:", process.env.SHARE_KEY?.length);
+
         const shareToken = encryptUserId(response.user_id);
         const response2 = await updateShareToken(response.user_id, shareToken);
 

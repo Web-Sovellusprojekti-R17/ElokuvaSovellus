@@ -40,6 +40,9 @@ export async function getJasenet(req, res, next) {
 export async function addMember(req, res, next) {
   const member = req.body;
   try {
+    if(!member.group_id || !member.user_id)
+      return next(new ApiError("Required data missing", 400));
+
     const response = await addOne(member);
     res.status(201).json(response);
   } catch (err) {
@@ -53,6 +56,9 @@ export async function updateMember(req, res, next) {
   const updates = req.body;
 
   try {
+    if(!updates.role)
+      return next(new ApiError("Required data missing", 400));
+    
     const response = await updateOne(group_id, user_id, updates);
     if (!response)
       return next(new ApiError("Member not found", 404));
