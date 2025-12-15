@@ -7,7 +7,6 @@ import {
     updateShareToken,
     updateName,
     deleteOne,
-    deleteSelf,
     updateDelete,
     saveRefreshToken,
     getUserByRefreshToken,

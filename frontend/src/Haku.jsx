@@ -3,10 +3,7 @@ import ReactPaginate from 'react-paginate';
 import { useParams } from "react-router-dom";
 import "./Haku.css";
 import MovieCard from "./components/MovieCard";
-import Navbar from "./components/NavBar";
 
-
-const url = 'https://api.themoviedb.org/3/search/movie?query=asdf&include_adult=false&language=en-US&page=1'
 
 function Haku(){
     let params = useParams()
@@ -19,12 +16,6 @@ function Haku(){
     const [filterInput, setFilterInput] = useState('')
     const [filterGenrePop, setFilterGenrePop] = useState(false);
     const [filteredGenreId, setFilteredGenreId] = useState(0);
-
-    // const location = useLocation();
-    // const params = new URLSearchParams(location.search);
-    // const queryFromUrl = params.get("query") || "";
-    
-
 
 
     const Movies = () => {
@@ -89,6 +80,7 @@ const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
             <div id="container">
                <div className="search-container">
                 <h3>Hae Elokuvia</h3> 
+                <h3>Search for movies</h3> 
                 <input 
                 value={query} 
                 onChange={e => setQuery(e.target.value)}
@@ -97,8 +89,8 @@ const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
                         search(0,0);
                     }
                 }}
-                ></input><button onClick={search} type="button">Hae</button>
-                <button onClick={() =>filterGenreSetter()} type="button">Filters</button>
+                ></input><button onClick={search} type="button">Search</button>
+                <button onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
                 {filterGenrePop && (
                         <div className="filter-components">
                             <div className="filter-buttons">

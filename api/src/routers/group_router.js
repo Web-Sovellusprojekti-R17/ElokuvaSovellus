@@ -1,13 +1,6 @@
 import { Router } from "express";
 import { getGroups, getGroup, getOwnGroups, addGroup, updateGroup, deleteGroup } from "../controllers/group_controller.js";
 
-///
-// REST API implementointiin tarvitaan 4 eri fileä:
-// group_controller.js 
-// Group_model.js
-// Group_router.js <- current
-// index.js
-///
 
 const groupRouter = Router();
 

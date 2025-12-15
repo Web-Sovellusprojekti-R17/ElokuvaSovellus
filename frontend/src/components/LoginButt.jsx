@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./LoginButt.css";
-import UserIcon from '../assets/freeusericon.png';
 import { useAuth } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +43,6 @@ export default function UserIconWithAuth() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    //setLoading(true);
 
     try {
       if (isSignup)
@@ -53,7 +51,7 @@ export default function UserIconWithAuth() {
         await login(username, password);
       closeLogin();
     } catch (err) {
-      setError("Väärä tunnus tai salasana");
+      setError("Wrong username or password.");
       console.log(err.message);
     }
   };
@@ -90,21 +88,21 @@ export default function UserIconWithAuth() {
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
-                placeholder="Käyttäjätunnus"
+                placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
               <input
                 type="password"
-                placeholder="Salasana"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
 
               <button type="submit" className="logsign-btn">
-                {isSignup ? "Luo tunnus" : "Kirjaudu sisään"}
+                {isSignup ? "Create account" : "Log in"}
               </button>
             </form>
 

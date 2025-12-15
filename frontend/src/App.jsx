@@ -1,16 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/NavBar";
 import Haku from "./Haku";
 import MoviePage from "./pages/MoviePage";
-import UserIconWithAuth from "./components/LoginButt";
-
 import UserSettings from "./pages/UserSettings";
 import RemoveSettings from "./pages/RemoveSettings";
 import PasswordSettings from "./pages/PasswordSettings";
-import Footer from "./components/Footer";
-//^tää valitti sitä UserIconWithAuth nii vaihoin tuohon ton /LoginButt
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -22,11 +17,11 @@ function App() {
   async function fetchMovies() {
     try {
       const res = await fetch(apiUrl);
-      if (!res.ok) throw new Error("Verkkovirhe");
+      if (!res.ok) throw new Error("Network error");
       const data = await res.json();
       setMovies(data.results);
     } catch (err) {
-      console.error("Virhe haettaessa elokuvia:", err);
+      console.error("Error fetching movies:", err);
     } finally {
       setLoading(false);
     }
@@ -62,12 +57,12 @@ function App() {
   <>
   <div className="app">
     {loading ? (
-      <p>Ladataan elokuvia...</p>
+      <p>Loading movies...</p>
     ) : (
       <Routes>
         <Route path="/" element={
           <div className="container">
-            <h1>Nyt elokuvateatterissa</h1>
+            <h1>Now in theaters</h1>
             <div
             
               ref={containerRef}
@@ -89,7 +84,7 @@ function App() {
         } />
         <Route path="/movie/template" element={<MoviePage />} />
         <Route path="/movies" element={<Haku />} />
-        <Route path="/about" element={<h1>About Page</h1>} />
+        <Route path="/about" element={<h1>About page</h1>} />
         <Route path="/settings" element={<UserSettings />} />
         <Route path="/settings/remove" element={<RemoveSettings />} />
         <Route path="/settings/password" element={<PasswordSettings />} />

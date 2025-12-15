@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
 import "./NotFound.css";
-import Navbar from "../components/NavBar";
 
 function NotFound(){
 
 
     return (
         <>
-            <p>Sivua ei ole olemassa.</p>
+            <p>Page doesn't exist.</p>
         </>  
     );
 }

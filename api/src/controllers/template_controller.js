@@ -1,13 +1,6 @@
 import { getAll, getOne, addOne, updateOne, deleteOne } from "../models/template_model.js";
 import { ApiError } from "../helpers/ApiError.js";
 
-//
-// REST API implementointiin tarvitaan 4 eri fileä:
-// template_controller.js <- current
-// template_model.js
-// template_router.js
-// index.js
-//
 
 export async function getTemplates(req, res, next) {
   try {
@@ -36,9 +29,6 @@ export async function addTemplate(req, res, next) {
   console.log(req.body);
   const template = req.body;
   try {
-    //if(!template.row1 || !template.row2)
-    //  return next(new ApiError("Required data missing", 400));  
-  
     const response = await addOne(template);
     res.status(201).json(response);
   } catch (err) {
