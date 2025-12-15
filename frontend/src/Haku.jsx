@@ -18,6 +18,7 @@ function Haku(){
     const [query, setQuery] = useState(params.query)
     const [filterInput, setFilterInput] = useState('')
     const [filterGenrePop, setFilterGenrePop] = useState(false);
+    const [filteredGenreId, setFilteredGenreId] = useState(0);
 
     // const location = useLocation();
     // const params = new URLSearchParams(location.search);
@@ -37,42 +38,42 @@ function Haku(){
         
     }
 
-    const search = (selectedGenreId,year) => {
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,{
-            headers: {
-                'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(json => {
-                if(!year){
-                 const filtered = selectedGenreId
-            ? json.results.filter(movie =>
-                  movie.genre_ids.includes(selectedGenreId)
-              )
-            : json.results;
-                setMovies(filtered)
-                setPageCount(json.total_pages)
-            }
-            if(year){
-                 const filtered = selectedGenreId
-            ? json.results.filter(movie =>
-                  movie.genre_ids.includes(selectedGenreId) && movie.release_date.startsWith(year)
-              )
-            : json.results;
-                setMovies(filtered)
-                setPageCount(json.total_pages)
-            }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
+  fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${query}&include_adult=false&language=en-US&page=${page}`,
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
+        "Content-Type": "application/json",
+      },
     }
+  )
+    .then(res => res.json())
+    .then(json => {
+      let results = json.results;
+        setFilteredGenreId(selectedGenreId);
+
+      if (selectedGenreId && selectedGenreId !== 0) {
+        results = results.filter(movie =>
+          movie.genre_ids.includes(selectedGenreId)
+        );
+      }
+
+      if (year) {
+        results = results.filter(movie =>
+          movie.release_date?.startsWith(year)
+        );
+      }
+
+      setMovies(results);
+      setPageCount(json.total_pages);
+    })
+    .catch(console.log);
+};
 
     useEffect(() => {
-        search()
-    }, [page, query])
+        search(filteredGenreId)
+    }, [page])
 
     function filterGenreSetter(){
         if(filterGenrePop===false)
@@ -86,20 +87,21 @@ function Haku(){
     return (
         <>
             <div id="container">
+               <div className="search-container">
                 <h3>Hae Elokuvia</h3> 
                 <input 
                 value={query} 
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={(e)=>{
                     if(e.key=== "Enter"){
-                        search();
+                        search(0,0);
                     }
                 }}
                 ></input><button onClick={search} type="button">Hae</button>
-                <button onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
+                <button onClick={() =>filterGenreSetter()} type="button">Filters</button>
                 {filterGenrePop && (
-                        <div className="filter-buttons">
-                            
+                        <div className="filter-components">
+                            <div className="filter-buttons">
                             <button className="filter-button" onClick={() => search(10759)}>Action & adventure</button>
                             <button className="filter-button" onClick={() => search(16)}>Animation</button>
                             <button className="filter-button" onClick={() => search(35)}>Comedy</button>
@@ -108,16 +110,26 @@ function Haku(){
                             <button className="filter-button" onClick={() => search(10762)}>Kids</button>
                             <button className="filter-button" onClick={() => search(10751)}>Family</button>
                             <button className="filter-button" onClick={() => search(10765)}>Sci-Fi & Fantasy</button>
-                            <button className="delete-filter-button" onClick={() => search()}>Delete filter</button>
-                            <div>
+                            <button className="delete-filter-button" onClick={() => search(0,0)}>Delete filters</button>
+                            </div>
+                            <div className="filter-buttons-year">
+
                                 <input 
+                                className="filter-input-year"
+                                type="number"
+                                min="1900"
+                                max={new Date().getFullYear()}
+                                placeholder="Release year"
                                 value={filterInput} 
-                                onChange={e => setFilterInput(e.target.value)}  /><button className="delete-filter-button" onClick={() => search(null,filterInput)}>Filter</button>
+                                onChange={e => setFilterInput(e.target.value)}  /><button className="delete-filter-button" onClick={() => search(filteredGenreId,filterInput)}>Filter by year</button>
                             </div>
                         </div>
-                        
+                       
                     )}
+                    </div>
+                 
                 <Movies />
+              
                 <ReactPaginate
                     breakLabel="..."
                     nextLabel=" >"
