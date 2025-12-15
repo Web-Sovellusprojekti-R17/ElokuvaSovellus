@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import "./RyhmaSivu.css";
 import { useAuth } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import "../components/ShowMessages.css"
 
 
@@ -28,6 +27,13 @@ function RyhmaSivu() {
 
     const containerRef = useRef();
     const bottomRef = useRef();
+    const navigate = useNavigate()
+
+
+    const elokuvaSivulle = (id) => async () => {
+        
+        navigate(`/movies/${id}`)    
+    }
 
     const Groups = () => {
         const navigate = useNavigate()
@@ -313,7 +319,6 @@ function RyhmaSivu() {
 
         useEffect(() => {
             async function fetchRole() {
-                console.log("joo");
                 const data = await haeOikeudet(groupID, user.username);
                 setRoleData(data);
                 setLoading(false);
@@ -365,6 +370,7 @@ function RyhmaSivu() {
                                                     src={`https://image.tmdb.org/t/p/w200${message.movie_poster}`}
                                                     alt={message.movie_title}
                                                     className="movie-message-poster"
+                                                    onClick={elokuvaSivulle(message.movie_id)}
                                                 />
 
                                                 <div className="movie-message-info">
@@ -455,7 +461,6 @@ function RyhmaSivu() {
     }
 
     const updateJasen = async (userID) => {
-        console.log("updatejasenesta " + userID, groupID)
         const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${userID}`, {
             method: "PUT",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
@@ -480,14 +485,12 @@ function RyhmaSivu() {
 
     useEffect(() => {
         if (user) {
-            console.log("jooRyhmat");
             haeRyhmat()
         }
     }, [user, paivitaRyhmat])
 
     useEffect(() => {
         if (user) {
-            console.log("jooViestit+Jasenet");
             haeViestit()
             setViesti('')
             haeJasenet()
@@ -496,12 +499,10 @@ function RyhmaSivu() {
     }, [groupID, paivitaChat])
 
     useEffect(() => {
-        console.log("ScrollToBottom");
         scrollToBottom();
     }, [messages])
 
     useEffect(() => {
-        console.log("jooJasenet");
         if (user)
             haeJasenet()
     }, [paivitaJasenet])
