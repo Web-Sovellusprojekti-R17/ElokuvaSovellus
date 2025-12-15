@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import './SettingsPage.css'
-import { useAuth, accessToken } from "../contexts/AuthContext.js";
+import { useAuth } from "../contexts/AuthContext.js";
 
 export default function RemoveSettings() {
     const [removeInput, setRemoveInput] = useState('');
-    const [password, setPassword] = useState('');
     const { user, accessToken, logout } = useAuth();
     const [isVisible, setIsVisible] = useState(false);
     const navigate = useNavigate();

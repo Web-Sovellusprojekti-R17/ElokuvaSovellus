@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { getMessages, getMessage, addMessage, updateMessage, deleteMessage, getMessagesOneGroup } from "../controllers/message_controller.js";
+import { getMessages, addMessage, updateMessage, deleteMessage, getMessagesOneGroup } from "../controllers/message_controller.js";
 
 const messageRouter = Router();
 
 messageRouter.get("/", getMessages);
-//messageRouter.get("/:id", getMessage);
 messageRouter.get("/:group_id", getMessagesOneGroup);
 messageRouter.post("/", addMessage);
 messageRouter.put("/:id", updateMessage);

@@ -32,9 +32,7 @@
   width: 320px;
   border: 2px solid var(--color-accent); 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  /* overflow: hidden; */
   text-align: left;
-
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
   animation: pop 0.25s ease-out;
 }

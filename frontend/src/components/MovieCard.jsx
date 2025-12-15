@@ -1,9 +1,6 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./MovieCard.css";
 
-//const url = `https://api.themoviedb.org/3/movie/11?api_key=${REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS}`
-// Näyttää tällä hetkellä tmdb:n käyttäjien keskiarvoa, pitää näyttää omien käyttäjien keskiarvo 
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate();

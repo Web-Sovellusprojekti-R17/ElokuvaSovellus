@@ -3,10 +3,7 @@ import ReactPaginate from 'react-paginate';
 import { useParams } from "react-router-dom";
 import "./Haku.css";
 import MovieCard from "./components/MovieCard";
-import Navbar from "./components/NavBar";
 
-
-const url = 'https://api.themoviedb.org/3/search/movie?query=asdf&include_adult=false&language=en-US&page=1'
 
 function Haku(){
     let params = useParams()
@@ -17,12 +14,6 @@ function Haku(){
     const [pageCount, setPageCount] = useState(0)
     const [query, setQuery] = useState(params.query)
     const [filterGenrePop, setFilterGenrePop] = useState(false);
-
-    // const location = useLocation();
-    // const params = new URLSearchParams(location.search);
-    // const queryFromUrl = params.get("query") || "";
-    
-
 
 
     const Movies = () => {

@@ -1,13 +1,6 @@
 import { getAll, getOne,getOwn, addOne, updateOne, deleteOne } from "../models/group_model.js";
 import { ApiError } from "../helpers/ApiError.js";
 
-//
-// REST API implementointiin tarvitaan 4 eri fileä:
-// template_controller.js <- current
-// template_model.js
-// template_router.js
-// index.js
-//
 
 export async function getGroups(req, res, next) {
   try {
@@ -64,8 +57,7 @@ export async function updateGroup(req, res, next) {
     const group = req.body;
     try {
         if(!group.group_name)
-            return next(new ApiError("Required data missing", 400));
-        // TODO: Hash the passwords 
+            return next(new ApiError("Required data missing", 400)); 
         const updated = await updateOne(id, group);
         if (!updated)
             return next(new ApiError("User not found", 404));

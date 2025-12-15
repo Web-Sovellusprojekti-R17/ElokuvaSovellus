@@ -16,6 +16,5 @@ userRouter.put("/password/:id", authenticateToken, changePassword);
 userRouter.put("/date/:id", authenticateToken, deleteAccount);
 
 userRouter.delete("/:id", authenticateToken, deleteUser);
-//userRouter.delete("/remove/:id", deleteAccount);
 
 export default userRouter;

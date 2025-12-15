@@ -2,7 +2,7 @@ import pool from "../database.js";
 import bcrypt from "bcryptjs";
 
 const SALT_ROUNDS = 10;
-import { compare, hash } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 
 export async function getAll() {
   const result = await pool.query("SELECT * FROM users");
