@@ -38,19 +38,27 @@
     font-size: 1.1rem;
 }
 
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 6px 0;
+}
+
 .genre-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .genre-tag {
-    padding: 5px 12px;
-    /* background: hsl(222, 55%, 25%); */
-    background: var(--color-accent);
-    border-radius: 12px;
-    font-size: 0.9rem;
+  background: var(--color-secondary);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: white;
 }
+
 
 .actor-grid {
     display: grid;
@@ -152,7 +160,7 @@
     color:gold;
     margin-bottom: 10px;
     border:none;
-    background-color: hsl(222, 55%, 25%);
+    background-color: var(--color-secondary);
     font-size: 1.4rem;
 }
 

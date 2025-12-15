@@ -1,6 +1,6 @@
 import "./MoviePage.css";
 import Navbar from "../components/NavBar";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth, accessToken } from "../contexts/AuthContext.js";
@@ -16,7 +16,7 @@ export default function MoviePage() {
         const stars = Math.round(rating / 2);
         return "★".repeat(stars) + "☆".repeat(5 - stars);
     };
-
+    const navigate = useNavigate();
     const [cast, setCast] = useState([]);
     const [visibleCount, setVisibleCount] = useState(8);
     const [reviews, setReviews] = useState([]);
@@ -30,7 +30,7 @@ export default function MoviePage() {
     async function fetchMovie() {
         try {
             const response = await fetch(
-                `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`
+                `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
             );
             const data = await response.json();
             setMovie(data);
@@ -189,6 +189,12 @@ export default function MoviePage() {
     if (!movie) return <p>Elokuvaa ladataan...</p>;
 
 
+    function handleShowMoreReviews() {
+        navigate(`/arvostelu/${id}`);
+    }
+    
+    if (!movie) return <p>Loading...</p>;
+   
     return (
         <>
             <div className="movie-container">
@@ -208,24 +214,28 @@ export default function MoviePage() {
                         <p className="stars">{renderStars(movie.vote_average)}</p>
                         {
                             user && (<button className="fav-btn" onClick={toggleFavorite}>
-                                {isFavorite ? "★ Suosikki" : "☆ Lisää suosikkeihin"}
+                                {isFavorite ? "★ Favorite" : "☆ Add to Favorites"}
                             </button>)
                         }
-                        <p><strong>Vuosi: </strong>{movie.release_date?.substr(0, 4)}</p>
-                        <p><strong>Kesto:</strong> {movie.runtime} min</p>
-                        <p><strong>Kielet:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>
+                        <p><strong>Year: </strong>{movie.release_date?.substr(0, 4)}</p>
+                        <p><strong>Runtime:</strong> {movie.runtime} min</p>
+                        <p><strong>Languages:</strong> {movie.spoken_languages?.map(lang => lang.english_name).join(", ")}</p>
+                        
+                        <div className="info-row">
+                         <strong>Genres:</strong>
+                         <div className="genre-container">
+                               {movie.genres?.map(g => (
+                                 <span className="genre-tag" key={g.id}>{g.name}</span>
+                               ))}
+                            </div>
+                          </div>
 
-                        <div className="genre-container">
-                            {movie.genres?.map((g) => (
-                                <span className="genre-tag" key={g.id}>{g.name}</span>
-                            ))}
-                        </div>
 
-                        <p><strong>Lisätietoja:</strong> {movie.overview}</p>
+                        <p><strong>Overview:</strong> {movie.overview}</p>
                     </div>
                 </div>
 
-                <h2>Näyttelijät</h2>
+                <h2>Actors</h2>
 
                 <div className="actor-grid">
                     {cast.slice(0, visibleCount).map((actor) => (
@@ -239,7 +249,7 @@ export default function MoviePage() {
                                 alt={actor.name}
                             />
                             <p><strong>{actor.name}</strong></p>
-                            <p>{actor.character || "Tuntematon"}</p>
+                            <p>{actor.character || "Unknown"}</p>
                         </div>
                     ))}
                 </div>
@@ -251,12 +261,12 @@ export default function MoviePage() {
                             setVisibleCount(visibleCount === 8 ? cast.length : 8)
                         }
                     >
-                        {visibleCount === 8 ? "Näytä lisää" : "Näytä vähemmän"}
+                        {visibleCount === 8 ? "Show more" : "Show less"}
                     </button>
                 )}
 
 
-                <h2>Arvostelut</h2>
+                <h2>Reviews</h2>
 
                 <div className="review-section">
                     {(
@@ -265,7 +275,15 @@ export default function MoviePage() {
                                 <ReviewCard key={review.review_id} review={review} />
                             ))
                         ) : (
-                            <p>Ei arvosteluja vielä.</p>)
+                            <p>No reviews yet.</p>)
+                    )}
+                    {reviews.length > 0 && (
+                    <button
+                        className="show-more-btn"
+                        onClick={() => handleShowMoreReviews() }
+                    >
+                        {"Read more reviews"}
+                    </button>
                     )}
                 </div>
 

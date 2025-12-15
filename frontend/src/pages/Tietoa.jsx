@@ -7,7 +7,7 @@ function Tietoa(){
 
     return (
         <>
-            <p>ElokuvaSovellus on elokuva sovellus.</p>
+            <p>ElokuvaSovellus is an app for movies.</p>
         </> 
     );
 }

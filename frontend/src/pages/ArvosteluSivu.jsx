@@ -6,21 +6,35 @@ import axios from "axios";
 import { useAuth } from "../contexts/AuthContext.js"; 
 
 function ArvosteluSivu() {
-    let params = useParams()
-
-    const [movie_id, setMovie_id] = useState(params.movieID)
+    const { movieID: movie_id } = useParams();
     const [title, setTitle] = useState('')
     const [year, setYear] = useState('')
     const [poster, setPoster] = useState('')
     const [reviews, setReviews] = useState([]);
-    const { user } = useAuth(); 
+    const { user, loading  } = useAuth(); 
 
-    async function fetchReviews() {
-        if (!movie_id && !user) 
+    async function fetchReviewsByMovieID() {
+        if (!movie_id) 
             return;
-        console.log(movie_id ? "true" : "false");
-        axios.get(movie_id ? `http://localhost:3001/review/movie/${movie_id}`
-                           : `http://localhost:3001/review/user/${user.id}`)
+
+        axios.get(`${process.env.REACT_APP_API_URL}review/movie/${movie_id}`)
+            .then((response) => {
+                console.log("Reviews found: " + response);
+                setReviews(Array.isArray(response.data) ? response.data : []);
+
+            })
+            .catch((err) => {
+                console.error('There was an error fetching users', err)
+            })
+
+        
+    }
+
+    async function fetchReviewsByUserID() {
+        if (!user) 
+            return;
+
+        axios.get(`${process.env.REACT_APP_API_URL}review/user/${user.id}`)
             .then((response) => {
                 console.log("Reviews found: " + response);
                 setReviews(Array.isArray(response.data) ? response.data : []);
@@ -55,25 +69,35 @@ function ArvosteluSivu() {
     }
 
     useEffect(() => {
-        fetchReviews();
-        search()
-    }, [])
+        if(movie_id){
+            fetchReviewsByMovieID();
+            search()
+        }
+        if(loading) return;
+
+        if(user && !movie_id)
+            fetchReviewsByUserID();
+        
+    }, [user, loading, movie_id])
 
     return (
         <>
             <div id="arvostelu-container-kokosivu">
-                <div>
-                    <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Elokuvan juliste" />
+                {movie_id &&
+                (<div>
+                    <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Movie poster" />
                     <p>{title}</p>
                     <p>({year})</p>
                 </div>
+                )}
+                
                  <div className="review-section">
                     {Array.isArray(reviews) && reviews.length > 0 ? (
                         reviews.map((review) => (
                             <ReviewCard key={review.review_id} review={review} />
                         ))
                     ) : (
-                        <p>Ei arvosteluja vielä.</p>
+                        <p>No reviews yet.</p>
                     )}
                 </div>
 

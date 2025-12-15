@@ -74,7 +74,7 @@ function Haku(){
     return (
         <>
             <div id="container">
-                <h3>Hae Elokuvia</h3> 
+                <h3>Search for movies</h3> 
                 <input 
                 value={query} 
                 onChange={e => setQuery(e.target.value)}
@@ -83,7 +83,7 @@ function Haku(){
                         search();
                     }
                 }}
-                ></input><button onClick={search} type="button">Hae</button>
+                ></input><button onClick={search} type="button">Search</button>
                 <button onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
                 {filterGenrePop && (
                         <div className="filter-buttons">

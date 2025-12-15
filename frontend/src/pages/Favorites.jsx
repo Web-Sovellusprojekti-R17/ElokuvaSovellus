@@ -17,7 +17,7 @@ export default function Favorites() {
     async function fetchMovieDetails(movieID) {
         try {
             const response = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=fi-FI`
+                `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
             );
             return response.data;
         } catch (error) {
@@ -77,7 +77,6 @@ export default function Favorites() {
         }
     }
 
-    // Fetch movie details when IDs change
     useEffect(() => {
         if (favoriteMovieIDs.length === 0) {
             setFavoriteMovies([]);
@@ -89,7 +88,7 @@ export default function Favorites() {
                 favoriteMovieIDs.map((id) => fetchMovieDetails(id))
             );
 
-            setFavoriteMovies(movies.filter(Boolean)); // remove nulls
+            setFavoriteMovies(movies.filter(Boolean));
         }
 
         loadMovies();
@@ -112,7 +111,7 @@ export default function Favorites() {
 
     return (
         <div className="container">
-            <h1>Suosikit</h1>
+            <h1>Your favorites</h1>
             {user && (
                 <div className="share-link-container" style={{ marginBottom: "1rem" }}>
                     <button onClick={handleCopyLink} className="btn btn-primary">
@@ -127,7 +126,7 @@ export default function Favorites() {
                         <MovieCard key={movie.id} movie={movie} />
                     ))
                 ) : (
-                    <p>Ei suosikkeja vielä.</p>
+                    <p>No favorites yet.</p>
                 )}
             </div>
         </div>

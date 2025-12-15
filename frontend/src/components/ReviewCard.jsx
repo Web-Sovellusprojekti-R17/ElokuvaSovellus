@@ -8,6 +8,7 @@ const ReviewCard = ({ review }) => {
     const [editUserStars, setEditUserStars] = useState(1);
     const [editReviewInput, setEditReviewInput] = useState('');
     const { user, accessToken } = useAuth();
+    const [poster, setPoster] = useState('')
 
     function handleSendButton() {
         axios.put(`${process.env.REACT_APP_API_URL}review/${review.review_id}`,
@@ -56,8 +57,29 @@ const ReviewCard = ({ review }) => {
         return "★".repeat(rating) + "☆".repeat(5 - rating);
     };
 
+    const haeJuliste = async () => {
+        try{
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${review.movie_id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`, {
+                headers: {
+                    'Authorization': "Bearer " + process.env.REACT_APP_TMDB_LUKUOIKEUDEN_TUNNUS,
+                    'Content-Type': 'appliction/json'
+                }
+            })
+
+            const json = await res.json();
+            setPoster(json.poster_path);
+        }
+        catch (err){
+            console.error("haeJuliste error: ", err);
+            return null;
+        }
+    }
+
+    haeJuliste()
+
     return (
         <div className="review-card">
+            <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Elokuvan juliste" />
             <h4>User: {review.username}</h4>
             <p>{new Date(review.review_date).toISOString().split("T")[0]}</p>
             <p className="stars">{renderReviewStars(review.rating)}</p>
