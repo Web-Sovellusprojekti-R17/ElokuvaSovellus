@@ -149,7 +149,7 @@ export default function MoviePage() {
 
     async function shareMovieToGroup() {
         if (!selectedGroup) {
-            alert("Valitse ryhmä ensin");
+            alert("Choose a group first!");
             return;
         }
 
@@ -175,12 +175,12 @@ export default function MoviePage() {
                 throw new Error(err.error);
             }
 
-            alert("Elokuva jaettu!");
+            alert("Movie shared!");
             setShareMessage("");
 
         } catch (error) {
             console.error("Share failed:", error);
-            alert("Jakaminen epäonnistui");
+            alert("Share Failed!");
         }
     }
 

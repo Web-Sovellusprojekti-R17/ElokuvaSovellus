@@ -34,8 +34,24 @@
   align-items: center;
   gap: 20px;
   background-color: var(--color-primary);
-  padding: 1rem 2rem;
+  padding: 1rem 0;
   border-radius: 1rem;
+
+
+}
+
+.scroll-container {
+  width: 100%;
+  max-width: 1400px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  margin-bottom: 50px;
+  margin-left: 0;
+  margin-right: auto;
+  border: #ff6600;
+  border-top: 2px solid var(--color-accent); 
+  border-bottom: 2px solid var(--color-accent); 
+  
 }
 
 
@@ -43,6 +59,7 @@
   border-radius: 1rem;
   transition: 0.2s ease;
   border: 2px solid transparent;
+  margin-bottom: 5px;
 }
 
 .movie_img:hover {
@@ -64,4 +81,15 @@
 .scrollbox::-webkit-scrollbar-thumb {
   background: var(--color-accent);
   border-radius: 20px;
+}
+
+.your-favorites-top{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.nav-link{
+  color: #ff6600;
+  
 }
