@@ -184,7 +184,7 @@ export default function MoviePage() {
         }
     }
 
-    if (!movie) return <p>Elokuvaa ladataan...</p>;
+    if (!movie) return <p>Downloading movie...</p>;
 
 
     function handleShowMoreReviews() {
@@ -309,13 +309,13 @@ export default function MoviePage() {
 
                 {user && (
                     <div className="share-movie-box">
-                        <h3>Jaa elokuva ryhmälle</h3>
+                        <h3>Share movie to group</h3>
 
                         <select
                             value={selectedGroup}
                             onChange={(e) => setSelectedGroup(e.target.value)}
                         >
-                            <option value="">Valitse ryhmä</option>
+                            <option value="">Choose group</option>
                             {groups.map(g => (
                                 <option key={g.group_id} value={g.group_id}>
                                     {g.group_name}
@@ -324,13 +324,13 @@ export default function MoviePage() {
                         </select>
 
                         <textarea
-                            placeholder="Kirjoita viesti..."
+                            placeholder="Message..."
                             value={shareMessage}
                             onChange={(e) => setShareMessage(e.target.value)}
                         />
 
                         <button onClick={shareMovieToGroup}>
-                            Jaa ryhmään
+                            Share to group
                         </button>
                     </div>
                 )}
