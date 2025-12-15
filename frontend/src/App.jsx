@@ -125,6 +125,7 @@ async function fetchMovieDetails(movieID) {
           src={`https://image.tmdb.org/t/p/w500/${backdrop_path}`}
           className="movie_img"
           alt={title || name}
+            tabIndex={0}
         />
         <div className="title">{title || name}</div>
       </div>
@@ -164,7 +165,7 @@ async function fetchMovieDetails(movieID) {
             <div className="your-favorites-top" style={{display: user && favoriteMovies.length>0 ? "block" : "none"}}>
             <h1 >Your favorites</h1> <Link to="/favorites" className="nav-link">See more</Link>
             </div>
-            <div ref={containerRef} className="scroll-container">
+            <div ref={containerRef} className="scroll-container" style={{display: user && favoriteMovies.length>0 ? "block" : "none"}}>
               <div  className="movies-container">
                 {favoriteMovies.map((movie) => (
                   <div className="movie" key={movie.id} >

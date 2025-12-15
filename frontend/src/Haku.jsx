@@ -20,7 +20,7 @@ function Haku(){
 
     const Movies = () => {
         return (
-            <ul id="results">
+            <ul id="results" >
                 {movies && movies.map(movie => ( 
                     MovieCard({ movie })
                 ))}
@@ -90,7 +90,7 @@ const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
                     }
                 }}
                 ></input><button onClick={search} type="button">Search</button>
-                <button onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
+                <button onClick={() =>filterGenreSetter()} type="button">Filters</button>
                 {filterGenrePop && (
                         <div className="filter-components">
                             <div className="filter-buttons">
