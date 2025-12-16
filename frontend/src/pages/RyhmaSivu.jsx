@@ -513,7 +513,7 @@ function RyhmaSivu() {
         <>
             {luoRyhmaAuki && (
                 <div>
-                    <input type="text" placeholder="Ryhmän nimi..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required />
+                    <input type="text" placeholder="Group name..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required />
                     <button id="luoButton" onClick={luoRyhma}>Create</button>
                 </div>
             )}

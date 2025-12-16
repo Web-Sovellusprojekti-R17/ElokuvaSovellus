@@ -72,15 +72,30 @@ li.selected {
 }
 
 .filter-button{
-  background-color:#ff6600;
-
+  background-color: var(--color-accent);
+  border-radius: 8px;
 }
 
 .filter-button:hover{
-  background-color:#ff7f2a;
+  background-color: var(--color-accent);
 }
 
 .delete-filter-button{
+  background-color: var(--color-secondary);
+  color:antiquewhite;
+  border-radius: 8px;
+}
+
+.search-button{
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  background-color: var(--color-accent);
+}
+
+.search-field{
+  border-radius: 8px;
+  padding: 4px;
   background-color:#ffffff;
 }
 

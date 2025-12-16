@@ -17,7 +17,7 @@
 
 .setting-box{
     flex: 0 0 250px;       
-    background-color: #374151;
+    background-color: var(--color-secondary);
     padding: 16px;
     border-radius: 8px;
     height:370px;
@@ -25,7 +25,7 @@
 
 .setting-screen{
     flex: 1;                
-    background-color: #374151;
+    background-color: var(--color-secondary);
     padding: 16px;
     border-radius: 8px;
     justify-content: center; 
@@ -39,16 +39,21 @@
 }
 
 .setting-item{
+    color: var(--text-light);
     padding: 10px;
     margin-top: 20px;
+    border-radius: 15px;
+    background-color: var(--color-secondary);
 }
+
 
 .setting-item:hover{
   cursor: pointer;
+  color: var(--color-accent);
   text-decoration: underline;
 }
 .setting-item.active{
-  color: #ff6600;
+  color: var(--color-accent);
   text-decoration: underline;
 }
 
@@ -69,5 +74,11 @@
 .remove-user-container{
     gap:10px;
     padding: 10px;
+}
+
+.user-settings-input{
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
 }
 

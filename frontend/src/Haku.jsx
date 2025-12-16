@@ -82,6 +82,7 @@ const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
                 <h3>Hae Elokuvia</h3> 
                 <h3>Search for movies</h3> 
                 <input 
+                className="search-field"
                 value={query} 
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={(e)=>{
@@ -89,8 +90,8 @@ const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
                         search(0,0);
                     }
                 }}
-                ></input><button onClick={search} type="button">Search</button>
-                <button onClick={() =>filterGenreSetter()} type="button">Filters</button>
+                ></input><button className="search-button" onClick={search} type="button">Search</button>
+                <button className="search-button" onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
                 {filterGenrePop && (
                         <div className="filter-components">
                             <div className="filter-buttons">
