@@ -76,6 +76,7 @@ function Haku(){
             <div id="container">
                 <h3>Search for movies</h3> 
                 <input 
+                className="search-field"
                 value={query} 
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={(e)=>{
@@ -83,8 +84,8 @@ function Haku(){
                         search();
                     }
                 }}
-                ></input><button onClick={search} type="button">Search</button>
-                <button onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
+                ></input><button className="search-button" onClick={search} type="button">Search</button>
+                <button className="search-button" onClick={() =>filterGenreSetter()} type="button">Filter by genre</button>
                 {filterGenrePop && (
                         <div className="filter-buttons">
                             

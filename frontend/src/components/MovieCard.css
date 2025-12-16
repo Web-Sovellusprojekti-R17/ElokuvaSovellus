@@ -55,3 +55,9 @@
   color: #facc15;
   margin: 6px 0;
 }
+
+@media (max-width: 600px) {
+  .poster-wrapper {
+    height: 220px; /* smaller on phones */
+  }
+}

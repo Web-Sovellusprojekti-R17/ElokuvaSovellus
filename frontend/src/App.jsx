@@ -72,6 +72,7 @@ function App() {
               ref={containerRef}
               style={{
                 width: "1400px",
+                margin: "0 auto",
                 overflowX: "scroll",
                 scrollBehavior: "smooth",
               }}

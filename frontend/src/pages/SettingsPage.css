@@ -11,7 +11,7 @@
 
 .setting-box{
     flex: 0 0 250px;       
-    background-color: hsl(222, 55%, 17%);
+    background-color: var(--color-primary);
     padding: 16px;
     border-radius: 8px;
     
@@ -19,7 +19,7 @@
 
 .setting-screen{
     flex: 1;                
-    background-color: hsl(222, 55%, 17%);
+    background-color: var(--color-primary);
     padding: 16px;
     border-radius: 8px;
     
@@ -33,11 +33,11 @@
 
 .setting-item:hover{
   cursor: pointer;
-  color: #facc15;
+  color: var(--color-accent);
   text-decoration: underline;
 }
 .setting-item.active{
-  color: #facc15;
+  color: var(--color-accent);
   text-decoration: underline;
 }
 

@@ -516,7 +516,7 @@ function RyhmaSivu() {
         <>
             {luoRyhmaAuki && (
                 <div>
-                    <input type="text" placeholder="Ryhmän nimi..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required />
+                    <input type="text" placeholder="Group name..." value={groupName} onChange={(e) => setGroupName(e.target.value)} required />
                     <button id="luoButton" onClick={luoRyhma}>Create</button>
                 </div>
             )}
@@ -599,7 +599,7 @@ function RyhmaSivu() {
                                 )}
                                 {user.id === jasen.user_id && (
                                     <div className="jasen-napit">
-                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Poistu Ryhmästä</button>
+                                        <button onClick={() => poistaJasen(jasen.group_id, jasen.user_id)} id="poista-jasen-button">Leave group</button>
                                     </div>
                                 )}
                             </div>

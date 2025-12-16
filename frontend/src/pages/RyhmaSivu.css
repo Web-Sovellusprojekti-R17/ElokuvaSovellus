@@ -25,6 +25,13 @@
   transition: 0.2s ease-in-out border-color;
 }
 
+@media (max-width: 600px) {
+  #container-kaikki-ryhmat, #container-omat-ryhmat, #jasenlista-container{
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  #chat{ max-height: 50vh; }
+}
 
 #chat{
   display: flex;
@@ -35,7 +42,7 @@
   background-color: var(--color-secondary);
   border-radius: 14px;
   box-shadow: 0 4px 18px rgba(0,0,0,0.25);
-  color: var(--color-primary);
+
 }
 
 textarea {
@@ -172,6 +179,19 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
+#luoButton{
+  background-color: var(--color-secondary);
+  color: white;
+
+  padding: 4px;
+  border-radius: 8px;
+  border: none;
+
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.15s;
+}
+
 #luoButton:hover{
   background-color: var(--color-accent);
 }
@@ -210,7 +230,6 @@ textarea:focus {
   overflow-y: scroll;
   scroll-behavior: smooth;
   width: 200px;
-  border: 2px solid var(--color-accent);
   margin-right: 0px;
   margin-left: auto;
 }
@@ -246,6 +265,21 @@ textarea:focus {
   flex-direction: column;
   gap: 5px;
 }
+
+
+#poista-jasen-button{
+  background-color: var(--color-secondary);
+  color: white;
+
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.15s;
+}
+
 #poista-jasen-button:hover{
   background-color: crimson;
 }

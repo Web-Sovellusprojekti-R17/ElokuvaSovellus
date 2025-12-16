@@ -5,6 +5,9 @@
 
   --text-light: #ffffff;
   --text-muted: #d1d5db;
+
+  --color-primary: var(--color-main);
+  --text-primary: var(--text-light);
 }
 
 
