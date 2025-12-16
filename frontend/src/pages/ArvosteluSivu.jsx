@@ -6,9 +6,7 @@ import axios from "axios";
 import { useAuth } from "../contexts/AuthContext.js"; 
 
 function ArvosteluSivu() {
-    let params = useParams()
-
-    const [movie_id, setMovie_id] = useState(params.movieID)
+    const { movieID: movie_id } = useParams();
     const [title, setTitle] = useState('')
     const [year, setYear] = useState('')
     const [poster, setPoster] = useState('')
@@ -85,11 +83,14 @@ function ArvosteluSivu() {
     return (
         <>
             <div id="arvostelu-container-kokosivu">
-                <div>
+                {movie_id &&
+                (<div>
                     <img src={`https://image.tmdb.org/t/p/w185${poster}`} alt="Movie poster" />
                     <p>{title}</p>
                     <p>({year})</p>
                 </div>
+                )}
+                
                  <div className="review-section">
                     {Array.isArray(reviews) && reviews.length > 0 ? (
                         reviews.map((review) => (

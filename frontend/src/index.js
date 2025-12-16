@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, RouterProvider ,createBrowserRouter } from "react-router-dom";
+import { RouterProvider ,createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Haku from "./Haku"
-//import MovieCard from "./components/MovieCard";
 import NotFound from "./pages/NotFound";
 import RyhmaSivu from "./pages/RyhmaSivu";
 import ArvosteluSivu from "./pages/ArvosteluSivu";

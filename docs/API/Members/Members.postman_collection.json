@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "9aff1646-f38a-4622-8f8a-79d0c992e204",
+		"name": "Members",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43010221"
+	},
+	"item": [
+		{
+			"name": "GetMembers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/members/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"members",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMembersByGroupID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/members/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"members",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMemberByGroupIDUserID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/members/3/4",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"members",
+						"3",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddMember",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "group_id",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "user_id",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/members/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"members",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateMemberByGroupIDUserID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "role",
+							"value": "Member",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/members/4/5",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"members",
+						"4",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteMemberByGroupIDUserID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/members/5/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"members",
+						"5",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

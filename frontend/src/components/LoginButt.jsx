@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./LoginButt.css";
-import UserIcon from '../assets/freeusericon.png';
 import { useAuth } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +43,6 @@ export default function UserIconWithAuth() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    //setLoading(true);
 
     try {
       if (isSignup)

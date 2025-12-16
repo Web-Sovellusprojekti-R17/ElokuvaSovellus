@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "24c990da-e035-4253-ac84-e9e749b4037c",
+		"name": "Reviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43010221"
+	},
+	"item": [
+		{
+			"name": "GetReviews",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/review/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetReviewByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/review/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetReviewsByMovieID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/review/movie/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						"movie",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetReviewsByUserID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/review/user/1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddReview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movie_ID",
+							"value": "5541",
+							"type": "text"
+						},
+						{
+							"key": "review",
+							"value": "This movie is amazing!",
+							"type": "text"
+						},
+						{
+							"key": "user_ID",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/review/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateReview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "review",
+							"value": "I was wrong this is bad",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/review/3",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteReview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/review/2",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"review",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

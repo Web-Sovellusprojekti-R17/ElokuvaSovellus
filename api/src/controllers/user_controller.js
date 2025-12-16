@@ -7,7 +7,6 @@ import {
     updateShareToken,
     updateName,
     deleteOne,
-    deleteSelf,
     updateDelete,
     saveRefreshToken,
     getUserByRefreshToken,
@@ -49,8 +48,7 @@ export async function addUser(req, res, next) {
             return next(new ApiError("Required data missing", 400));
 
         const response = await addOne(data);
-        console.log("User added:", response);
-        console.log("Loaded SHARE_KEY length:", process.env.SHARE_KEY?.length);
+
         const shareToken = encryptUserId(response.user_id);
         const response2 = await updateShareToken(response.user_id, shareToken);
 
@@ -92,7 +90,7 @@ export async function login(req, res, next) {
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,                                 // Ei JavaScript-pääsyä
             secure: process.env.NODE_ENV === "production",  // HTTPS tuotannossa
-            sameSite: "strict",                             // CSRF-suojaus
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // CSRF-suojaus
             maxAge: 7 * 24 * 60 * 60 * 1000,                // 7 päivää
         });
 

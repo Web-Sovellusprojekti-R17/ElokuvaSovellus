@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import './SettingsPage.css'
-import { useAuth, accessToken } from "../contexts/AuthContext.js";
+import { useAuth } from "../contexts/AuthContext.js";
 
 export default function RemoveSettings() {
     const [removeInput, setRemoveInput] = useState('');
-    const [password, setPassword] = useState('');
     const { user, accessToken, logout } = useAuth();
     const [isVisible, setIsVisible] = useState(false);
     const navigate = useNavigate();
@@ -40,17 +39,41 @@ export default function RemoveSettings() {
     return (
         <div className="settings-container">
 
-            <div className="">
-                <div className="setting-box">
-                    <h2 className="header">Settings!</h2>
-                    <p className={`setting-item`} onClick={() => changeSite("user")} >User information</p>
-                    <p className={`setting-item`} onClick={() => changeSite("password")}>Change password</p>
-                    <p className={`setting-item`} style={{ color: "#facc15", textDecoration: "underline" }}>Remove user</p>
-                </div>
-            </div>
+            <div>
+  <div className="setting-box">
+    <div className="setting-buttons">
+    <h2 className="header">Settings!</h2>
+
+    <button
+      className="setting-item"
+      onClick={() => changeSite("user")}
+      type="button"
+    >
+      User information
+    </button>
+
+    <button
+      className="setting-item"
+      onClick={() => changeSite("password")}
+      type="button"
+    >
+      Change password
+    </button>
+
+    <button
+      className="setting-item"
+      type="button"
+      style={{ backgroundColor: "#ff6600", textDecoration: "underline" }}
+    >
+      Remove user
+    </button>
+    </div>
+  </div>
+</div>
 
             <div className="setting-screen">
-                <h2>Warning! This will remove your account! Tread carefully!</h2>
+                <h2>Warning!</h2>
+                <h2>This will remove your account!</h2>
                 <div className="remove-user-box">
                     <label >Password: </label> 
                     <input 

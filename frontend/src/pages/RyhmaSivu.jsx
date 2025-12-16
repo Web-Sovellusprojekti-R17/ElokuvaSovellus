@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import "./RyhmaSivu.css";
-import Navbar from "../components/NavBar";
-import { useAuth, accessToken } from "../contexts/AuthContext.js";
+import { useAuth } from "../contexts/AuthContext.js";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import "../components/ShowMessages.css"
 
 
@@ -15,7 +13,6 @@ function RyhmaSivu() {
     const [messages, setMessages] = useState([])
     const [viesti, setViesti] = useState('')
     const { user, accessToken } = useAuth();
-    let params = useParams()
     const [groupID, setGroupID] = useState('')
     const [paivitaChat, setPaivitaChat] = useState(true)
     const [paivitaRyhmat, setPaivitaRyhmat] = useState(true)
@@ -23,8 +20,6 @@ function RyhmaSivu() {
     const [poistaRyhmaAuki, setPoistaRyhmaAuki] = useState(false)
     const [oikeudet, setOikeudet] = useState('')
     const [jasenet, setJasenet] = useState([])
-    const [chatState, setChatState] = useState(0)
-    const [currentGroup, setCurrentGroup] = useState('')
     const [lisaaJasenAuki, setLisaaJasenAuki] = useState(false)
     const [lisattava, setLisattava] = useState('')
     const [kayttajatListaLisays, setKayttajatListaLisays] = useState([])
@@ -32,6 +27,13 @@ function RyhmaSivu() {
 
     const containerRef = useRef();
     const bottomRef = useRef();
+    const navigate = useNavigate()
+
+
+    const elokuvaSivulle = (id) => async () => {
+        
+        navigate(`/movies/${id}`)    
+    }
 
     const Groups = () => {
         const navigate = useNavigate()
@@ -285,20 +287,6 @@ function RyhmaSivu() {
         }
     }
 
-    const asetaRooli = async (rID, kID, rooli) => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${rID}/${kID}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
-            credentials: "include",
-            body: new URLSearchParams({ role: rooli })
-        });
-
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.error || "Failed to set role");
-        }
-    }
-
     const haeOikeudet = async (rID, kID) => {
         try {
             const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${user.id}`, {
@@ -331,7 +319,6 @@ function RyhmaSivu() {
 
         useEffect(() => {
             async function fetchRole() {
-                console.log("joo");
                 const data = await haeOikeudet(groupID, user.username);
                 setRoleData(data);
                 setLoading(false);
@@ -370,16 +357,31 @@ function RyhmaSivu() {
                                     <div
                                         className="message-avatar"
                                         style={{ backgroundColor: avatarColor }}>
-
                                     </div>
 
                                     <div className="message-content">
                                         <span className="message-username">
-                                            User {message.username}
+                                            {message.username}
                                         </span>
-                                        <span className="message-text">{message.text}</span>
-                                    </div>
 
+                                        {message.movie_id ? (
+                                            <div className="movie-message">
+                                                <img
+                                                    src={`https://image.tmdb.org/t/p/w200${message.movie_poster}`}
+                                                    alt={message.movie_title}
+                                                    className="movie-message-poster"
+                                                    onClick={elokuvaSivulle(message.movie_id)}
+                                                />
+
+                                                <div className="movie-message-info">
+                                                    <h4>{message.movie_title}</h4>
+                                                    <p>{message.text}</p>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <span className="message-text">{message.text}</span>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}
@@ -459,7 +461,6 @@ function RyhmaSivu() {
     }
 
     const updateJasen = async (userID) => {
-        console.log("updatejasenesta " + userID, groupID)
         const res = await fetch(`${process.env.REACT_APP_API_URL}api/members/${groupID}/${userID}`, {
             method: "PUT",
             headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": `Bearer ${accessToken}` },
@@ -484,14 +485,12 @@ function RyhmaSivu() {
 
     useEffect(() => {
         if (user) {
-            console.log("jooRyhmat");
             haeRyhmat()
         }
     }, [user, paivitaRyhmat])
 
     useEffect(() => {
         if (user) {
-            console.log("jooViestit+Jasenet");
             haeViestit()
             setViesti('')
             haeJasenet()
@@ -500,12 +499,10 @@ function RyhmaSivu() {
     }, [groupID, paivitaChat])
 
     useEffect(() => {
-        console.log("ScrollToBottom");
         scrollToBottom();
     }, [messages])
 
     useEffect(() => {
-        console.log("jooJasenet");
         if (user)
             haeJasenet()
     }, [paivitaJasenet])
@@ -533,7 +530,6 @@ function RyhmaSivu() {
                         <Groups />
                     </div>
                 </div>
-                {/* <Messages /> */}
 
                 <div id="chat" >
                     <ShowMessages />
