@@ -5,7 +5,7 @@ function Tietoa(){
 
     return (
         <>
-            <p>ElokuvaSovellus is an app for movies.</p>
+            <p>This is an app for movies.</p>
         </> 
     );
 }

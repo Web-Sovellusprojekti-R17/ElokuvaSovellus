@@ -27,11 +27,10 @@ export default function Navbar() {
           <span className="logged-in-user">Welcome, {user.name}!</span>
         )}
         <Link to="/" className="nav-link">Home</Link>
-        <Link to="/about" className="nav-link">About</Link>
         {user ? <Link to="/arvostelu" className="nav-link">My Reviews</Link> : null}
         {user ? <Link to="/ryhma" className="nav-link">Groups</Link> : null}
-        {user ? <Link to="/settings" className="nav-link">Settings</Link> : null}
         {user ? <Link to="/favorites" className="nav-link">Favorites</Link> : null}
+        {user ? <Link to="/settings" className="nav-link">Settings</Link> : null}
       </div>
 
       <div className="navbar-search">
