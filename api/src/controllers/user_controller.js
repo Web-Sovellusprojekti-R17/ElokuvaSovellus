@@ -47,6 +47,9 @@ export async function addUser(req, res, next) {
         if (!data.name || !data.password)
             return next(new ApiError("Required data missing", 400));
 
+        if(data.password.length < 8)
+            return next(new ApiError("Password is too short", 400));
+
         const response = await addOne(data);
 
         const shareToken = encryptUserId(response.user_id);
@@ -186,7 +189,8 @@ export async function changePassword(req, res, next) {
     try {
         if (!data.oldPassword || !data.newPassword)
             return next(new ApiError("Required data missing", 400));
-
+        if(data.newPassword.length < 8)
+            return next(new ApiError("Password is too short", 400));
         if(data.oldPassword === data.newPassword)
             return next(new ApiError("New password must be different from old password", 400));
 
