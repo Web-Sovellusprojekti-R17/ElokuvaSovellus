@@ -111,8 +111,8 @@ export default function Favorites() {
 
     return (
         <div className="container">
-            <h1>Your favorites</h1>
-            {user && (
+        {!shareToken && (<h1>Your favorites</h1>) }
+            {user && !shareToken &&(
                 <div className="share-link-container" style={{ marginBottom: "1rem" }}>
                     <button onClick={handleCopyLink} className="btn btn-primary">
                         {copied ? "Link copied!" : "Copy shareable link"}

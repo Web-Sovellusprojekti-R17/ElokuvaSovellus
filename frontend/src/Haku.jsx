@@ -79,7 +79,6 @@ const search = (selectedGenreId = filteredGenreId, year = filterInput) => {
         <>
             <div id="container">
                <div className="search-container">
-                <h3>Hae Elokuvia</h3> 
                 <h3>Search for movies</h3> 
                 <input 
                 className="search-field"
