@@ -41,7 +41,6 @@ export async function getUserByID(req, res, next) {
 
 export async function addUser(req, res, next) {
     console.log("add called");
-    console.log(req.body);
     const data = req.body;
     try {
         if (!data.name || !data.password)
