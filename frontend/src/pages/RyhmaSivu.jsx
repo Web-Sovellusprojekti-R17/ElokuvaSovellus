@@ -346,8 +346,6 @@ function RyhmaSivu() {
                         }}>
 
 
-                        <p>Hello {role.toLowerCase()}!</p>
-
                         {messages?.map(message => {
                             const avatarColor = getUserColor(message.user_id);
 
@@ -483,6 +481,15 @@ function RyhmaSivu() {
         }
     }
 
+    const refresh = () => {
+        if (paivitaChat) {
+            setPaivitaChat(false)
+        }
+        else {
+            setPaivitaChat(true)
+        }
+    }
+
     useEffect(() => {
         if (user) {
             haeRyhmat()
@@ -548,6 +555,7 @@ function RyhmaSivu() {
                             required
                         ></textarea>
                         <button className="btn" onClick={lisaa_viesti}>Send</button>
+                        <button className="btn" onClick={refresh}>Refresh</button>
                     </div>)}
                 </div>
 
